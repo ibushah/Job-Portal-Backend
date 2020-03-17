@@ -1,5 +1,7 @@
 package com.example.excelProj.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,9 +12,28 @@ public class CandidateProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Column
     String field;
+
+    @Column
     String presentationLetter;
-    Long candidateForeignId;
+
+    @Lob
+    @Column
+    byte[] cv;
+
+
+    @Lob
+    @Column
+    byte[] dp;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
+     User user;
+
 
 
     @ManyToMany(mappedBy = "candidateProfileList")
@@ -22,12 +43,28 @@ public class CandidateProfile {
     public CandidateProfile() {
     }
 
-    public CandidateProfile(String field, String presentationLetter, Long candidateForeignId) {
+    public CandidateProfile(String field, String presentationLetter, byte[] cv, byte[] dp) {
         this.field = field;
         this.presentationLetter = presentationLetter;
-        this.candidateForeignId = candidateForeignId;
+        this.cv = cv;
+        this.dp = dp;
     }
 
+    public byte[] getCv() {
+        return cv;
+    }
+
+    public void setCv(byte[] cv) {
+        this.cv = cv;
+    }
+
+    public byte[] getDp() {
+        return dp;
+    }
+
+    public void setDp(byte[] dp) {
+        this.dp = dp;
+    }
 
     public List<Job> getJobList() {
         return jobList;
@@ -53,11 +90,11 @@ public class CandidateProfile {
         this.presentationLetter = presentationLetter;
     }
 
-    public Long getCandidateForeignId() {
-        return candidateForeignId;
+    public User getUser() {
+        return user;
     }
 
-    public void setCandidateForeignId(Long candidateForeignId) {
-        this.candidateForeignId = candidateForeignId;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

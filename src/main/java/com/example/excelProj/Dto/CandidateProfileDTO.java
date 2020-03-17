@@ -10,15 +10,37 @@ public class CandidateProfileDTO {
     String field;
     String presentationLetter;
     Long candidateForeignId;
+
+    byte[] cv;
+
+    byte[] dp;
+
     List<Job> jobList;
     public CandidateProfileDTO() {
     }
 
-    public CandidateProfileDTO(Long id, String field, String presentationLetter, Long candidateForeignId) {
-        this.id = id;
+    public CandidateProfileDTO(String field, String presentationLetter, Long candidateForeignId, byte[] cv, byte[] dp) {
         this.field = field;
         this.presentationLetter = presentationLetter;
         this.candidateForeignId = candidateForeignId;
+        this.cv = cv;
+        this.dp = dp;
+    }
+
+    public byte[] getCv() {
+        return cv;
+    }
+
+    public void setCv(byte[] cv) {
+        this.cv = cv;
+    }
+
+    public byte[] getDp() {
+        return dp;
+    }
+
+    public void setDp(byte[] dp) {
+        this.dp = dp;
     }
 
     public List<Job> getJobList() {

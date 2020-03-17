@@ -1,5 +1,6 @@
 package com.example.excelProj.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,12 +22,32 @@ public class User {
 
     @Column
     private Boolean active;
+
+    @Column
+	private Boolean profileActive;
     
     @Column
     private String userType;
 
+	@OneToOne(mappedBy = "user")
+	private CandidateProfile candidateProfile;
 
 
+	public CandidateProfile getCandidateProfile() {
+		return candidateProfile;
+	}
+
+	public void setCandidateProfile(CandidateProfile candidateProfile) {
+		this.candidateProfile = candidateProfile;
+	}
+
+	public Boolean getProfileActive() {
+		return profileActive;
+	}
+
+	public void setProfileActive(Boolean profileActive) {
+		this.profileActive = profileActive;
+	}
 
 	public Long getId() {
 		return id;
