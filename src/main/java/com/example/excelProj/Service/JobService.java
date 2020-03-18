@@ -63,6 +63,8 @@ public class JobService {
             job.setDescription(jobDTO.getDescription());
             job.setField(jobDTO.getField());
             job.setSalary(jobDTO.getSalary());
+            job.setLattitude(jobDTO.getLattitude());
+            job.setLongitude(jobDTO.getLongitude());
             job.setTitle(jobDTO.getTitle());
             job.setJobPosterId(user.getId());
             return new ApiResponse(200,"Job successfully posted",jobRepository.save(job));
