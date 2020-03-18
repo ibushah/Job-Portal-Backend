@@ -7,6 +7,8 @@ import java.util.List;
 public class CandidateProfileDTO {
 
     Long id;
+    String name;
+    String email;
     String field;
     String presentationLetter;
     Long candidateForeignId;
@@ -19,12 +21,30 @@ public class CandidateProfileDTO {
     public CandidateProfileDTO() {
     }
 
-    public CandidateProfileDTO(String field, String presentationLetter, Long candidateForeignId, byte[] cv, byte[] dp) {
+    public CandidateProfileDTO(String name, String email, String field, String presentationLetter, Long candidateForeignId, byte[] cv, byte[] dp) {
+        this.name = name;
+        this.email = email;
         this.field = field;
         this.presentationLetter = presentationLetter;
         this.candidateForeignId = candidateForeignId;
         this.cv = cv;
         this.dp = dp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public byte[] getCv() {

@@ -96,16 +96,6 @@ public class UserServiceImpl implements UserDetailsService {
 			newUser.setUserType(user.getUserType());
 
 
-//			if(newUser.getUserType().equalsIgnoreCase("candidate"))
-//			{
-//				Long userId=saveUser(newUser).getId();
-//				CandidateProfile candidateProfile=new CandidateProfile();
-//				candidateProfile.setCandidateForeignId(userId);
-//				candidateProfile.setField(user.getField());
-//				candidateProfile.setPresentationLetter(user.getPresentationLetter());
-//				return new ApiResponse<>(HttpStatus.OK.value(), "Candidate saved successfully.",candidateProfileRepository.save(candidateProfile));
-//			}
-
 			return new ApiResponse<>(HttpStatus.OK.value(), "User saved successfully.",userDaoRepository.save(newUser));//return ;
 		}
 		else{

@@ -85,10 +85,15 @@ public class AuthenticationController {
         return userService.getSupervisorsByOrganizationName(organizationName);
     }
 
-    @GetMapping("/user/{email}")
-    public User getUserByEmail(@PathVariable("email") String email){
-        return userService.findOne(email);
+//    @GetMapping("/user/{email}")
+//    public User getUserByEmail(@PathVariable("email") String email){
+//        return userService.findOne(email);
+//    }
+
+
+    @GetMapping("/user/{id}")
+    public User findById(@PathVariable("id") Long id)
+    {
+        return userService.findById(id);
     }
-
-
 }

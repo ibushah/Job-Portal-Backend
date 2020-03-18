@@ -31,11 +31,11 @@ public class CandidateProfileService {
             User user=optionalUser.get();
 
             if(!user.getProfileActive())
-            {
                 user.setProfileActive(true);
-                userDaoRepository.save(user);
-            }
 
+            user.setEmail(candidateProfileDTO.getEmail());
+            user.setName(candidateProfileDTO.getName());
+            userDaoRepository.save(user);
            User newUser=userDaoRepository.findById(userId).isPresent()?userDaoRepository.findById(userId).get():null;
 
 
