@@ -17,6 +17,12 @@ public class CandidateProfile {
     String field;
 
     @Column
+    String imageContentType;
+
+    @Column
+    String resumeContentType;
+
+    @Column
     String presentationLetter;
 
     @Lob
@@ -29,6 +35,9 @@ public class CandidateProfile {
     byte[] dp;
 
 
+    public CandidateProfile() {
+    }
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
@@ -39,15 +48,55 @@ public class CandidateProfile {
     @ManyToMany(mappedBy = "candidateProfileList")
     List<Job> jobList;
 
-
-    public CandidateProfile() {
-    }
-
-    public CandidateProfile(String field, String presentationLetter, byte[] cv, byte[] dp) {
+    public CandidateProfile(String field, String imageContentType, String resumeContentType, String presentationLetter, byte[] cv, byte[] dp, User user, List<Job> jobList) {
         this.field = field;
+        this.imageContentType = imageContentType;
+        this.resumeContentType = resumeContentType;
         this.presentationLetter = presentationLetter;
         this.cv = cv;
         this.dp = dp;
+        this.user = user;
+        this.jobList = jobList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
+    public String getResumeContentType() {
+        return resumeContentType;
+    }
+
+    public void setResumeContentType(String resumeContentType) {
+        this.resumeContentType = resumeContentType;
+    }
+
+    public String getPresentationLetter() {
+        return presentationLetter;
+    }
+
+    public void setPresentationLetter(String presentationLetter) {
+        this.presentationLetter = presentationLetter;
     }
 
     public byte[] getCv() {
@@ -66,35 +115,19 @@ public class CandidateProfile {
         this.dp = dp;
     }
 
-    public List<Job> getJobList() {
-        return jobList;
-    }
-
-    public void setJobList(List<Job> jobList) {
-        this.jobList = jobList;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getPresentationLetter() {
-        return presentationLetter;
-    }
-
-    public void setPresentationLetter(String presentationLetter) {
-        this.presentationLetter = presentationLetter;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Job> getJobList() {
+        return jobList;
+    }
+
+    public void setJobList(List<Job> jobList) {
+        this.jobList = jobList;
     }
 }
