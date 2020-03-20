@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +64,7 @@ public class JobService {
             job.setDescription(jobDTO.getDescription());
             job.setField(jobDTO.getField());
             job.setSalary(jobDTO.getSalary());
-            job.setLattitude(jobDTO.getLattitude());
+            job.setLatitude(jobDTO.getLatitude());
             job.setLongitude(jobDTO.getLongitude());
             job.setTitle(jobDTO.getTitle());
             job.setJobPosterId(user.getId());
@@ -73,4 +74,16 @@ public class JobService {
         return  new ApiResponse(500,"Something went wrong",null);
     }
 
+
+    public  List<Job> getMyJobs()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        User user=userDaoRepository.findByEmail(currentPrincipalName);
+
+        return user!=null? jobRepository.findByJobPosterId(user.getId()): Arrays.asList();
+    }
 }
+
+
