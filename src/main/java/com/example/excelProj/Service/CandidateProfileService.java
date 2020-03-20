@@ -39,12 +39,13 @@ public class CandidateProfileService {
            User newUser=userDaoRepository.findById(userId).isPresent()?userDaoRepository.findById(userId).get():null;
 
 
-            CandidateProfile candidateProfile=candidateProfileRepository.findByUserId(userId)!=null?
-                    candidateProfileRepository.findByUserId(userId):new CandidateProfile();
+            CandidateProfile candidateProfile=candidateProfileRepository.findByUserId(userId)!=null?candidateProfileRepository.findByUserId(userId):new CandidateProfile();
             candidateProfile.setPresentationLetter(candidateProfileDTO.getPresentationLetter());
             candidateProfile.setField(candidateProfileDTO.getField());
             candidateProfile.setCv(candidateProfileDTO.getCv());
             candidateProfile.setDp(candidateProfileDTO.getDp());
+            candidateProfile.setResumeContentType(candidateProfileDTO.getResumeContentType());
+            candidateProfile.setImageContentType(candidateProfileDTO.getImageContentType());
             candidateProfile.setUser(newUser);
             candidateProfileRepository.save(candidateProfile);
           return new ApiResponse(200,"Candidate profile successfuly updated",userDaoRepository.findById(userId).get());
