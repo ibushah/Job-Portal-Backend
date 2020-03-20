@@ -33,7 +33,7 @@ public class Job {
     Double longitude;
 
     @Column
-    Double lattitude;
+    Double latitude;
 
     @ManyToMany
     @JoinTable(
@@ -43,7 +43,7 @@ public class Job {
     List<CandidateProfile> candidateProfileList;
 
 
-    public Job(String title, String field, String description, Long salary, Date datePosted, Long jobPosterId, Double longitude, Double lattitude) {
+    public Job(String title, String field, String description, Long salary, Date datePosted, Long jobPosterId, Double longitude, Double latitude) {
         this.title = title;
         this.field = field;
         this.description = description;
@@ -51,7 +51,7 @@ public class Job {
         this.datePosted = datePosted;
         this.jobPosterId = jobPosterId;
         this.longitude = longitude;
-        this.lattitude = lattitude;
+        this.latitude = latitude;
     }
 
     public Job() {
@@ -66,12 +66,12 @@ public class Job {
         this.longitude = longitude;
     }
 
-    public Double getLattitude() {
-        return lattitude;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setLattitude(Double lattitude) {
-        this.lattitude = lattitude;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public Long getJobPosterId() {

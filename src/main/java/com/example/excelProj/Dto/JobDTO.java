@@ -16,13 +16,13 @@ public class JobDTO {
     List<CandidateProfile> candidateProfileList;
     Long jobPosterId;
     Double longitude;
-    Double lattitude;
+    Double latitude;
 
 
     public JobDTO() {
     }
 
-    public JobDTO(String title, String field, String description, Long salary, Date datePosted, List<CandidateProfile> candidateProfileList, Long jobPosterId, Double longitude, Double lattitude) {
+    public JobDTO(String title, String field, String description, Long salary, Date datePosted, List<CandidateProfile> candidateProfileList, Long jobPosterId, Double longitude, Double latitude) {
         this.title = title;
         this.field = field;
         this.description = description;
@@ -31,7 +31,7 @@ public class JobDTO {
         this.candidateProfileList = candidateProfileList;
         this.jobPosterId = jobPosterId;
         this.longitude = longitude;
-        this.lattitude = lattitude;
+        this.latitude = latitude;
     }
 
     public Double getLongitude() {
@@ -42,12 +42,12 @@ public class JobDTO {
         this.longitude = longitude;
     }
 
-    public Double getLattitude() {
-        return lattitude;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setLattitude(Double lattitude) {
-        this.lattitude = lattitude;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public Date getDatePosted() {

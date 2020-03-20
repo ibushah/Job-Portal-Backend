@@ -9,4 +9,6 @@ public interface JobRepository extends JpaRepository<Job,Long> {
 
     List<Job> findByField(String field);
 
+   List<Job> findByJobPosterId(Long id);
+
 }

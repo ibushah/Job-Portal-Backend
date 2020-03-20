@@ -36,4 +36,10 @@ public class JobController {
     {
         return jobService.postJob(jobDTO);
     }
+
+    @GetMapping("/myjobs/")
+   public List<Job> getMyJobs()
+    {
+        return jobService.getMyJobs();
+    }
 }
