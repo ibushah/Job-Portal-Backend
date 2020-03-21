@@ -13,15 +13,25 @@ public class CompanyProfileDTO {
     String contactName;
     String contactTitle;
     byte[] logo;
+    String logoContentType;
     List<Job> jobList;
 
-    public CompanyProfileDTO(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo) {
+    public CompanyProfileDTO(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
         this.contactName = contactName;
         this.contactTitle = contactTitle;
         this.logo = logo;
+        this.logoContentType = logoContentType;
+    }
+
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
     }
 
     public byte[] getLogo() {

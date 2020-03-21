@@ -32,6 +32,10 @@ public class CompanyProfile {
     @Lob
     byte[] logo;
 
+    @Column
+    String logoContentType;
+
+
     @OneToMany(mappedBy="companyProfile")
     List<Job> jobList;
 
@@ -41,14 +45,25 @@ public class CompanyProfile {
     User user;
 
 
-
-    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo) {
+    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, List<Job> jobList, User user) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
         this.contactName = contactName;
         this.contactTitle = contactTitle;
         this.logo = logo;
+        this.logoContentType = logoContentType;
+        this.jobList = jobList;
+        this.user = user;
+    }
+
+
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
     }
 
     public User getUser() {
