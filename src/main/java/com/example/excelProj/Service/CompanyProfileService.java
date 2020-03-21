@@ -42,6 +42,8 @@ public class CompanyProfileService {
                 companyProfile.setCorporateAddress(companyProfileDTO.getCorporateAddress());
                 companyProfile.setLogo(companyProfileDTO.getLogo());
                 companyProfile.setName(companyProfileDTO.getName());
+                companyProfile.setLogoContentType(companyProfileDTO.getLogoContentType());
+                companyProfile.setUser(user);
 
                 companyProfileRepository.save(companyProfile);
                 return new ApiResponse(200, "Candidate profile successfuly updated", userDaoRepository.findById(userId).get());
