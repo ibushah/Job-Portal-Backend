@@ -25,11 +25,11 @@ public class JobController {
         return jobService.getAllJobs();
     }
 
-    @GetMapping("/{field}")
-    public List<Job> getJobsByField(@PathVariable("field") String field)
-    {
-        return jobService.searchJobByField(field);
-    }
+//    @GetMapping("/{field}")
+//    public List<Job> getJobsByField(@PathVariable("field") String field)
+//    {
+//        return jobService.searchJobByField(field);
+//    }
 
     @PostMapping("/")
     public ApiResponse postJob(@RequestBody JobDTO jobDTO)
@@ -37,9 +37,9 @@ public class JobController {
         return jobService.postJob(jobDTO);
     }
 
-    @GetMapping("/myjobs/")
-   public List<Job> getMyJobs()
-    {
-        return jobService.getMyJobs();
-    }
+//    @GetMapping("/myjobs/")
+//   public List<Job> getMyJobs()
+//    {
+//        return jobService.getMyJobs();
+//    }
 }
