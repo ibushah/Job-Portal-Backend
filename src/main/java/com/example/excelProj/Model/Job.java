@@ -14,8 +14,7 @@ public class Job {
     @Column
     String title;
 
-    @Column
-    String field;
+
 
     @Column
     String description;
@@ -24,10 +23,30 @@ public class Job {
     Long salary;
 
     @Column
-    Date datePosted;
+    Date publishFrom;
 
     @Column
-    Long jobPosterId;
+    Date publishTo;
+
+    @Column
+    String country;
+
+    @Column
+    String city;
+
+    @Column
+    String province;
+
+    @Column
+    String category;
+
+    @Column
+    String type;
+
+
+
+
+
 
     @Column
     Double longitude;
@@ -42,21 +61,94 @@ public class Job {
             inverseJoinColumns = @JoinColumn(name = "job_id"))
     List<CandidateProfile> candidateProfileList;
 
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    CompanyProfile companyProfile;
 
-    public Job(String title, String field, String description, Long salary, Date datePosted, Long jobPosterId, Double longitude, Double latitude) {
+
+    public Job(String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude) {
         this.title = title;
-        this.field = field;
         this.description = description;
         this.salary = salary;
-        this.datePosted = datePosted;
-        this.jobPosterId = jobPosterId;
+        this.publishFrom = publishFrom;
+        this.publishTo = publishTo;
+        this.country = country;
+        this.city = city;
+        this.province = province;
+        this.category = category;
+        this.type = type;
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
     public Job() {
+
     }
 
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Date getPublishFrom() {
+        return publishFrom;
+    }
+
+    public void setPublishFrom(Date publishFrom) {
+        this.publishFrom = publishFrom;
+    }
+
+    public Date getPublishTo() {
+        return publishTo;
+    }
+
+    public void setPublishTo(Date publishTo) {
+        this.publishTo = publishTo;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public CompanyProfile getCompanyProfile() {
+        return companyProfile;
+    }
+
+    public void setCompanyProfile(CompanyProfile companyProfile) {
+        this.companyProfile = companyProfile;
+    }
 
     public Double getLongitude() {
         return longitude;
@@ -74,21 +166,8 @@ public class Job {
         this.latitude = latitude;
     }
 
-    public Long getJobPosterId() {
-        return jobPosterId;
-    }
 
-    public void setJobPosterId(Long jobPosterId) {
-        this.jobPosterId = jobPosterId;
-    }
 
-    public Date getDatePosted() {
-        return datePosted;
-    }
-
-    public void setDatePosted(Date datePosted) {
-        this.datePosted = datePosted;
-    }
 
 
     public String getTitle() {
@@ -108,13 +187,7 @@ public class Job {
         this.candidateProfileList = candidateProfileList;
     }
 
-    public String getField() {
-        return field;
-    }
 
-    public void setField(String field) {
-        this.field = field;
-    }
 
     public String getDescription() {
         return description;

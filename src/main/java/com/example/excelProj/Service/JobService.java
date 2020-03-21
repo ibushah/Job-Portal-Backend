@@ -41,14 +41,14 @@ public class JobService {
         return new ApiResponse(500,"Error fetching the job",null);
     }
 
-    public List<Job> searchJobByField(String field){
-        if(field.equalsIgnoreCase("all"))
-            return jobRepository.findAll();
-        else{
-            return jobRepository.findByField(field);
-        }
-
-    }
+//    public List<Job> searchJobByField(String field){
+//        if(field.equalsIgnoreCase("all"))
+//            return jobRepository.findAll();
+//        else{
+//            return jobRepository.findByField(field);
+//        }
+//
+//    }
 
     public ApiResponse postJob(JobDTO jobDTO)
     {
@@ -57,17 +57,25 @@ public class JobService {
 
         User user=userDaoRepository.findByEmail(currentPrincipalName);
 
-        if(user!=null && user.getUserType().equalsIgnoreCase("employee") )
+
+        if(user!=null && user.getUserType().equalsIgnoreCase("employee") && user.getCompanyProfile()!=null )
         {
+
             Job job=new Job();
-            job.setDatePosted(new Date());
+
             job.setDescription(jobDTO.getDescription());
-            job.setField(jobDTO.getField());
             job.setSalary(jobDTO.getSalary());
             job.setLatitude(jobDTO.getLatitude());
             job.setLongitude(jobDTO.getLongitude());
             job.setTitle(jobDTO.getTitle());
-            job.setJobPosterId(user.getId());
+            job.setCity(jobDTO.getCity());
+            job.setCountry(jobDTO.getCountry());
+            job.setProvince(jobDTO.getProvince());
+            job.setCategory(jobDTO.getCategory());
+            job.setType(jobDTO.getType());
+            job.setPublishFrom(jobDTO.getPublishFrom());
+            job.setPublishTo(jobDTO.getPublishTo());
+            job.setCompanyProfile(user.getCompanyProfile());
             return new ApiResponse(200,"Job successfully posted",jobRepository.save(job));
         }
 
@@ -75,15 +83,15 @@ public class JobService {
     }
 
 
-    public  List<Job> getMyJobs()
-    {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-
-        User user=userDaoRepository.findByEmail(currentPrincipalName);
-
-        return user!=null? jobRepository.findByJobPosterId(user.getId()): Arrays.asList();
-    }
+//    public  List<Job> getMyJobs()
+//    {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//
+//        User user=userDaoRepository.findByEmail(currentPrincipalName);
+//
+//        return user!=null? jobRepository.findByJobPosterId(user.getId()): Arrays.asList();
+//    }
 }
 
 

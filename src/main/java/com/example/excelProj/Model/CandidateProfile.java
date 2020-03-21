@@ -40,7 +40,6 @@ public class CandidateProfile {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonBackReference
      User user;
 
 
@@ -115,6 +114,7 @@ public class CandidateProfile {
         this.dp = dp;
     }
 
+    @JsonBackReference
     public User getUser() {
         return user;
     }

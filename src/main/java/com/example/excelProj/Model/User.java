@@ -32,6 +32,20 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private CandidateProfile candidateProfile;
 
+	@OneToOne(mappedBy = "user")
+	private CompanyProfile companyProfile;
+
+
+	public CompanyProfile getCompanyProfile() {
+		return companyProfile;
+	}
+
+	public void setCompanyProfile(CompanyProfile companyProfile) {
+		this.companyProfile = companyProfile;
+	}
+
+	public User() {
+	}
 
 	public CandidateProfile getCandidateProfile() {
 		return candidateProfile;

@@ -2,6 +2,7 @@ package com.example.excelProj.Dto;
 
 import com.example.excelProj.Model.CandidateProfile;
 
+import javax.persistence.Column;
 import java.util.Date;
 import java.util.List;
 
@@ -9,29 +10,56 @@ public class JobDTO {
 
     Long id;
     String title;
-    String field;
     String description;
     Long salary;
-    Date datePosted;
     List<CandidateProfile> candidateProfileList;
     Long jobPosterId;
+    Date publishFrom;
+    Date publishTo;
+    String country;
+    String city;
+    String province;
     Double longitude;
     Double latitude;
+
+    String category;
+    String type;
 
 
     public JobDTO() {
     }
 
-    public JobDTO(String title, String field, String description, Long salary, Date datePosted, List<CandidateProfile> candidateProfileList, Long jobPosterId, Double longitude, Double latitude) {
+    public JobDTO(String title, String description, Long salary, List<CandidateProfile> candidateProfileList, Long jobPosterId, Date publishFrom, Date publishTo, String country, String city, String province, Double longitude, Double latitude, String category, String type) {
         this.title = title;
-        this.field = field;
         this.description = description;
         this.salary = salary;
-        this.datePosted = datePosted;
         this.candidateProfileList = candidateProfileList;
         this.jobPosterId = jobPosterId;
+        this.publishFrom = publishFrom;
+        this.publishTo = publishTo;
+        this.country = country;
+        this.city = city;
+        this.province = province;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.category = category;
+        this.type = type;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Double getLongitude() {
@@ -50,26 +78,51 @@ public class JobDTO {
         this.latitude = latitude;
     }
 
-    public Date getDatePosted() {
-        return datePosted;
+    public Date getPublishFrom() {
+        return publishFrom;
     }
 
-    public void setDatePosted(Date datePosted) {
-        this.datePosted = datePosted;
+    public void setPublishFrom(Date publishFrom) {
+        this.publishFrom = publishFrom;
     }
 
-    public Long getJobPosterId() {
-        return jobPosterId;
+    public Date getPublishTo() {
+        return publishTo;
     }
 
-    public void setJobPosterId(Long jobPosterId) {
-        this.jobPosterId = jobPosterId;
+    public void setPublishTo(Date publishTo) {
+        this.publishTo = publishTo;
     }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+
 
     public List<CandidateProfile> getCandidateProfileList() {
         return candidateProfileList;
     }
-
 
 
     public void setCandidateProfileList(List<CandidateProfile> candidateProfileList) {
@@ -92,13 +145,7 @@ public class JobDTO {
         this.title = title;
     }
 
-    public String getField() {
-        return field;
-    }
 
-    public void setField(String field) {
-        this.field = field;
-    }
 
     public String getDescription() {
         return description;
