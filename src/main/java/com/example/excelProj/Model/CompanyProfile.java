@@ -37,13 +37,16 @@ public class CompanyProfile {
 
 
     @OneToMany(mappedBy="companyProfile")
+    @JsonBackReference(value = "job-list-reference")
     List<Job> jobList;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonBackReference
+    @JsonBackReference(value = "user-reference")
     User user;
 
+    public CompanyProfile() {
+    }
 
     public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, List<Job> jobList, User user) {
         this.name = name;
@@ -57,34 +60,13 @@ public class CompanyProfile {
         this.user = user;
     }
 
-
-    public String getLogoContentType() {
-        return logoContentType;
+    public Long getId() {
+        return id;
     }
 
-    public void setLogoContentType(String logoContentType) {
-        this.logoContentType = logoContentType;
+    public void setId(Long id) {
+        this.id = id;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public byte[] getLogo() {
-        return logo;
-    }
-
-    public void setLogo(byte[] logo) {
-        this.logo = logo;
-    }
-
-    public CompanyProfile() {
-    }
-
 
     public String getName() {
         return name;
@@ -126,14 +108,36 @@ public class CompanyProfile {
         this.contactTitle = contactTitle;
     }
 
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public void setLogo(byte[] logo) {
+        this.logo = logo;
+    }
+
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
+    }
 
     public List<Job> getJobList() {
         return jobList;
     }
 
-
     public void setJobList(List<Job> jobList) {
         this.jobList = jobList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
 

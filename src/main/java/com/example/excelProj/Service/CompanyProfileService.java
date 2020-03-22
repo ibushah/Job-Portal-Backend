@@ -46,11 +46,12 @@ public class CompanyProfileService {
                 companyProfile.setUser(user);
 
                 companyProfileRepository.save(companyProfile);
-                return new ApiResponse(200, "Candidate profile successfuly updated", userDaoRepository.findById(userId).get());
+                return new ApiResponse(200, "Company profile successfuly updated",companyProfileRepository.findByUserId(userId));
 
         }
 
         return  new ApiResponse(500,"Something went wrong",null);
 
     }
+
 }

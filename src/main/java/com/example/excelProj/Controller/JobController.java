@@ -5,6 +5,7 @@ import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Model.Job;
 import com.example.excelProj.Service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,9 +38,17 @@ public class JobController {
         return jobService.postJob(jobDTO);
     }
 
-//    @GetMapping("/myjobs/")
-//   public List<Job> getMyJobs()
-//    {
-//        return jobService.getMyJobs();
-//    }
+    @GetMapping("/myJobs/{id}")
+    public ApiResponse<Job> getMyJobs(@PathVariable("id") Long id)
+    {
+        return jobService.getMyJobs(id);
+
+    }
+
+    @GetMapping("/paginatedJobs")
+    public Page<Job> getAllPaginatedJobs(@RequestParam(defaultValue = "0") int page)
+    {
+        return jobService.getPaginatedJobs(page);
+    }
+
 }

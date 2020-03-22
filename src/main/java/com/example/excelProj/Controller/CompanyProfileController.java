@@ -21,4 +21,9 @@ public class CompanyProfileController {
         return companyProfileService.postCompanyProfile(userId,companyProfileDTO);
     }
 
+
+//    @GetMapping("/{userId}")
+//    public ApiResponse getCompanyById(@PathVariable("userId") Long userId){
+//        return  companyProfileService.getCompanyCreatedByEmployer(Long userId)
+//    }
 }
