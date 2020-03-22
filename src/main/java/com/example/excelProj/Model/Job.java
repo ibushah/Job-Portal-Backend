@@ -1,5 +1,9 @@
 package com.example.excelProj.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +66,7 @@ public class Job {
     List<CandidateProfile> candidateProfileList;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "employee_id")
     CompanyProfile companyProfile;
 
