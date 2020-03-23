@@ -118,9 +118,6 @@ public class UserServiceImpl implements UserDetailsService {
 		return null;
 	}
 
-	public ApiResponse getSupervisorsByOrganizationName(String organizationName){
-		return new ApiResponse<>(HttpStatus.OK.value(), "Supervisor Found successfully.",userDaoRepository.getSupervisorsByOrganizationName(organizationName));
-	}
 
 
 

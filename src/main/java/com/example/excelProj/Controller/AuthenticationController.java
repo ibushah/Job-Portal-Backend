@@ -80,10 +80,7 @@ public class AuthenticationController {
 
 
 
-    @GetMapping("/{organizationName}")
-    public ApiResponse<User> getSupervisors(@PathVariable("organizationName") String organizationName){
-        return userService.getSupervisorsByOrganizationName(organizationName);
-    }
+
 
 //    @GetMapping("/user/{email}")
 //    public User getUserByEmail(@PathVariable("email") String email){

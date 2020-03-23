@@ -66,7 +66,7 @@ public class Job {
     List<CandidateProfile> candidateProfileList;
 
     @ManyToOne
-
+//    @JsonManagedReference
     @JoinColumn(name = "employee_id")
     CompanyProfile companyProfile;
 
