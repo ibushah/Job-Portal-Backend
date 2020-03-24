@@ -72,14 +72,15 @@ public class JobController {
     @GetMapping("/paginatedjobs")
     public Page<AllJobsDTO> getAllPaginatedJobs(@RequestParam(defaultValue = "0") int page)
     {
-        return jobRepository.joinAllJobs(PageRequest.of(page,10));
+        return jobRepository.joinAllJobs(PageRequest.of(page,5));
     }
 
     @GetMapping("/jobsbycategory")
     public Page<Job> getJobsByCategory(@RequestParam Map<String,String> requestParams){
         String category=requestParams.get("category");
+        category = category.replaceAll("_and_","&");
         Integer page=Integer.parseInt(requestParams.get("page"));
-        return jobRepository.findByCategory(category,PageRequest.of(page,10));
+        return jobRepository.findByCategory(category,PageRequest.of(page,5));
     }
 
 
