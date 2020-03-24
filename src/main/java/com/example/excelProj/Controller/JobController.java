@@ -37,6 +37,19 @@ public class JobController {
         return jobRepository.findAll();
     }
 
+    @GetMapping("/")
+    public ApiResponse<Job> getJobById(@RequestParam(defaultValue = "1") Long id)
+    {
+        return jobService.getAJob(id);
+    }
+
+    @GetMapping("/company")
+    public List<Job> getJobsByCompany(@RequestParam(defaultValue = "1") Long id)
+    {
+
+        return jobService.getJobsByCompany(id);
+    }
+
 //    @GetMapping("/{field}")
 //    public List<Job> getJobsByField(@PathVariable("field") String field)
 //    {
