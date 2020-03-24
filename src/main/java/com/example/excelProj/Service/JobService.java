@@ -112,6 +112,16 @@ public class JobService {
         }
     }
 
+    public  List<Job> getJobsByCompany(Long id){
+
+       Optional<Job> job=jobRepository.findById(id);
+        if(job.isPresent())
+        {
+            return jobRepository.findByCompanyId(job.get().getCompanyProfile().getId());
+        }
+        return null;
+
+    }
 
 }
 

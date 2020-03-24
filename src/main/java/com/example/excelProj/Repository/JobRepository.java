@@ -25,7 +25,8 @@ public interface JobRepository extends JpaRepository<Job,Long> {
     Page<Job> findByCategory(@Param("cat") String category, Pageable p);
 
 
-
+    @Query(value = "select * from job where employee_id=:id",nativeQuery = true)
+    List<Job> findByCompanyId(@Param("id") Long id);
 
 
 
