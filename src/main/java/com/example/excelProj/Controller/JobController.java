@@ -2,6 +2,7 @@ package com.example.excelProj.Controller;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.AllJobsDTO;
+import com.example.excelProj.Dto.ApplyJobDTO;
 import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Model.Job;
 import com.example.excelProj.Repository.JobPaginationRepository;
@@ -81,6 +82,11 @@ public class JobController {
         category = category.replaceAll("_and_","&");
         Integer page=Integer.parseInt(requestParams.get("page"));
         return jobRepository.findByCategory(category,PageRequest.of(page,5));
+    }
+
+    @PostMapping("/applyJob")
+    public ApiResponse applyJobDTOApiResponse(@RequestBody ApplyJobDTO applyJobDTO){
+        return  jobService.apply_on_job(applyJobDTO);
     }
 
 

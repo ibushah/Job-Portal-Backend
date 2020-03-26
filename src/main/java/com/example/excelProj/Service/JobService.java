@@ -1,9 +1,13 @@
 package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
+import com.example.excelProj.Dto.AllJobsDTO;
+import com.example.excelProj.Dto.ApplyJobDTO;
 import com.example.excelProj.Dto.JobDTO;
+import com.example.excelProj.Model.CandidateProfile;
 import com.example.excelProj.Model.Job;
 import com.example.excelProj.Model.User;
+import com.example.excelProj.Repository.CandidateProfileRepository;
 import com.example.excelProj.Repository.JobPaginationRepository;
 import com.example.excelProj.Repository.JobRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
@@ -32,6 +36,9 @@ public class JobService {
 
     @Autowired
     JobPaginationRepository jobPaginationRepository;
+
+    @Autowired
+    CandidateProfileRepository candidateProfileRepository;
 
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
@@ -89,6 +96,42 @@ public class JobService {
             job.setPublishTo(jobDTO.getPublishTo());
             job.setCompanyProfile(user.getCompanyProfile());
             return new ApiResponse(200, "Job successfully posted", jobRepository.save(job));
+        }
+
+        return new ApiResponse(500, "Something went wrong", null);
+    }
+
+
+    public ApiResponse apply_on_job(ApplyJobDTO applyJobDTO){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+
+
+        if (user != null && user.getUserType().equalsIgnoreCase("candidate")){
+
+
+               Optional<Job> job = jobRepository.findById(applyJobDTO.getJobId());
+               Optional<CandidateProfile> candidateProfile = candidateProfileRepository.findById(applyJobDTO.getCandidateId());
+               if(job.isPresent() && candidateProfile.isPresent()){
+
+                   List<CandidateProfile> candidateProfiles = job.get().getCandidateProfileList();
+                   candidateProfiles.add(candidateProfile.get());
+                   job.get().setCandidateProfileList(candidateProfiles);
+
+                   return new ApiResponse(200, "Job successfully posted", jobRepository.save(job.get()));
+
+
+
+               }
+
+
+
+
+
+
+
         }
 
         return new ApiResponse(500, "Something went wrong", null);
