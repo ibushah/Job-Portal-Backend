@@ -37,18 +37,20 @@ public class CompanyProfile {
 
 
     @OneToMany(mappedBy="companyProfile")
-    @JsonBackReference(value = "job-list-reference")
+    @JsonBackReference(value = "job_list_reference")
     List<Job> jobList;
+
+    @OneToMany(mappedBy="companyProfile")
+    @JsonBackReference(value = "reiview_list_reference")
+    List<ReviewAndRating> reviewAndRatings;
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonBackReference(value = "user-reference")
+    @JsonBackReference(value = "user_reference")
     User user;
 
-    public CompanyProfile() {
-    }
-
-    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, List<Job> jobList, User user) {
+    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
@@ -57,7 +59,12 @@ public class CompanyProfile {
         this.logo = logo;
         this.logoContentType = logoContentType;
         this.jobList = jobList;
+        this.reviewAndRatings = reviewAndRatings;
         this.user = user;
+    }
+
+
+    public CompanyProfile() {
     }
 
     public Long getId() {
@@ -130,6 +137,14 @@ public class CompanyProfile {
 
     public void setJobList(List<Job> jobList) {
         this.jobList = jobList;
+    }
+
+    public List<ReviewAndRating> getReviewAndRatings() {
+        return reviewAndRatings;
+    }
+
+    public void setReviewAndRatings(List<ReviewAndRating> reviewAndRatings) {
+        this.reviewAndRatings = reviewAndRatings;
     }
 
     public User getUser() {

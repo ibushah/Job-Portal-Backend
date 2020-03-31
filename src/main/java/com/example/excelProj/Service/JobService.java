@@ -1,12 +1,11 @@
 package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
+import com.example.excelProj.Dto.AllJobsDTO;
 import com.example.excelProj.Dto.JobDTO;
-import com.example.excelProj.Model.Job;
-import com.example.excelProj.Model.User;
-import com.example.excelProj.Repository.JobPaginationRepository;
-import com.example.excelProj.Repository.JobRepository;
-import com.example.excelProj.Repository.UserDaoRepository;
+import com.example.excelProj.Dto.ReviewAndRatingDTO;
+import com.example.excelProj.Model.*;
+import com.example.excelProj.Repository.*;
 import jdk.nashorn.internal.scripts.JO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,10 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class JobService {
@@ -33,6 +29,16 @@ public class JobService {
     @Autowired
     JobPaginationRepository jobPaginationRepository;
 
+    @Autowired
+    CandidateProfileRepository candidateProfileRepository;
+
+
+    @Autowired
+    ReviewAndRatingRepository reviewAndRatingRepository;
+
+
+    @Autowired
+    CompanyProfileRepository companyProfileRepository;
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
     }
@@ -95,6 +101,45 @@ public class JobService {
     }
 
 
+    public ApiResponse<Job> apply_on_job(ReviewAndRatingDTO reviewAndRatingDTO){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        if (user != null && user.getUserType().equalsIgnoreCase("candidate") && user.getCandidateProfile()!=null){
+
+                Optional<Job> job = jobRepository.findById(reviewAndRatingDTO.getJobId());
+                CandidateProfile candidateProfile = user.getCandidateProfile();
+                    reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+
+               if(job.isPresent())
+               {
+                   List<CandidateProfile> candidateProfiles = job.get().getCandidateProfileList();
+                   candidateProfiles.add(candidateProfile);
+                   job.get().setCandidateProfileList(candidateProfiles);
+                   if(reviewAndRatingDTO.getRating()!=0 && reviewAndRatingDTO.getReview()!=null){
+
+
+                       if(saveRatingAndReview(reviewAndRatingDTO)){
+                           return new ApiResponse(200, "Job successfully posted", jobRepository.save(job.get()));
+                       }
+
+                   }
+                   else{
+                       return new ApiResponse(200, "Job successfully posted", jobRepository.save(job.get()));
+                   }
+               }
+
+               }
+                return new ApiResponse(500, "Something went wrong", null);
+
+        }
+
+
+
+
+
     public ApiResponse<Job> getMyJobs(Long employeeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -121,6 +166,58 @@ public class JobService {
         }
         return null;
 
+    }
+
+
+    public Boolean saveRatingAndReview(ReviewAndRatingDTO reviewAndRatingDTO){
+
+        ReviewAndRating reviewAndRating = new ReviewAndRating();
+        reviewAndRating.setRating(reviewAndRatingDTO.getRating());
+        reviewAndRating.setReview(reviewAndRatingDTO.getReview());
+        reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
+        Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
+        if(companyProfile.isPresent()){
+            reviewAndRating.setCompanyProfile(companyProfile.get());
+            reviewAndRatingRepository.save(reviewAndRating);
+            return  true;
+        }
+        return  false;
+
+    }
+
+    public ApiResponse getAppliedCandidateByJobId(Long jobId){
+        Optional<Job> job = jobRepository.findById(jobId);
+        Integer count = 0;
+        if(job.isPresent()){
+
+           count  = jobRepository.countOfCandidates(jobId);
+            count = count!=0?count:0;
+            return new ApiResponse(200,"succesfull",count);
+
+        }
+        else{
+            return new ApiResponse(500,"unsuccessfull",count);
+
+        }
+    }
+
+    public ApiResponse getAppliedCandidateProfilesByJobId(Long jobId){
+        Optional<Job> job = jobRepository.findById(jobId);
+        List<CandidateProfile> candidateProfiles = new ArrayList<>();
+        if(job.isPresent()){
+            List<Long> idList = jobRepository.findAllCandidateProfile(jobId);
+            for (Long candidateId:idList) {
+                Optional<CandidateProfile> candidateProfileOptional = candidateProfileRepository.findById(candidateId);
+
+                    if(candidateProfileOptional.isPresent()){
+                        CandidateProfile candidateProfile = candidateProfileOptional.get();
+                        candidateProfiles.add(candidateProfile);
+                    }
+            }
+            return new ApiResponse(200,"succesfull",candidateProfiles);
+
+            }
+        return new ApiResponse(500,"unsuccessfull",null);
     }
 
 }

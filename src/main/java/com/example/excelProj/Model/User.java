@@ -29,6 +29,7 @@ public class User {
     @Column
     private String userType;
 
+
 	@OneToOne(mappedBy = "user")
 	private CandidateProfile candidateProfile;
 

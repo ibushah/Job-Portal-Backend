@@ -1,8 +1,6 @@
 package com.example.excelProj.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -48,16 +46,16 @@ public class Job {
     String type;
 
 
-
-
-
-
     @Column
     Double longitude;
 
     @Column
     Double latitude;
 
+
+
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "applied_for",
@@ -66,12 +64,10 @@ public class Job {
     List<CandidateProfile> candidateProfileList;
 
     @ManyToOne
-//    @JsonManagedReference
     @JoinColumn(name = "employee_id")
     CompanyProfile companyProfile;
 
-
-    public Job(String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude) {
+    public Job(String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, List<CandidateProfile> candidateProfileList, CompanyProfile companyProfile) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -84,12 +80,12 @@ public class Job {
         this.type = type;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.candidateProfileList = candidateProfileList;
+        this.companyProfile = companyProfile;
     }
 
     public Job() {
-
     }
-
 
     public Long getId() {
         return id;
@@ -99,20 +95,28 @@ public class Job {
         this.id = id;
     }
 
-    public String getCategory() {
-        return category;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getType() {
-        return type;
+    public String getDescription() {
+        return description;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Long salary) {
+        this.salary = salary;
     }
 
     public Date getPublishFrom() {
@@ -155,12 +159,20 @@ public class Job {
         this.province = province;
     }
 
-    public CompanyProfile getCompanyProfile() {
-        return companyProfile;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCompanyProfile(CompanyProfile companyProfile) {
-        this.companyProfile = companyProfile;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Double getLongitude() {
@@ -179,19 +191,6 @@ public class Job {
         this.latitude = latitude;
     }
 
-
-
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
     public List<CandidateProfile> getCandidateProfileList() {
         return candidateProfileList;
     }
@@ -200,21 +199,11 @@ public class Job {
         this.candidateProfileList = candidateProfileList;
     }
 
-
-
-    public String getDescription() {
-        return description;
+    public CompanyProfile getCompanyProfile() {
+        return companyProfile;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Long getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Long salary) {
-        this.salary = salary;
+    public void setCompanyProfile(CompanyProfile companyProfile) {
+        this.companyProfile = companyProfile;
     }
 }

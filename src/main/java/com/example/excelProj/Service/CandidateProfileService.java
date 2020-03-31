@@ -4,13 +4,19 @@ package com.example.excelProj.Service;
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.CandidateProfileDTO;
 import com.example.excelProj.Model.CandidateProfile;
+import com.example.excelProj.Model.Job;
 import com.example.excelProj.Model.User;
 import com.example.excelProj.Repository.CandidateProfileRepository;
+import com.example.excelProj.Repository.JobRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +24,9 @@ public class CandidateProfileService {
 
     @Autowired
     UserDaoRepository userDaoRepository;
+
+    @Autowired
+    JobRepository jobRepository;
 
     @Autowired
     CandidateProfileRepository candidateProfileRepository;
@@ -60,6 +69,38 @@ public class CandidateProfileService {
     public User saveUser(User user)
     {
         return userDaoRepository.save(user);
+    }
+
+
+
+    public ApiResponse getAlreadyAppliedJobs(Long candidateId,Long jobId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        boolean isApplied = false;
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        if (user != null) {
+
+            Optional<CandidateProfile> candidateProfile = candidateProfileRepository.findById(candidateId);
+            if(candidateProfile.isPresent()){
+
+                List<Job> jobList = candidateProfile.get().getJobList();
+                if(!jobList.isEmpty()){
+                    for (Job job : jobList) {
+                        if (job.getId() == jobId){
+                            isApplied = true;
+                            return new ApiResponse(200,"Applied Jobs against User Successfull",isApplied);
+                        }
+                    }
+
+                }
+            }
+
+        }
+        return  new ApiResponse(500,"Something went wrong",isApplied);
+
+
+
+
     }
 }
 

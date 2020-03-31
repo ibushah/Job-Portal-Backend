@@ -1,6 +1,8 @@
 package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
@@ -44,7 +46,7 @@ public class CandidateProfile {
      User user;
 
 
-
+    @JsonIgnore
     @ManyToMany(mappedBy = "candidateProfileList")
     List<Job> jobList;
 
