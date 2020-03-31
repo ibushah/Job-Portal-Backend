@@ -46,7 +46,7 @@ public class CandidateProfile {
      User user;
 
 
-
+    @JsonIgnore
     @ManyToMany(mappedBy = "candidateProfileList")
     List<Job> jobList;
 

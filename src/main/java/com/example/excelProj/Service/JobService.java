@@ -111,7 +111,7 @@ public class JobService {
 
                 Optional<Job> job = jobRepository.findById(reviewAndRatingDTO.getJobId());
                 CandidateProfile candidateProfile = user.getCandidateProfile();
-                reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+                    reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
 
                if(job.isPresent())
                {
