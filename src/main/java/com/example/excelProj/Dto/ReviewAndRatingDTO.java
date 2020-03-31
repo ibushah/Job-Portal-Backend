@@ -1,29 +1,26 @@
 package com.example.excelProj.Dto;
 
-import com.example.excelProj.Model.CandidateProfile;
-import com.example.excelProj.Model.Job;
 
-import java.util.List;
+public class ReviewAndRatingDTO {
 
-/**
- * Created by Rehan on 3/26/2020.
- */
-public class ApplyJobDTO {
 
     String review;
     Integer rating;
-    Long jobId;
     Long candidateId;
+    Long jobId;
+    Long companyId;
 
-    public ApplyJobDTO(String review, Integer rating, Long jobId, Long candidateId) {
+    public ReviewAndRatingDTO() {
+    }
+
+    public ReviewAndRatingDTO(String review, Integer rating, Long candidateId, Long jobId, Long companyId) {
         this.review = review;
         this.rating = rating;
-        this.jobId = jobId;
         this.candidateId = candidateId;
+        this.jobId = jobId;
+        this.companyId = companyId;
     }
 
-    public ApplyJobDTO() {
-    }
 
     public String getReview() {
         return review;
@@ -41,6 +38,14 @@ public class ApplyJobDTO {
         this.rating = rating;
     }
 
+    public Long getCandidateId() {
+        return candidateId;
+    }
+
+    public void setCandidateId(Long candidateId) {
+        this.candidateId = candidateId;
+    }
+
     public Long getJobId() {
         return jobId;
     }
@@ -49,11 +54,11 @@ public class ApplyJobDTO {
         this.jobId = jobId;
     }
 
-    public Long getCandidateId() {
-        return candidateId;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setCandidateId(Long candidateId) {
-        this.candidateId = candidateId;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 }
