@@ -1,0 +1,114 @@
+package com.example.excelProj.Dto;
+
+import java.io.Serializable;
+
+public class CompanyReviewRatingDTO implements Serializable {
+
+Long id;
+    String name;
+    String email;
+    Integer rating;
+    String review;
+    byte[] cv;
+    byte[] dp;
+    String field;
+    String imageContentType;
+    String resumeContentType;
+
+    public CompanyReviewRatingDTO() {
+    }
+
+    public CompanyReviewRatingDTO(Long id, String email, String name, Integer rating, String review, byte[] cv, byte[] dp, String field, String imageContentType, String resumeContentType) {
+        this.name = name;
+        this.email = email;
+        this.rating = rating;
+        this.review = review;
+        this.cv = cv;
+        this.dp = dp;
+        this.field = field;
+        this.imageContentType = imageContentType;
+        this.resumeContentType = resumeContentType;
+        this.id=id;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public byte[] getCv() {
+        return cv;
+    }
+
+    public void setCv(byte[] cv) {
+        this.cv = cv;
+    }
+
+    public byte[] getDp() {
+        return dp;
+    }
+
+    public void setDp(byte[] dp) {
+        this.dp = dp;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
+
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
+    public String getResumeContentType() {
+        return resumeContentType;
+    }
+
+    public void setResumeContentType(String resumeContentType) {
+        this.resumeContentType = resumeContentType;
+    }
+}

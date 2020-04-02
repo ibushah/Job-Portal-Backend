@@ -94,6 +94,7 @@ public class JobService {
             job.setPublishFrom(jobDTO.getPublishFrom());
             job.setPublishTo(jobDTO.getPublishTo());
             job.setCompanyProfile(user.getCompanyProfile());
+            job.setDate(new Date());
             return new ApiResponse(200, "Job successfully posted", jobRepository.save(job));
         }
 
