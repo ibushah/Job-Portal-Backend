@@ -80,4 +80,16 @@ public class CompanyProfileService {
     }
 
 
+    public ApiResponse<CompanyProfile> findCompanybyUserId(Long userId){
+        Optional<User> optionalUser = userDaoRepository.findById(userId);
+        if(optionalUser.isPresent()){
+            return new ApiResponse(200, "Company profile successfuly Get", companyProfileRepository.findByUserId(userId));
+
+        }
+        return new ApiResponse(500, "Something went wrong", null);
+    }
+
+
+
+
 }

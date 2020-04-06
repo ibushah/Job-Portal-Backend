@@ -211,7 +211,7 @@ public class JobService {
                 Optional<CandidateProfile> candidateProfileOptional = candidateProfileRepository.findById(candidateId);
 
                     if(candidateProfileOptional.isPresent()){
-                        CandidateProfile candidateProfile = candidateProfileOptional.get();
+                            CandidateProfile candidateProfile = candidateProfileOptional.get();
                         candidateProfiles.add(candidateProfile);
                     }
             }

@@ -5,6 +5,8 @@ import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.CompanyProfileDetailsDTO;
 import com.example.excelProj.Dto.CompanyReviewRatingDTO;
 import com.example.excelProj.Dto.CompanyProfileDTO;
+import com.example.excelProj.Model.CompanyProfile;
+import com.example.excelProj.Repository.CompanyProfileRepository;
 import com.example.excelProj.Service.CompanyProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,9 @@ public class CompanyProfileController {
     @Autowired
     CompanyProfileService companyProfileService;
 
+    @Autowired
+    CompanyProfileRepository companyProfileRepository;
+
     @PostMapping("/{userId}")
     public ApiResponse postCompanyProfile(@PathVariable("userId") Long userId, @RequestBody CompanyProfileDTO companyProfileDTO) {
         return companyProfileService.postCompanyProfile(userId, companyProfileDTO);
@@ -30,8 +35,8 @@ public class CompanyProfileController {
     }
 
 
-//    @GetMapping("/{userId}")
-//    public ApiResponse getCompanyById(@PathVariable("userId") Long userId){
-//        return  companyProfileService.getCompanyCreatedByEmployer(Long userId)
-//    }
+    @GetMapping("/userId/{userId}")
+    public ApiResponse<CompanyProfile> getCompanyById(@PathVariable("userId") Long userId){
+        return companyProfileService.findCompanybyUserId(userId);
+    }
 }
