@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class AllJobsDTO implements Serializable {
 
@@ -16,14 +17,12 @@ public class AllJobsDTO implements Serializable {
     String category;
     Double longitude;
     Double latitude;
+    Date date;
 
+    public AllJobsDTO() {
+    }
 
-//    public AllJobsDTO(String title) {
-//        this.title = title;
-//    }
-
-
-    public AllJobsDTO(Long id, String title, String description, String city, byte[] logo, String logoContentType, String category, Double longitude, Double latitude) {
+    public AllJobsDTO(Long id, String title, String description, String city, byte[] logo, String logoContentType, String category, Double longitude, Double latitude, Date date) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -33,8 +32,24 @@ public class AllJobsDTO implements Serializable {
         this.category = category;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.date = date;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getDescription() {
         return description;
@@ -88,28 +103,22 @@ public class AllJobsDTO implements Serializable {
         return latitude;
     }
 
-    public void setLatitiude(Double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public AllJobsDTO() {
+    public Date getDate() {
+        return date;
     }
 
-    public String getTitle() {
-        return title;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    //    public AllJobsDTO(String title) {
+//        this.title = title;
+//    }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     //    public AllJobsDTO(String title) {
 //        this.title = title;

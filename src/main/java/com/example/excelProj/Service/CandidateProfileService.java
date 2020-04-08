@@ -76,11 +76,13 @@ public class CandidateProfileService {
     public ApiResponse getAlreadyAppliedJobs(Long candidateId,Long jobId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        boolean isApplied = false;
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        if (user != null) {
+        boolean isApplied = false;
 
-            Optional<CandidateProfile> candidateProfile = candidateProfileRepository.findById(candidateId);
+
+        if (user != null && user.getUserType().equalsIgnoreCase("candidate")) {
+
+            Optional<CandidateProfile> candidateProfile = candidateProfileRepository.findById(user.getCandidateProfile().getId());
             if(candidateProfile.isPresent()){
 
                 List<Job> jobList = candidateProfile.get().getJobList();

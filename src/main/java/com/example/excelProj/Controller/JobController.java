@@ -65,11 +65,7 @@ public class JobController {
         return jobService.getJobsByCompany(id);
     }
 
-//    @GetMapping("/{field}")
-//    public List<Job> getJobsByField(@PathVariable("field") String field)
-//    {
-//        return jobService.searchJobByField(field);
-//    }
+
 
     @PostMapping("/")
     public ApiResponse postJob(@RequestBody JobDTO jobDTO)

@@ -28,6 +28,9 @@ public class ReviewAndRatingService {
     ReviewAndRatingRepository reviewAndRatingRepository;
 
     @Autowired
+    UserDaoRepository userDaoRepository;
+
+    @Autowired
     CompanyProfileRepository companyProfileRepository;
 
     public ApiResponse getAverageRating(Long companyId){
@@ -41,9 +44,15 @@ public class ReviewAndRatingService {
     }
 
     public ApiResponse saveRatingAndReview(ReviewAndRatingDTO reviewAndRatingDTO){
-        ReviewAndRating reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileId(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId());
-        if(reviewAndRatingObject!=null) {
-            return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "Already rated", reviewAndRatingObject.getRating());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+
+        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileId(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId());
+        if(reviewAndRatingObject.isPresent()) {
+            return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "Already rated", reviewAndRatingObject.get().getRating());
 
         }
         else if(reviewAndRatingDTO.getRating()!=0 && reviewAndRatingDTO.getReview()!=null){

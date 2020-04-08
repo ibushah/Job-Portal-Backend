@@ -61,14 +61,6 @@ public class JobService {
         return new ApiResponse(500, "Error fetching the job", null);
     }
 
-//    public List<Job> searchJobByField(String field){
-//        if(field.equalsIgnoreCase("all"))
-//            return jobRepository.findAll();
-//        else{
-//            return jobRepository.findByField(field);
-//        }
-//
-//    }
 
     public ApiResponse postJob(JobDTO jobDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -157,6 +149,11 @@ public class JobService {
             return new ApiResponse(500, "Job deleted failed", null);
 
         }
+
+
+
+
+
     }
 
 
@@ -184,13 +181,16 @@ public class JobService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-
         User user = userDaoRepository.findByEmail(currentPrincipalName);
+
+
+
         if (user != null && user.getUserType().equalsIgnoreCase("candidate") && user.getCandidateProfile()!=null){
 
+                reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
                 Optional<Job> job = jobRepository.findById(reviewAndRatingDTO.getJobId());
                 CandidateProfile candidateProfile = user.getCandidateProfile();
-                    reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+//                reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
 
                if(job.isPresent())
                {
@@ -201,12 +201,12 @@ public class JobService {
 
 
                        if(saveRatingAndReview(reviewAndRatingDTO)){
-                           return new ApiResponse(200, "Job successfully posted", jobRepository.save(job.get()));
+                           return new ApiResponse(200, "Applied on job  with review and rating", jobRepository.save(job.get()));
                        }
 
                    }
                    else{
-                       return new ApiResponse(200, "Job successfully posted", jobRepository.save(job.get()));
+                       return new ApiResponse(200, "Applied on job without review and rating", jobRepository.save(job.get()));
                    }
                }
 
@@ -250,17 +250,22 @@ public class JobService {
 
     public Boolean saveRatingAndReview(ReviewAndRatingDTO reviewAndRatingDTO){
 
-        ReviewAndRating reviewAndRating = new ReviewAndRating();
-        reviewAndRating.setRating(reviewAndRatingDTO.getRating());
-        reviewAndRating.setReview(reviewAndRatingDTO.getReview());
-        reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
-        Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
-        if(companyProfile.isPresent()){
-            reviewAndRating.setCompanyProfile(companyProfile.get());
-            reviewAndRatingRepository.save(reviewAndRating);
-            return  true;
-        }
-        return  false;
+        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileId(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId());
+
+       if(reviewAndRatingObject.isPresent()){
+           return false;
+       }
+
+           ReviewAndRating reviewAndRating = new ReviewAndRating();
+           reviewAndRating.setRating(reviewAndRatingDTO.getRating());
+           reviewAndRating.setReview(reviewAndRatingDTO.getReview());
+           reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
+           Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
+           reviewAndRating.setCompanyProfile(companyProfile.get());
+           reviewAndRatingRepository.save(reviewAndRating);
+           return  true;
+
+
 
     }
 
