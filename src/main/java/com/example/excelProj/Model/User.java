@@ -29,7 +29,7 @@ public class User {
     @Column
     private String userType;
 
-
+	@JsonBackReference
 	@OneToOne(mappedBy = "user")
 	private CandidateProfile candidateProfile;
 

@@ -102,5 +102,14 @@ public class CandidateProfileService {
 
 
     }
+
+    public ApiResponse getCandidateProfile(Long userId){
+        Optional<User> user = userDaoRepository.findById(userId);
+        if(user.isPresent()){
+            CandidateProfile candidateProfile = candidateProfileRepository.findByUserId(userId);
+            return new ApiResponse(200,"Successfully",candidateProfile);
+        }
+        return new ApiResponse(500,"Unsuccessfull",null);
+    }
 }
 

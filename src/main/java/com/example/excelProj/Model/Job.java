@@ -17,7 +17,6 @@ public class Job {
     String title;
 
 
-
     @Column
     String description;
 
@@ -52,7 +51,8 @@ public class Job {
     @Column
     Double latitude;
 
-
+    @Column
+    Date date;
 
 
     @JsonIgnore
@@ -67,7 +67,8 @@ public class Job {
     @JoinColumn(name = "employee_id")
     CompanyProfile companyProfile;
 
-    public Job(String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, List<CandidateProfile> candidateProfileList, CompanyProfile companyProfile) {
+    public Job(Long id, String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, Date date, List<CandidateProfile> candidateProfileList, CompanyProfile companyProfile) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -80,8 +81,18 @@ public class Job {
         this.type = type;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.date = date;
         this.candidateProfileList = candidateProfileList;
         this.companyProfile = companyProfile;
+    }
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Job() {

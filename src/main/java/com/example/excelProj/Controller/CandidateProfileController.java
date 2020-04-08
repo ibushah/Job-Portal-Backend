@@ -3,10 +3,13 @@ package com.example.excelProj.Controller;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.CandidateProfileDTO;
+import com.example.excelProj.Repository.CandidateProfileRepository;
 import com.example.excelProj.Service.CandidateProfileService;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
@@ -16,6 +19,8 @@ public class CandidateProfileController {
 
     @Autowired
     CandidateProfileService candidateProfileService;
+    @Autowired
+    CandidateProfileRepository candidateProfileRepository;
 
     @PostMapping("/{userid}")
     public ApiResponse postCandidateProfile(@PathVariable("userid") Long userId, @RequestBody CandidateProfileDTO candidateProfileDTO) {
@@ -28,4 +33,13 @@ public class CandidateProfileController {
         Long candidateId = Long.parseLong(requestParams.get("candidateId"));
         return candidateProfileService.getAlreadyAppliedJobs(candidateId,jobId);
     }
+
+    @GetMapping("/{userId}")
+    public ApiResponse getProfile(@PathVariable("userId") Long userId){
+        return candidateProfileService.getCandidateProfile(userId);
+    }
+
+
+
+
 }
