@@ -102,6 +102,84 @@ public class JobService {
     }
 
 
+//    UPDATE JOB
+
+    public ApiResponse updateJOB(Long jobId,JobDTO jobDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+
+
+        if (user != null && user.getUserType().equalsIgnoreCase("employee") && user.getCompanyProfile() != null) {
+
+            Optional<Job> jobOptional = jobRepository.findById(jobId);
+            if(jobOptional.isPresent()){
+
+                Job job = jobOptional.get();
+                job.setDescription(jobDTO.getDescription());
+                job.setSalary(jobDTO.getSalary());
+                job.setLatitude(jobDTO.getLatitude());
+                job.setLongitude(jobDTO.getLongitude());
+                job.setTitle(jobDTO.getTitle());
+                job.setCity(jobDTO.getCity());
+                job.setCountry(jobDTO.getCountry());
+                job.setProvince(jobDTO.getProvince());
+                job.setCategory(jobDTO.getCategory());
+                job.setType(jobDTO.getType());
+                job.setPublishFrom(jobDTO.getPublishFrom());
+                job.setPublishTo(jobDTO.getPublishTo());
+                job.setCompanyProfile(user.getCompanyProfile());
+                job.setDate(new Date());
+                return new ApiResponse(200, "Job Updated posted", jobRepository.save(job));
+            }
+
+
+        }
+
+        return new ApiResponse(500, "Something went wrong", null);
+    }
+
+    public ApiResponse deleteByJobId(Long id){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+
+        Boolean jobExists = jobRepository.existsById(id);
+
+        if(jobExists){
+
+            jobRepository.deleteById(id);
+            return new ApiResponse(200, "Job Deleted", jobRepository.findByEmployeeId(user.getCompanyProfile().getId()));
+        }
+        else{
+            return new ApiResponse(500, "Job deleted failed", null);
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public ApiResponse<Job> apply_on_job(ReviewAndRatingDTO reviewAndRatingDTO){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

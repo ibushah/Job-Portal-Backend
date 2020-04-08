@@ -77,6 +77,14 @@ public class JobController {
         return jobService.postJob(jobDTO);
     }
 
+
+    @PutMapping("/update/{jobId}")
+    public ApiResponse updateJob(@PathVariable("jobId") Long jobId,@RequestBody JobDTO jobDTO)
+    {
+        return jobService.updateJOB(jobId,jobDTO);
+    }
+
+
     @GetMapping("/myJobs")
     public Page<Job> getMyJobs(@RequestParam(defaultValue ="0")int page)
     {

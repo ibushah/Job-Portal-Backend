@@ -20,7 +20,7 @@ public interface JobRepository extends JpaRepository<Job, Long> {
 
     @Query(value = "select new com.example.excelProj.Dto.AllJobsDTO(j.id,j.title,j.description,j.city,cp.logo,cp.logoContentType,j.category, j.longitude, j.latitude) FROM Job j INNER JOIN CompanyProfile cp\n"
             + "ON j.companyProfile.id = cp.id")
-    Page<AllJobsDTO> joinAllJobs(Pageable pageable);
+    Page<AllJobsDTO>  joinAllJobs(Pageable pageable);
 
 
     @Query(value = "select * from job where category=:cat", nativeQuery = true)
