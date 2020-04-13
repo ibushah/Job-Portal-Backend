@@ -3,6 +3,7 @@ package com.example.excelProj.Model;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -17,20 +18,25 @@ public class ReviewAndRating {
     Integer Rating;
     @Column
     Long candidateId;
+
+
+    @Column
+    Date date;
     @ManyToOne
 //    @JsonManagedReference
     @JoinColumn(name = "company_id")
     CompanyProfile companyProfile;
 
+    public ReviewAndRating() {
+    }
 
-    public ReviewAndRating(String review, Integer rating, Long candidateId, CompanyProfile companyProfile) {
+    public ReviewAndRating(String review, Integer rating, Long candidateId, Date date, CompanyProfile companyProfile) {
         this.review = review;
         Rating = rating;
         this.candidateId = candidateId;
+        this.date = date;
         this.companyProfile = companyProfile;
-    }
 
-    public ReviewAndRating() {
     }
 
     public Long getId() {
@@ -63,6 +69,14 @@ public class ReviewAndRating {
 
     public void setCandidateId(Long candidateId) {
         this.candidateId = candidateId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public CompanyProfile getCompanyProfile() {

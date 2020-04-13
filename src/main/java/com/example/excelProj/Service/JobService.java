@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -132,29 +133,26 @@ public class JobService {
         return new ApiResponse(500, "Something went wrong", null);
     }
 
-    public ApiResponse deleteByJobId(Long id){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-
-        User user = userDaoRepository.findByEmail(currentPrincipalName);
-
-        Boolean jobExists = jobRepository.existsById(id);
-
-        if(jobExists){
-
-            jobRepository.deleteById(id);
-            return new ApiResponse(200, "Job Deleted", jobRepository.findByEmployeeId(user.getCompanyProfile().getId()));
-        }
-        else{
-            return new ApiResponse(500, "Job deleted failed", null);
-
-        }
-
-
-
-
-
-    }
+//    public ApiResponse deleteByJobId(Long id){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//
+//        User user = userDaoRepository.findByEmail(currentPrincipalName);
+//
+//        Boolean jobExists = jobRepository.existsById(id);
+//
+//        if(jobExists){
+//
+//            jobRepository.deleteById(id);
+//            return new ApiResponse(200, "Job Deleted", jobRepository.findByEmployeeId(user.getCompanyProfile().getId()));
+//        }
+//        else{
+//            return new ApiResponse(500, "Job deleted failed", null);
+//
+//        }
+//
+//
+//    }
 
 
 
@@ -203,11 +201,17 @@ public class JobService {
                        if(saveRatingAndReview(reviewAndRatingDTO)){
                            return new ApiResponse(200, "Applied on job  with review and rating", jobRepository.save(job.get()));
                        }
+                       else{
+                           return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "You can not give review to the same company twice", jobRepository.save(job.get()));
+                       }
 
                    }
+
+
                    else{
-                       return new ApiResponse(200, "Applied on job without review and rating", jobRepository.save(job.get()));
+                       return new ApiResponse(HttpStatus.CONTINUE.value(), "Applied on job without review and rating", jobRepository.save(job.get()));
                    }
+
                }
 
                }
@@ -259,6 +263,7 @@ public class JobService {
            ReviewAndRating reviewAndRating = new ReviewAndRating();
            reviewAndRating.setRating(reviewAndRatingDTO.getRating());
            reviewAndRating.setReview(reviewAndRatingDTO.getReview());
+           reviewAndRating.setDate(new Date());
            reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
            Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
            reviewAndRating.setCompanyProfile(companyProfile.get());
@@ -304,5 +309,23 @@ public class JobService {
         return new ApiResponse(500,"unsuccessfull",null);
     }
 
+    public ApiResponse deleteJobById(Long id,Pageable pageable){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        if(user!=null && user.getUserType().equalsIgnoreCase("employee")) {
+
+            Boolean jobExist = jobRepository.existsById(id);
+            //first delete a job than then its association
+            if (jobExist) {
+                jobRepository.deleteById(id);
+                //now delete its associations in the applied for table
+                jobRepository.deleteAssociatedRecords(id);
+                return new ApiResponse(200, "Deleted", jobRepository.findJobsByCompanyPaginated(user.getCompanyProfile().getId(),pageable));
+            }
+
+        }
+        return new ApiResponse(500,"unsuccessfull",null);
+    }
 }
 

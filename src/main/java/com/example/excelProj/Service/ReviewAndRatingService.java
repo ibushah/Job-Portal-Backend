@@ -60,6 +60,7 @@ public class ReviewAndRatingService {
             reviewAndRating.setRating(reviewAndRatingDTO.getRating());
             reviewAndRating.setReview(reviewAndRatingDTO.getReview());
             reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
+            reviewAndRating.setDate(new Date());
             Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
             if(companyProfile.isPresent()){
                 reviewAndRating.setCompanyProfile(companyProfile.get());

@@ -1,6 +1,8 @@
 package com.example.excelProj.Dto;
 
 
+import java.util.Date;
+
 public class ReviewAndRatingDTO {
 
 
@@ -9,18 +11,27 @@ public class ReviewAndRatingDTO {
     Long candidateId;
     Long jobId;
     Long companyId;
+    Date date;
 
     public ReviewAndRatingDTO() {
     }
 
-    public ReviewAndRatingDTO(String review, Integer rating, Long candidateId, Long jobId, Long companyId) {
+    public ReviewAndRatingDTO(String review, Integer rating, Long candidateId, Long jobId, Long companyId, Date date) {
         this.review = review;
         this.rating = rating;
         this.candidateId = candidateId;
         this.jobId = jobId;
         this.companyId = companyId;
+        this.date = date;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getReview() {
         return review;

@@ -39,7 +39,10 @@ public class CandidateProfileController {
         return candidateProfileService.getCandidateProfile(userId);
     }
 
-
+    @GetMapping("/")
+    public ApiResponse imageIsUploading(){
+        return new ApiResponse(200,"SUCCESS",true);
+    }
 
 
 }
