@@ -17,8 +17,11 @@ public class ReviewAndRating {
     @Column
     Integer Rating;
     @Column
-    Long candidateId;
+    String ratedTo;
 
+
+    @Column
+    String ratedBy;
 
     @Column
     Date date;
@@ -27,16 +30,17 @@ public class ReviewAndRating {
     @JoinColumn(name = "company_id")
     CompanyProfile companyProfile;
 
-    public ReviewAndRating() {
-    }
 
-    public ReviewAndRating(String review, Integer rating, Long candidateId, Date date, CompanyProfile companyProfile) {
+    public ReviewAndRating(String review, Integer rating, String ratedTo, String ratedBy, Date date, CompanyProfile companyProfile) {
         this.review = review;
         Rating = rating;
-        this.candidateId = candidateId;
+        this.ratedTo = ratedTo;
+        this.ratedBy = ratedBy;
         this.date = date;
         this.companyProfile = companyProfile;
+    }
 
+    public ReviewAndRating() {
     }
 
     public Long getId() {
@@ -63,12 +67,20 @@ public class ReviewAndRating {
         Rating = rating;
     }
 
-    public Long getCandidateId() {
-        return candidateId;
+    public String getRatedTo() {
+        return ratedTo;
     }
 
-    public void setCandidateId(Long candidateId) {
-        this.candidateId = candidateId;
+    public void setRatedTo(String ratedTo) {
+        this.ratedTo = ratedTo;
+    }
+
+    public String getRatedBy() {
+        return ratedBy;
+    }
+
+    public void setRatedBy(String ratedBy) {
+        this.ratedBy = ratedBy;
     }
 
     public Date getDate() {
