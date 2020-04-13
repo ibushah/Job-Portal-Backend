@@ -16,7 +16,7 @@ import java.util.List;
  * Created by Rehan on 3/22/2020.
  */
 @Repository
-public interface JobPaginationRepository extends PagingAndSortingRepository<Job,Long>{
+public interface  JobPaginationRepository extends PagingAndSortingRepository<Job,Long>{
 
 
 

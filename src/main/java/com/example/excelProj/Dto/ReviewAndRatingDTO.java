@@ -1,26 +1,31 @@
 package com.example.excelProj.Dto;
 
 
+import java.util.Date;
+
 public class ReviewAndRatingDTO {
 
 
     String review;
     Integer rating;
-    Long candidateId;
+    String ratedTo;
     Long jobId;
+    String ratedBy;
+    Date date;
     Long companyId;
 
-    public ReviewAndRatingDTO() {
-    }
-
-    public ReviewAndRatingDTO(String review, Integer rating, Long candidateId, Long jobId, Long companyId) {
+    public ReviewAndRatingDTO(String review, Integer rating, String ratedTo, Long jobId, String ratedBy, Date date, Long companyId) {
         this.review = review;
         this.rating = rating;
-        this.candidateId = candidateId;
+        this.ratedTo = ratedTo;
         this.jobId = jobId;
+        this.ratedBy = ratedBy;
+        this.date = date;
         this.companyId = companyId;
     }
 
+    public ReviewAndRatingDTO() {
+    }
 
     public String getReview() {
         return review;
@@ -38,12 +43,12 @@ public class ReviewAndRatingDTO {
         this.rating = rating;
     }
 
-    public Long getCandidateId() {
-        return candidateId;
+    public String getRatedTo() {
+        return ratedTo;
     }
 
-    public void setCandidateId(Long candidateId) {
-        this.candidateId = candidateId;
+    public void setRatedTo(String ratedTo) {
+        this.ratedTo = ratedTo;
     }
 
     public Long getJobId() {
@@ -52,6 +57,22 @@ public class ReviewAndRatingDTO {
 
     public void setJobId(Long jobId) {
         this.jobId = jobId;
+    }
+
+    public String getRatedBy() {
+        return ratedBy;
+    }
+
+    public void setRatedBy(String ratedBy) {
+        this.ratedBy = ratedBy;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Long getCompanyId() {

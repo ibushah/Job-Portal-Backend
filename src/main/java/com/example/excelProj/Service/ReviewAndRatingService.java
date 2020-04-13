@@ -48,9 +48,13 @@ public class ReviewAndRatingService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+        reviewAndRatingDTO.setRatedBy(user.getCandidateProfile().getUser().getEmail());
 
-        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileId(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId());
+        Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
+        reviewAndRatingDTO.setRatedTo(companyProfile.get().getUser().getEmail());
+
+
+        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByRatedByAndRatedTo(reviewAndRatingDTO.getRatedBy(),reviewAndRatingDTO.getRatedTo());
         if(reviewAndRatingObject.isPresent()) {
             return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "Already rated", reviewAndRatingObject.get().getRating());
 
@@ -59,8 +63,9 @@ public class ReviewAndRatingService {
             ReviewAndRating reviewAndRating = new ReviewAndRating();
             reviewAndRating.setRating(reviewAndRatingDTO.getRating());
             reviewAndRating.setReview(reviewAndRatingDTO.getReview());
-            reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
-            Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
+            reviewAndRating.setRatedBy(reviewAndRatingDTO.getRatedBy());
+            reviewAndRating.setRatedTo(reviewAndRatingDTO.getRatedTo());
+            reviewAndRating.setDate(new Date());;
             if(companyProfile.isPresent()){
                 reviewAndRating.setCompanyProfile(companyProfile.get());
                 reviewAndRatingRepository.save(reviewAndRating);

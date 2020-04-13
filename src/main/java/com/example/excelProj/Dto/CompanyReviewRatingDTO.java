@@ -1,6 +1,7 @@
 package com.example.excelProj.Dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class CompanyReviewRatingDTO implements Serializable {
 
@@ -14,11 +15,13 @@ Long id;
     String field;
     String imageContentType;
     String resumeContentType;
+    Date date;
 
     public CompanyReviewRatingDTO() {
     }
 
-    public CompanyReviewRatingDTO(Long id, String email, String name, Integer rating, String review, byte[] cv, byte[] dp, String field, String imageContentType, String resumeContentType) {
+    public CompanyReviewRatingDTO(Long id, String name, String email, Integer rating, String review, byte[] cv, byte[] dp, String field, String imageContentType, String resumeContentType, Date date) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.rating = rating;
@@ -28,9 +31,8 @@ Long id;
         this.field = field;
         this.imageContentType = imageContentType;
         this.resumeContentType = resumeContentType;
-        this.id=id;
+        this.date = date;
     }
-
 
     public Long getId() {
         return id;
@@ -111,4 +113,13 @@ Long id;
     public void setResumeContentType(String resumeContentType) {
         this.resumeContentType = resumeContentType;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }
+

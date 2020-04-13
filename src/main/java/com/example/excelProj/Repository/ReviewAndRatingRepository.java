@@ -19,5 +19,9 @@ public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRatin
     public Double getAverageRatingByCompanyProfileId(@Param("id")Long id);
 
 
-    public Optional<ReviewAndRating> findByCandidateIdAndCompanyProfileId(Long candidateId, Long companyId);
+    public Optional<ReviewAndRating> findByRatedByAndRatedTo(String ratedBy,String ratedTo);
+
+
+//    @Query(value = "select * from review_and_rating where rated_by;=1?",nativeQuery = true)
+//    public ReviewAndRating findByRatedBy(String ratedBy);
 }

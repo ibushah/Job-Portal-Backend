@@ -59,8 +59,8 @@ public class Job {
     @ManyToMany
     @JoinTable(
             name = "applied_for",
-            joinColumns = @JoinColumn(name = "candidate_id"),
-            inverseJoinColumns = @JoinColumn(name = "job_id"))
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "candidate_id"))
     List<CandidateProfile> candidateProfileList;
 
     @ManyToOne
