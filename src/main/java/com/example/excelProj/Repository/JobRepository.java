@@ -40,8 +40,9 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     Page<Job> findByCity(String city, Pageable pageable);
 
 
-    @Query(value = "select * from applied_for where job_id=:id", nativeQuery = true)
+    @Query(value = "select candidate_id from applied_for where job_id=:id", nativeQuery = true)
     public List<Long> findAllCandidateProfile(@Param("id") Long id);
+
 
 
     @Query(value = "select COUNT(candidate_id) from applied_for where job_id=:id", nativeQuery = true)

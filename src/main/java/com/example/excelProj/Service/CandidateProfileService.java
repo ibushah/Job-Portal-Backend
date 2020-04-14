@@ -2,12 +2,16 @@ package com.example.excelProj.Service;
 
 
 import com.example.excelProj.Commons.ApiResponse;
+import com.example.excelProj.Dto.AllCompaniesWithReviewDTO;
 import com.example.excelProj.Dto.CandidateProfileDTO;
+import com.example.excelProj.Dto.CandidateProfileWtihAllDetailsDTO;
 import com.example.excelProj.Model.CandidateProfile;
 import com.example.excelProj.Model.Job;
+import com.example.excelProj.Model.ReviewAndRating;
 import com.example.excelProj.Model.User;
 import com.example.excelProj.Repository.CandidateProfileRepository;
 import com.example.excelProj.Repository.JobRepository;
+import com.example.excelProj.Repository.ReviewAndRatingRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +28,57 @@ public class CandidateProfileService {
 
     @Autowired
     UserDaoRepository userDaoRepository;
-
     @Autowired
     JobRepository jobRepository;
 
     @Autowired
     CandidateProfileRepository candidateProfileRepository;
+
+    @Autowired
+    ReviewAndRatingRepository reviewAndRatingRepository;
+
+
+    public ApiResponse getCandidateProfileComplete(Long userId,Long candidateId) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User loggedInUser = userDaoRepository.findByEmail(currentPrincipalName);
+        Long companyId  = loggedInUser.getCompanyProfile().getId();
+//        First get candidateProfile
+        Optional<User> user = userDaoRepository.findById(userId);
+
+        candidateId = user.isPresent()?user.get().getCandidateProfile().getId():candidateId;
+
+        CandidateProfile candidateProfile = candidateProfileRepository.findByUserId(userId);
+        CandidateProfileWtihAllDetailsDTO candidateProfileWtihAllDetailsDTO = new CandidateProfileWtihAllDetailsDTO();
+        if(candidateProfile!=null){
+            candidateProfileWtihAllDetailsDTO.setCandidateProfile(candidateProfile);
+            List<AllCompaniesWithReviewDTO> companiesWithReviewDTOS = reviewAndRatingRepository.getAllCompaniesWithReviews(candidateId,"employee");
+            candidateProfileWtihAllDetailsDTO.setCompaniesWithReviewDTOList(companiesWithReviewDTOS);
+                ReviewAndRating reviewAndRating = reviewAndRatingRepository.checkReviewStatus(candidateId,companyId,"employee");
+
+            if(reviewAndRating!=null){
+
+                candidateProfileWtihAllDetailsDTO.setAlreadyGivenReview(true);
+            }
+            else{
+                candidateProfileWtihAllDetailsDTO.setAlreadyGivenReview(false);
+            }
+
+            return  new ApiResponse(200,"Successfull",candidateProfileWtihAllDetailsDTO);
+        }
+        return new ApiResponse(500,"unsuccessfull",null);
+
+    }
+
+
+
+
+
+
+
+
+
 
     public ApiResponse postCandidateProfile(Long userId, CandidateProfileDTO candidateProfileDTO)
     {
@@ -45,7 +94,7 @@ public class CandidateProfileService {
             user.setEmail(candidateProfileDTO.getEmail());
             user.setName(candidateProfileDTO.getName());
             userDaoRepository.save(user);
-           User newUser=userDaoRepository.findById(userId).isPresent()?userDaoRepository.findById(userId).get():null;
+            User newUser=userDaoRepository.findById(userId).isPresent()?userDaoRepository.findById(userId).get():null;
 
 
             CandidateProfile candidateProfile=candidateProfileRepository.findByUserId(userId)!=null?candidateProfileRepository.findByUserId(userId):new CandidateProfile();
@@ -57,7 +106,7 @@ public class CandidateProfileService {
             candidateProfile.setImageContentType(candidateProfileDTO.getImageContentType());
             candidateProfile.setUser(newUser);
             candidateProfileRepository.save(candidateProfile);
-          return new ApiResponse(200,"Candidate profile successfuly updated",userDaoRepository.findById(userId).get());
+            return new ApiResponse(200,"Candidate profile successfuly updated",userDaoRepository.findById(userId).get());
         }
 
         return  new ApiResponse(500,"Something went wrong",null);
@@ -102,10 +151,9 @@ public class CandidateProfileService {
 
 
 
-
     }
 
-    public ApiResponse getCandidateProfile(Long userId){
+    public ApiResponse  getCandidateProfile(Long userId){
         Optional<User> user = userDaoRepository.findById(userId);
         if(user.isPresent()){
             CandidateProfile candidateProfile = candidateProfileRepository.findByUserId(userId);
@@ -114,4 +162,3 @@ public class CandidateProfileService {
         return new ApiResponse(500,"Unsuccessfull",null);
     }
 }
-

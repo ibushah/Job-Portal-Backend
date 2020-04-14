@@ -2,6 +2,7 @@ package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.AllJobsDTO;
+import com.example.excelProj.Dto.CandidateProfileWtihAllDetailsDTO;
 import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.*;
@@ -31,6 +32,9 @@ public class ReviewAndRatingService {
     UserDaoRepository userDaoRepository;
 
     @Autowired
+    CandidateProfileRepository candidateProfileRepository;
+
+    @Autowired
     CompanyProfileRepository companyProfileRepository;
 
     public ApiResponse getAverageRating(Long companyId){
@@ -48,13 +52,10 @@ public class ReviewAndRatingService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        reviewAndRatingDTO.setRatedBy(user.getCandidateProfile().getUser().getEmail());
+        reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+        String userType = user.getUserType();
 
-        Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
-        reviewAndRatingDTO.setRatedTo(companyProfile.get().getUser().getEmail());
-
-
-        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByRatedByAndRatedTo(reviewAndRatingDTO.getRatedBy(),reviewAndRatingDTO.getRatedTo());
+        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileId(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId());
         if(reviewAndRatingObject.isPresent()) {
             return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "Already rated", reviewAndRatingObject.get().getRating());
 
@@ -63,9 +64,10 @@ public class ReviewAndRatingService {
             ReviewAndRating reviewAndRating = new ReviewAndRating();
             reviewAndRating.setRating(reviewAndRatingDTO.getRating());
             reviewAndRating.setReview(reviewAndRatingDTO.getReview());
-            reviewAndRating.setRatedBy(reviewAndRatingDTO.getRatedBy());
-            reviewAndRating.setRatedTo(reviewAndRatingDTO.getRatedTo());
-            reviewAndRating.setDate(new Date());;
+            reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
+            reviewAndRating.setRateBy(userType);
+            reviewAndRating.setDate(new Date());
+            Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
             if(companyProfile.isPresent()){
                 reviewAndRating.setCompanyProfile(companyProfile.get());
                 reviewAndRatingRepository.save(reviewAndRating);
@@ -77,7 +79,36 @@ public class ReviewAndRatingService {
 
         return  new ApiResponse(500,"Something went wrong",null);
 
+}
+
+
+    public ApiResponse saveReviewAgainstCandidate(ReviewAndRatingDTO reviewAndRatingDTO){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+
+        reviewAndRatingDTO.setCompanyId(user.getCompanyProfile().getId());
+
+        ReviewAndRating reviewAndRating = reviewAndRatingRepository.checkReviewStatus(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId(),user.getUserType());
+
+        if(reviewAndRating==null){
+            ReviewAndRating reviewAndRatingModel = new ReviewAndRating();
+            reviewAndRatingModel.setDate(new Date());
+            reviewAndRatingModel.setCandidateId(reviewAndRatingDTO.getCandidateId());
+            reviewAndRatingModel.setCompanyProfile(user.getCompanyProfile());
+            reviewAndRatingModel.setReview(reviewAndRatingDTO.getReview());
+            reviewAndRatingModel.setRating(0);
+            reviewAndRatingModel.setRateBy(user.getUserType());
+            reviewAndRatingRepository.save(reviewAndRatingModel);
+            return new ApiResponse(200,"SucesssFull",reviewAndRatingRepository.getAllCompaniesWithReviews(reviewAndRatingDTO.getCandidateId(),user.getUserType()));
+        }
+
+        return  new ApiResponse(500,"Something went wrong",null);
+
     }
+
+
+
 
 }
 
