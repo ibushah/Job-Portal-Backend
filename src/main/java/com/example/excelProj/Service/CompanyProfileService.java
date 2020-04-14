@@ -64,7 +64,7 @@ public class CompanyProfileService {
     public CompanyProfileDetailsDTO getCompanyProfile(Long id) {
 
         CompanyProfileDetailsDTO companyProfileDetailsDTO = new CompanyProfileDetailsDTO();
-        List<CompanyReviewRatingDTO> companyReviewRatingDTOList = companyProfileRepository.getByCompanyId(id);
+        List<CompanyReviewRatingDTO> companyReviewRatingDTOList = companyProfileRepository.getByCompanyId(id,"candidate");
 
 
         Optional<CompanyProfile> optionalCompanyProfile = companyProfileRepository.findById(id);
