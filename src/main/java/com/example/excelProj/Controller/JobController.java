@@ -114,7 +114,6 @@ public class JobController {
         return  jobService.apply_on_job(reviewAndRatingDTO);
     }
 
-
     @GetMapping("/searchbycity")
     public Page<Job> findByCityName(@RequestParam Map<String,String> requestParms){
 

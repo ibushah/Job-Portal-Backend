@@ -39,6 +39,14 @@ public class CandidateProfileController {
         return candidateProfileService.getCandidateProfile(userId);
     }
 
+
+    @GetMapping("/complete")
+    public ApiResponse getProfile(@RequestParam Map<String,String> requestParams){
+        Long userId = Long.parseLong(requestParams.get("userId"));
+        Long candidateId = Long.parseLong(requestParams.get("candidateId"));
+        return candidateProfileService.getCandidateProfileComplete(userId,candidateId);
+    }
+
     @GetMapping("/")
     public ApiResponse imageIsUploading(){
         return new ApiResponse(200,"SUCCESS",true);

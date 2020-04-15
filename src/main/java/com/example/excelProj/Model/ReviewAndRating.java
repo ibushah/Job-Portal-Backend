@@ -17,31 +17,32 @@ public class ReviewAndRating {
     @Column
     Integer Rating;
     @Column
-    String ratedTo;
-
-
+    Long candidateId;
     @Column
-    String ratedBy;
-
+    String rateBy;
     @Column
     Date date;
+
+
+
+
     @ManyToOne
 //    @JsonManagedReference
     @JoinColumn(name = "company_id")
     CompanyProfile companyProfile;
 
+    public ReviewAndRating() {
+    }
 
-    public ReviewAndRating(String review, Integer rating, String ratedTo, String ratedBy, Date date, CompanyProfile companyProfile) {
+    public ReviewAndRating(String review, Integer rating, Long candidateId, String rateBy, Date date, CompanyProfile companyProfile) {
         this.review = review;
         Rating = rating;
-        this.ratedTo = ratedTo;
-        this.ratedBy = ratedBy;
+        this.candidateId = candidateId;
+        this.rateBy = rateBy;
         this.date = date;
         this.companyProfile = companyProfile;
     }
 
-    public ReviewAndRating() {
-    }
 
     public Long getId() {
         return id;
@@ -67,20 +68,20 @@ public class ReviewAndRating {
         Rating = rating;
     }
 
-    public String getRatedTo() {
-        return ratedTo;
+    public Long getCandidateId() {
+        return candidateId;
     }
 
-    public void setRatedTo(String ratedTo) {
-        this.ratedTo = ratedTo;
+    public void setCandidateId(Long candidateId) {
+        this.candidateId = candidateId;
     }
 
-    public String getRatedBy() {
-        return ratedBy;
+    public String getRateBy() {
+        return rateBy;
     }
 
-    public void setRatedBy(String ratedBy) {
-        this.ratedBy = ratedBy;
+    public void setRateBy(String rateBy) {
+        this.rateBy = rateBy;
     }
 
     public Date getDate() {

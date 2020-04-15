@@ -8,20 +8,21 @@ public class ReviewAndRatingDTO {
 
     String review;
     Integer rating;
-    String ratedTo;
+    Long candidateId;
     Long jobId;
-    String ratedBy;
-    Date date;
     Long companyId;
+    Date date;
+    String ratedBy;
 
-    public ReviewAndRatingDTO(String review, Integer rating, String ratedTo, Long jobId, String ratedBy, Date date, Long companyId) {
+    public ReviewAndRatingDTO(String review, Integer rating, Long candidateId, Long jobId, Long companyId, Date date, String ratedBy) {
         this.review = review;
         this.rating = rating;
-        this.ratedTo = ratedTo;
+        this.candidateId = candidateId;
         this.jobId = jobId;
-        this.ratedBy = ratedBy;
-        this.date = date;
         this.companyId = companyId;
+        this.date = date;
+        this.ratedBy = ratedBy;
+
     }
 
     public ReviewAndRatingDTO() {
@@ -43,12 +44,12 @@ public class ReviewAndRatingDTO {
         this.rating = rating;
     }
 
-    public String getRatedTo() {
-        return ratedTo;
+    public Long getCandidateId() {
+        return candidateId;
     }
 
-    public void setRatedTo(String ratedTo) {
-        this.ratedTo = ratedTo;
+    public void setCandidateId(Long candidateId) {
+        this.candidateId = candidateId;
     }
 
     public Long getJobId() {
@@ -59,12 +60,12 @@ public class ReviewAndRatingDTO {
         this.jobId = jobId;
     }
 
-    public String getRatedBy() {
-        return ratedBy;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setRatedBy(String ratedBy) {
-        this.ratedBy = ratedBy;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public Date getDate() {
@@ -75,11 +76,11 @@ public class ReviewAndRatingDTO {
         this.date = date;
     }
 
-    public Long getCompanyId() {
-        return companyId;
+    public String getRatedBy() {
+        return ratedBy;
     }
 
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
+    public void setRatedBy(String ratedBy) {
+        this.ratedBy = ratedBy;
     }
 }
