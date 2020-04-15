@@ -3,6 +3,7 @@ package com.example.excelProj.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Job {
     String title;
 
 
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     String description;
 
     @Column
@@ -51,7 +52,8 @@ public class Job {
     @Column
     Double latitude;
 
-    @Column
+
+    @Column(columnDefinition = "LONGTEXT")
     String address;
 
     @Column

@@ -12,7 +12,7 @@ public class ReviewAndRating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     String review;
     @Column
     Integer Rating;

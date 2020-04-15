@@ -25,7 +25,7 @@ public class CandidateProfile {
     @Column
     String resumeContentType;
 
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     String presentationLetter;
 
     @Lob

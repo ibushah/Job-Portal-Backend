@@ -17,7 +17,7 @@ public class CompanyProfile {
     @Column
     String name;
 
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     String corporateAddress;
 
     @Column
