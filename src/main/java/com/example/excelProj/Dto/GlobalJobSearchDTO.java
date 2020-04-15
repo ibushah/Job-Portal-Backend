@@ -1,77 +1,54 @@
-package com.example.excelProj.Model;
+package com.example.excelProj.Dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-@Entity
-public class Job {
+public class GlobalJobSearchDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column
+
     String title;
 
 
-    @Column
+
     String description;
 
-    @Column
+
     Long salary;
 
-    @Column
+
     Date publishFrom;
 
-    @Column
+
     Date publishTo;
 
-    @Column
+
     String country;
 
-    @Column
     String city;
 
-    @Column
+
     String province;
 
-    @Column
+
     String category;
 
-    @Column
+
     String type;
 
 
-    @Column
+
     Double longitude;
 
-    @Column
+
     Double latitude;
 
-    @Column
-    String address;
 
-    @Column
     Date date;
 
-
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "applied_for",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "candidate_id"))
-    List<CandidateProfile> candidateProfileList;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    CompanyProfile companyProfile;
-
-    public Job( String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, List<CandidateProfile> candidateProfileList, CompanyProfile companyProfile) {
-
+    public GlobalJobSearchDTO(Long id, String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, Date date) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -84,22 +61,13 @@ public class Job {
         this.type = type;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.address = address;
-        this.date = date;
-        this.candidateProfileList = candidateProfileList;
-        this.companyProfile = companyProfile;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
         this.date = date;
     }
 
-    public Job() {
+
+    public GlobalJobSearchDTO() {
     }
+
 
     public Long getId() {
         return id;
@@ -205,27 +173,11 @@ public class Job {
         this.latitude = latitude;
     }
 
-    public List<CandidateProfile> getCandidateProfileList() {
-        return candidateProfileList;
+    public Date getDate() {
+        return date;
     }
 
-    public void setCandidateProfileList(List<CandidateProfile> candidateProfileList) {
-        this.candidateProfileList = candidateProfileList;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public CompanyProfile getCompanyProfile() {
-        return companyProfile;
-    }
-
-    public void setCompanyProfile(CompanyProfile companyProfile) {
-        this.companyProfile = companyProfile;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

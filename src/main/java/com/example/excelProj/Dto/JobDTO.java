@@ -21,7 +21,7 @@ public class JobDTO {
     String province;
     Double longitude;
     Double latitude;
-
+    String address;
     String category;
     String type;
 
@@ -29,7 +29,8 @@ public class JobDTO {
     public JobDTO() {
     }
 
-    public JobDTO(String title, String description, Long salary, List<CandidateProfile> candidateProfileList, Long jobPosterId, Date publishFrom, Date publishTo, String country, String city, String province, Double longitude, Double latitude, String category, String type) {
+    public JobDTO(Long id, String title, String description, Long salary, List<CandidateProfile> candidateProfileList, Long jobPosterId, Date publishFrom, Date publishTo, String country, String city, String province, Double longitude, Double latitude, String address, String category, String type) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -42,6 +43,7 @@ public class JobDTO {
         this.province = province;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.address = address;
         this.category = category;
         this.type = type;
     }
@@ -161,5 +163,22 @@ public class JobDTO {
 
     public void setSalary(Long salary) {
         this.salary = salary;
+    }
+
+
+    public Long getJobPosterId() {
+        return jobPosterId;
+    }
+
+    public void setJobPosterId(Long jobPosterId) {
+        this.jobPosterId = jobPosterId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

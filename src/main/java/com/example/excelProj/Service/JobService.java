@@ -2,6 +2,7 @@ package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.AllJobsDTO;
+import com.example.excelProj.Dto.GlobalJobSearchDTO;
 import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.*;
@@ -85,6 +86,7 @@ public class JobService {
             job.setCategory(jobDTO.getCategory());
             job.setType(jobDTO.getType());
             job.setPublishFrom(jobDTO.getPublishFrom());
+            job.setAddress(jobDTO.getAddress());
             job.setPublishTo(jobDTO.getPublishTo());
             job.setCompanyProfile(user.getCompanyProfile());
             job.setDate(new Date());
@@ -120,6 +122,7 @@ public class JobService {
                 job.setProvince(jobDTO.getProvince());
                 job.setCategory(jobDTO.getCategory());
                 job.setType(jobDTO.getType());
+                job.setAddress(jobDTO.getAddress());
                 job.setPublishFrom(jobDTO.getPublishFrom());
                 job.setPublishTo(jobDTO.getPublishTo());
                 job.setCompanyProfile(user.getCompanyProfile());
@@ -153,6 +156,7 @@ public class JobService {
 //
 //
 //    }
+
 
 
 
@@ -335,6 +339,18 @@ public class JobService {
 
         }
         return new ApiResponse(500,"unsuccessfull",null);
+    }
+
+
+    public Page<GlobalJobSearchDTO> globalSearch(String city, String type, String company,Pageable page)
+    {
+
+        if(type.equalsIgnoreCase("all") && company.equals("") && city.equals(""))
+            return jobRepository.findAllJobs(page);
+        else if (type.equalsIgnoreCase("all"))
+            return jobRepository.getAllTypeGlobalSearchJobs(city,company,page);
+
+       return  jobRepository.getGlobalSearchJobs(city,type,company,page);
     }
 }
 
