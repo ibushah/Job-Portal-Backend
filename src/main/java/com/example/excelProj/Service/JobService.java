@@ -1,10 +1,13 @@
 package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
+import com.example.excelProj.Dto.AllJobsDTO;
+import com.example.excelProj.Dto.GlobalJobSearchDTO;
 import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.*;
+import jdk.nashorn.internal.scripts.JO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,10 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class JobService {
@@ -86,6 +86,7 @@ public class JobService {
             job.setCategory(jobDTO.getCategory());
             job.setType(jobDTO.getType());
             job.setPublishFrom(jobDTO.getPublishFrom());
+            job.setAddress(jobDTO.getAddress());
             job.setPublishTo(jobDTO.getPublishTo());
             job.setCompanyProfile(user.getCompanyProfile());
             job.setDate(new Date());
@@ -121,6 +122,7 @@ public class JobService {
                 job.setProvince(jobDTO.getProvince());
                 job.setCategory(jobDTO.getCategory());
                 job.setType(jobDTO.getType());
+                job.setAddress(jobDTO.getAddress());
                 job.setPublishFrom(jobDTO.getPublishFrom());
                 job.setPublishTo(jobDTO.getPublishTo());
                 job.setCompanyProfile(user.getCompanyProfile());
@@ -133,6 +135,39 @@ public class JobService {
 
         return new ApiResponse(500, "Something went wrong", null);
     }
+
+//    public ApiResponse deleteByJobId(Long id){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//
+//        User user = userDaoRepository.findByEmail(currentPrincipalName);
+//
+//        Boolean jobExists = jobRepository.existsById(id);
+//
+//        if(jobExists){
+//
+//            jobRepository.deleteById(id);
+//            return new ApiResponse(200, "Job Deleted", jobRepository.findByEmployeeId(user.getCompanyProfile().getId()));
+//        }
+//        else{
+//            return new ApiResponse(500, "Job deleted failed", null);
+//
+//        }
+//
+//
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -193,7 +228,6 @@ public class JobService {
 
 
 
-
     public ApiResponse<Job> getMyJobs(Long employeeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -202,8 +236,8 @@ public class JobService {
 
         if (user != null && user.getUserType().equalsIgnoreCase("employee") && user.getCompanyProfile() != null) {
 
-            List<Job> jobList = jobRepository.findByEmployeeId(employeeId);
-            return  new ApiResponse(200,"Successfull",jobList);
+                List<Job> jobList = jobRepository.findByEmployeeId(employeeId);
+                return  new ApiResponse(200,"Successfull",jobList);
 
         }
         else{
@@ -213,7 +247,7 @@ public class JobService {
 
     public  List<Job> getJobsByCompany(Long id){
 
-        Optional<Job> job=jobRepository.findById(id);
+       Optional<Job> job=jobRepository.findById(id);
         if(job.isPresent())
         {
             return jobRepository.findByCompanyId(job.get().getCompanyProfile().getId());
@@ -246,12 +280,17 @@ public class JobService {
 
     }
 
+
+
+
+
+
     public ApiResponse getAppliedCandidateByJobId(Long jobId){
         Optional<Job> job = jobRepository.findById(jobId);
         Integer count = 0;
         if(job.isPresent()){
 
-            count  = jobRepository.countOfCandidates(jobId);
+           count  = jobRepository.countOfCandidates(jobId);
             count = count!=0?count:0;
             return new ApiResponse(200,"succesfull",count);
 
@@ -270,14 +309,14 @@ public class JobService {
             for (Long candidateId:idList) {
                 Optional<CandidateProfile> candidateProfileOptional = candidateProfileRepository.findById(candidateId);
 
-                if(candidateProfileOptional.isPresent()){
-                    CandidateProfile candidateProfile = candidateProfileOptional.get();
-                    candidateProfiles.add(candidateProfile);
-                }
+                    if(candidateProfileOptional.isPresent()){
+                            CandidateProfile candidateProfile = candidateProfileOptional.get();
+                        candidateProfiles.add(candidateProfile);
+                    }
             }
             return new ApiResponse(200,"succesfull",candidateProfiles);
 
-        }
+            }
         return new ApiResponse(500,"unsuccessfull",null);
     }
 
@@ -299,4 +338,17 @@ public class JobService {
         }
         return new ApiResponse(500,"unsuccessfull",null);
     }
+
+
+    public Page<GlobalJobSearchDTO> globalSearch(String city, String type, String company,Pageable page)
+    {
+
+        if(type.equalsIgnoreCase("all") && company.equals("") && city.equals(""))
+            return jobRepository.findAllJobs(page);
+        else if (type.equalsIgnoreCase("all"))
+            return jobRepository.getAllTypeGlobalSearchJobs(city,company,page);
+
+       return  jobRepository.getGlobalSearchJobs(city,type,company,page);
+    }
 }
+

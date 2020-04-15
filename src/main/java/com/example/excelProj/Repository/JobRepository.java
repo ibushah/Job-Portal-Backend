@@ -1,6 +1,7 @@
 package com.example.excelProj.Repository;
 
 import com.example.excelProj.Dto.AllJobsDTO;
+import com.example.excelProj.Dto.GlobalJobSearchDTO;
 import com.example.excelProj.Model.CandidateProfile;
 import com.example.excelProj.Model.Job;
 import jdk.nashorn.internal.scripts.JO;
@@ -53,5 +54,29 @@ public interface JobRepository extends JpaRepository<Job, Long> {
    @Query(value = "DELETE from applied_for where job_id=:id",nativeQuery = true)
     void deleteAssociatedRecords(@Param("id") Long id);
 
+    @Query(value="SELECT new com.example.excelProj.Dto.GlobalJobSearchDTO(j.id,j.title,j.description," +
+            "j.salary,j.publishFrom,j.publishTo,j.country,j.city,j.province," +
+            "j.category,j.type,j.longitude," +
+            "j.latitude,j.date) FROM Job j LEFT JOIN CompanyProfile cp ON" +
+            " j.companyProfile.id = cp.id WHERE ( j.type = :typeVar) AND  (cp.name = :companyVar OR j.city = :cityVar)")
+    Page<GlobalJobSearchDTO> getGlobalSearchJobs(@Param("cityVar") String cityVar, @Param("typeVar") String typeVar, @Param("companyVar") String companyVar,Pageable pageable);
 
+
+
+    @Query(value="SELECT new com.example.excelProj.Dto.GlobalJobSearchDTO(j.id,j.title,j.description," +
+            "j.salary,j.publishFrom,j.publishTo,j.country,j.city,j.province," +
+            "j.category,j.type,j.longitude," +
+            "j.latitude,j.date) FROM Job j LEFT JOIN CompanyProfile cp ON" +
+            " j.companyProfile.id = cp.id WHERE cp.name = :companyVar " +
+            " OR j.city = :cityVar ")
+    Page<GlobalJobSearchDTO> getAllTypeGlobalSearchJobs(@Param("cityVar") String cityVar,@Param("companyVar") String companyVar,Pageable pageable);
+
+
+
+    @Query(value="SELECT new com.example.excelProj.Dto.GlobalJobSearchDTO(j.id,j.title,j.description," +
+            "j.salary,j.publishFrom,j.publishTo,j.country,j.city,j.province," +
+            "j.category,j.type,j.longitude," +
+            "j.latitude,j.date) FROM Job j LEFT JOIN CompanyProfile cp ON" +
+            " j.companyProfile.id = cp.id ")
+    Page<GlobalJobSearchDTO> findAllJobs(Pageable pageable);
 }

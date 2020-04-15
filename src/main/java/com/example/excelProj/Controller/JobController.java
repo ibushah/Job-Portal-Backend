@@ -3,6 +3,7 @@ package com.example.excelProj.Controller;
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.AllJobsDTO;
 
+import com.example.excelProj.Dto.GlobalJobSearchDTO;
 import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.CandidateProfile;
@@ -119,6 +120,17 @@ public class JobController {
         String city = requestParms.get("city");
         int page  = Integer.parseInt(requestParms.get("page"));
         return  jobRepository.findByCity(city,PageRequest.of(page,5));
+    }
+
+
+    @GetMapping("/globalsearch")
+    public Page<GlobalJobSearchDTO> globalSearch(@RequestParam Map<String,String> requestParams)
+    {
+        String city=requestParams.get("city");
+        String company=requestParams.get("company");
+        String type=requestParams.get("type");
+        int page=Integer.parseInt(requestParams.get("page"));
+        return jobService.globalSearch(city,type,company,PageRequest.of(page,5));
     }
 
     @GetMapping("/candidatescount/{jobId}")
