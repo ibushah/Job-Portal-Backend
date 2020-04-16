@@ -1,10 +1,7 @@
 package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
-import com.example.excelProj.Dto.AllJobsDTO;
-import com.example.excelProj.Dto.CandidateProfileWtihAllDetailsDTO;
-import com.example.excelProj.Dto.JobDTO;
-import com.example.excelProj.Dto.ReviewAndRatingDTO;
+import com.example.excelProj.Dto.*;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.*;
 import jdk.nashorn.internal.scripts.JO;
@@ -97,10 +94,11 @@ public class ReviewAndRatingService {
             reviewAndRatingModel.setCandidateId(reviewAndRatingDTO.getCandidateId());
             reviewAndRatingModel.setCompanyProfile(user.getCompanyProfile());
             reviewAndRatingModel.setReview(reviewAndRatingDTO.getReview());
-            reviewAndRatingModel.setRating(0);
+            reviewAndRatingModel.setRating(reviewAndRatingDTO.getRating());
             reviewAndRatingModel.setRateBy(user.getUserType());
             reviewAndRatingRepository.save(reviewAndRatingModel);
-            return new ApiResponse(200,"SucesssFull",reviewAndRatingRepository.getAllCompaniesWithReviews(reviewAndRatingDTO.getCandidateId(),user.getUserType()));
+
+            return new ApiResponse(200,"SucesssFull",reviewAndRatingRepository.getAllCompaniesWithReviews(reviewAndRatingDTO.getCandidateId(),user.getUserType()),reviewAndRatingRepository.getAverageCandidateRating(reviewAndRatingDTO.getCandidateId(),user.getUserType()));
         }
 
         return  new ApiResponse(500,"Something went wrong",null);

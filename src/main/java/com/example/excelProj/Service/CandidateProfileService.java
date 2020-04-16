@@ -53,9 +53,10 @@ public class CandidateProfileService {
         CandidateProfileWtihAllDetailsDTO candidateProfileWtihAllDetailsDTO = new CandidateProfileWtihAllDetailsDTO();
         if(candidateProfile!=null){
             candidateProfileWtihAllDetailsDTO.setCandidateProfile(candidateProfile);
-            List<AllCompaniesWithReviewDTO> companiesWithReviewDTOS = reviewAndRatingRepository.getAllCompaniesWithReviews(candidateId,"employee");
+            candidateProfileWtihAllDetailsDTO.setRating(reviewAndRatingRepository.getAverageCandidateRating(candidateId,loggedInUser.getUserType()));
+            List<AllCompaniesWithReviewDTO> companiesWithReviewDTOS = reviewAndRatingRepository.getAllCompaniesWithReviews(candidateId,"employer");
             candidateProfileWtihAllDetailsDTO.setCompaniesWithReviewDTOList(companiesWithReviewDTOS);
-                ReviewAndRating reviewAndRating = reviewAndRatingRepository.checkReviewStatus(candidateId,companyId,"employee");
+                ReviewAndRating reviewAndRating = reviewAndRatingRepository.checkReviewStatus(candidateId,companyId,"employer");
 
             if(reviewAndRating!=null){
 
@@ -73,7 +74,7 @@ public class CandidateProfileService {
 
 
 
-
+//review by employer and recuirter
 
 
 

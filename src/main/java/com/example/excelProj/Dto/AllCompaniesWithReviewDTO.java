@@ -20,12 +20,13 @@ public class AllCompaniesWithReviewDTO implements Serializable{
     byte[] logo;
     String logoContentType;
     String review;
+    Integer Rating;
     Date date;
 
     public AllCompaniesWithReviewDTO() {
     }
 
-    public AllCompaniesWithReviewDTO(Long id, String name, String email, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, String review, Date date) {
+    public AllCompaniesWithReviewDTO(Long id, String name, String email, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, String review, Integer rating, Date date) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -36,6 +37,7 @@ public class AllCompaniesWithReviewDTO implements Serializable{
         this.logo = logo;
         this.logoContentType = logoContentType;
         this.review = review;
+        Rating = rating;
         this.date = date;
     }
 
@@ -117,6 +119,14 @@ public class AllCompaniesWithReviewDTO implements Serializable{
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    public Integer getRating() {
+        return Rating;
+    }
+
+    public void setRating(Integer rating) {
+        Rating = rating;
     }
 
     public Date getDate() {

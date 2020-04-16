@@ -19,10 +19,10 @@ import java.util.Optional;
 public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRating,Long>{
 
     @Query(value = "SELECT AVG(rating) from  review_and_rating where company_id=:id",nativeQuery = true)
-    public Double getAverageRatingByCompanyProfileId(@Param("id")Long id);
+     Double getAverageRatingByCompanyProfileId(@Param("id")Long id);
 
 
-    public Optional<ReviewAndRating> findByCandidateIdAndCompanyProfileId(Long candidateId,Long comanyId);
+     Optional<ReviewAndRating> findByCandidateIdAndCompanyProfileId(Long candidateId,Long comanyId);
 
 
 //    ALL THE COMANIES WITH REVIEWS AGFAINST THIS CANDIDATE ID
@@ -30,7 +30,7 @@ public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRatin
                 @Query(value = "SELECT new com.example.excelProj.Dto.AllCompaniesWithReviewDTO" +
                         "(comp.id,u.name,u.email,comp.corporateAddress," +
                         "comp.billingAddress,comp.contactName,comp.contactTitle,comp.logo" +
-                        ",comp.logoContentType,r.review,r.date)\n"+
+                        ",comp.logoContentType,r.review,r.Rating,r.date)\n"+
                         "FROM ReviewAndRating r \n" +
                         "JOIN CompanyProfile comp \n" +
                         "ON r.companyProfile.id=comp.id \n" +
@@ -42,7 +42,9 @@ public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRatin
 
 
     @Query(value = "select * from review_and_rating where candidate_id=:candId AND company_id=:companyId AND rate_by=:rateBy",nativeQuery = true)
-     public ReviewAndRating checkReviewStatus(@Param("candId") Long canId,@Param("companyId") Long companyId,@Param("rateBy") String rateBy);
+      ReviewAndRating checkReviewStatus(@Param("candId") Long canId,@Param("companyId") Long companyId,@Param("rateBy") String rateBy);
 
 
+    @Query(value = "SELECT AVG(rating) from  review_and_rating where candidate_id=:id AND rate_by=:rateBy",nativeQuery = true)
+    Double getAverageCandidateRating(@Param("id")Long id,@Param("rateBy") String rateBy);
 }

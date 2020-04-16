@@ -5,11 +5,27 @@ public class ApiResponse<T> {
     private int status;
     private String message;
     private Object result;
+    private Double rating;
 
     public ApiResponse(int status, String message, Object result) {
         this.status = status;
         this.message = message;
         this.result = result;
+    }
+
+    public ApiResponse(int status, String message, Object result, Double rating) {
+        this.status = status;
+        this.message = message;
+        this.result = result;
+        this.rating = rating;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public int getStatus() {

@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class CandidateProfileWtihAllDetailsDTO {
 
+    Double rating;
     CandidateProfile candidateProfile;
     List<AllCompaniesWithReviewDTO> companiesWithReviewDTOList;
     Boolean isAlreadyGivenReview;
@@ -17,10 +18,19 @@ public class CandidateProfileWtihAllDetailsDTO {
     public CandidateProfileWtihAllDetailsDTO() {
     }
 
-    public CandidateProfileWtihAllDetailsDTO(CandidateProfile candidateProfile, List<AllCompaniesWithReviewDTO> companiesWithReviewDTOList, Boolean isAlreadyGivenReview) {
+    public CandidateProfileWtihAllDetailsDTO(Double rating, CandidateProfile candidateProfile, List<AllCompaniesWithReviewDTO> companiesWithReviewDTOList, Boolean isAlreadyGivenReview) {
+        this.rating = rating;
         this.candidateProfile = candidateProfile;
         this.companiesWithReviewDTOList = companiesWithReviewDTOList;
         this.isAlreadyGivenReview = isAlreadyGivenReview;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     public CandidateProfile getCandidateProfile() {
