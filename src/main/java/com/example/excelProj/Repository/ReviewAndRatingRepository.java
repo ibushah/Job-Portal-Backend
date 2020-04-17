@@ -7,6 +7,7 @@ import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,11 +19,11 @@ import java.util.Optional;
 @Repository
 public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRating,Long>{
 
-    @Query(value = "SELECT AVG(rating) from  review_and_rating where company_id=:id",nativeQuery = true)
-     Double getAverageRatingByCompanyProfileId(@Param("id")Long id);
+    @Query(value = "SELECT AVG(rating) from  review_and_rating where company_id=:id AND rate_by=:userType",nativeQuery = true)
+     Double getAverageRatingByCompanyProfileId(@Param("id")Long id, @Param("userType") String userType);
 
 
-     Optional<ReviewAndRating> findByCandidateIdAndCompanyProfileId(Long candidateId,Long comanyId);
+     Optional<ReviewAndRating> findByCandidateIdAndCompanyProfileIdAndAndRateBy(Long candidateId,Long comanyId,String rateBy);
 
 
 //    ALL THE COMANIES WITH REVIEWS AGFAINST THIS CANDIDATE ID

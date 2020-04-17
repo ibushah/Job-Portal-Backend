@@ -18,11 +18,12 @@ public class AllJobsDTO implements Serializable {
     Double longitude;
     Double latitude;
     Date date;
+    String name;
 
     public AllJobsDTO() {
     }
 
-    public AllJobsDTO(Long id, String title, String description, String city, byte[] logo, String logoContentType, String category, Double longitude, Double latitude, Date date) {
+    public AllJobsDTO(Long id, String title, String description, String city, byte[] logo, String logoContentType, String category, Double longitude, Double latitude, Date date, String name) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -33,6 +34,7 @@ public class AllJobsDTO implements Serializable {
         this.longitude = longitude;
         this.latitude = latitude;
         this.date = date;
+        this.name = name;
     }
 
     public Long getId() {
@@ -115,20 +117,11 @@ public class AllJobsDTO implements Serializable {
         this.date = date;
     }
 
-    //    public AllJobsDTO(String title) {
-//        this.title = title;
-//    }
+    public String getName() {
+        return name;
+    }
 
-
-    //    public AllJobsDTO(String title) {
-//        this.title = title;
-//    }
-
-    //    String description;
-//    String city;
-//    byte[] logo;
-//    String logoContentType;
-//    String category;
-//    Double longitude;
-//    Double latitude;
+    public void setName(String name) {
+        this.name = name;
+    }
 }

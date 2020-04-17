@@ -201,7 +201,7 @@ public class JobService {
                 List<CandidateProfile> candidateProfiles = job.get().getCandidateProfileList();
                 candidateProfiles.add(candidateProfile);
                 job.get().setCandidateProfileList(candidateProfiles);
-                if(reviewAndRatingDTO.getRating()!=0 && reviewAndRatingDTO.getReview()!=null){
+                if(reviewAndRatingDTO.getRating()!=null && reviewAndRatingDTO.getReview()!=null){
 
 
                     if(saveRatingAndReview(reviewAndRatingDTO,user.getUserType())){
@@ -234,7 +234,7 @@ public class JobService {
 
         User user = userDaoRepository.findByEmail(currentPrincipalName);
 
-        if (user != null && user.getUserType().equalsIgnoreCase("employee") && user.getCompanyProfile() != null) {
+        if (user != null && user.getUserType().equalsIgnoreCase("employer") && user.getCompanyProfile() != null) {
 
                 List<Job> jobList = jobRepository.findByEmployeeId(employeeId);
                 return  new ApiResponse(200,"Successfull",jobList);
@@ -259,7 +259,7 @@ public class JobService {
 
     public Boolean saveRatingAndReview(ReviewAndRatingDTO reviewAndRatingDTO,String userType){
 
-        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileId(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId());
+        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileIdAndAndRateBy(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId(),"candidate");
 
         if(reviewAndRatingObject.isPresent()){
             return false;
@@ -324,7 +324,7 @@ public class JobService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        if(user!=null && user.getUserType().equalsIgnoreCase("employee")) {
+        if(user!=null && user.getUserType().equalsIgnoreCase("employer")) {
 
             Boolean jobExist = jobRepository.existsById(id);
             //first delete a job than then its association

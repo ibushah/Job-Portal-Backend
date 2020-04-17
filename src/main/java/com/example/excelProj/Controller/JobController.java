@@ -145,7 +145,7 @@ public class JobController {
 
     @DeleteMapping("/delete/{jobId}/page")
     public ApiResponse deleteJobAndItsAssociations(@PathVariable(name = "jobId") Long jobId,@RequestParam(name = "page") int page){
-         return  jobService.deleteJobById(jobId,PageRequest.of(page,5));
+             return  jobService.deleteJobById(jobId,PageRequest.of(page,5));
     }
 
 

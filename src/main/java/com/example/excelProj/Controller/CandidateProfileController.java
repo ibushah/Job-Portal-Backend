@@ -3,14 +3,24 @@ package com.example.excelProj.Controller;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.CandidateProfileDTO;
+import com.example.excelProj.Model.User;
 import com.example.excelProj.Repository.CandidateProfileRepository;
+import com.example.excelProj.Repository.UserDaoRepository;
 import com.example.excelProj.Service.CandidateProfileService;
+import org.hibernate.hql.internal.classic.AbstractParameterInformation;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -21,6 +31,9 @@ public class CandidateProfileController {
     CandidateProfileService candidateProfileService;
     @Autowired
     CandidateProfileRepository candidateProfileRepository;
+
+    @Autowired
+    UserDaoRepository userDaoRepository;
 
     @PostMapping("/{userid}")
     public ApiResponse postCandidateProfile(@PathVariable("userid") Long userId, @RequestBody CandidateProfileDTO candidateProfileDTO) {
@@ -41,15 +54,34 @@ public class CandidateProfileController {
 
 
     @GetMapping("/complete")
-    public ApiResponse getProfile(@RequestParam Map<String,String> requestParams){
-        Long userId = Long.parseLong(requestParams.get("userId"));
-        Long candidateId = Long.parseLong(requestParams.get("candidateId"));
+    public ApiResponse getProfile(@RequestParam(required = false) Map<String,String> requestParams){
+        Long userId  = Long.parseLong(requestParams.get("userId"));
+        Long candidateId = 0l;
+        if(userId==0){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentPrincipalName = authentication.getName();
+            User user = userDaoRepository.findByEmail(currentPrincipalName);
+            userId = user.getId();
+            candidateId = user.getCandidateProfile().getId();
+            return candidateProfileService.getCandidateProfileComplete(userId,candidateId);
+
+        }
+        userId= Long.parseLong(requestParams.get("userId"));
+        candidateId = Long.parseLong(requestParams.get("candidateId"));
         return candidateProfileService.getCandidateProfileComplete(userId,candidateId);
+
     }
 
     @GetMapping("/")
     public ApiResponse imageIsUploading(){
         return new ApiResponse(200,"SUCCESS",true);
+    }
+
+    @GetMapping("/getall")
+    public ApiResponse getAllCandidationPagintation(@RequestParam(defaultValue ="0")int page){
+
+//        get all candidates
+        return  new ApiResponse(200,"SUCCESSSFULL",candidateProfileRepository.findAll(PageRequest.of(page,5)));
     }
 
 

@@ -9,17 +9,17 @@ public class CompanyProfileDetailsDTO {
     Double avgRating;
     CompanyProfile companyProfile;
     List<CompanyReviewRatingDTO> companyReviewRatingDTOList;
+    Boolean alreadyCommented;
 
-    public CompanyProfileDetailsDTO(Double avgRating, CompanyProfile companyProfile, List<CompanyReviewRatingDTO> companyReviewRatingDTOList) {
+    public CompanyProfileDetailsDTO(Double avgRating, CompanyProfile companyProfile, List<CompanyReviewRatingDTO> companyReviewRatingDTOList, Boolean alreadyCommented) {
         this.avgRating = avgRating;
         this.companyProfile = companyProfile;
         this.companyReviewRatingDTOList = companyReviewRatingDTOList;
+        this.alreadyCommented = alreadyCommented;
     }
-
 
     public CompanyProfileDetailsDTO() {
     }
-
 
     public Double getAvgRating() {
         return avgRating;
@@ -43,5 +43,13 @@ public class CompanyProfileDetailsDTO {
 
     public void setCompanyReviewRatingDTOList(List<CompanyReviewRatingDTO> companyReviewRatingDTOList) {
         this.companyReviewRatingDTOList = companyReviewRatingDTOList;
+    }
+
+    public Boolean getAlreadyCommented() {
+        return alreadyCommented;
+    }
+
+    public void setAlreadyCommented(Boolean alreadyCommented) {
+        this.alreadyCommented = alreadyCommented;
     }
 }

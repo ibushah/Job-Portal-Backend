@@ -5,11 +5,15 @@ import com.example.excelProj.Dto.CompanyProfileDetailsDTO;
 import com.example.excelProj.Dto.CompanyReviewRatingDTO;
 import com.example.excelProj.Dto.CompanyProfileDTO;
 import com.example.excelProj.Model.CompanyProfile;
+import com.example.excelProj.Model.ReviewAndRating;
 import com.example.excelProj.Model.User;
 import com.example.excelProj.Repository.CompanyProfileRepository;
 import com.example.excelProj.Repository.ReviewAndRatingRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,15 +67,31 @@ public class CompanyProfileService {
 
     public CompanyProfileDetailsDTO getCompanyProfile(Long id) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        Optional<ReviewAndRating> reviewAndRatingObject = Optional.empty();
+
+
+        if (user != null && user.getUserType().equalsIgnoreCase("candidate")){
+            Long candidateId = user.getCandidateProfile().getId();
+            reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileIdAndAndRateBy(candidateId,id,"candidate");
+        }
+
+
+
         CompanyProfileDetailsDTO companyProfileDetailsDTO = new CompanyProfileDetailsDTO();
         List<CompanyReviewRatingDTO> companyReviewRatingDTOList = companyProfileRepository.getByCompanyId(id,"candidate");
-
-
         Optional<CompanyProfile> optionalCompanyProfile = companyProfileRepository.findById(id);
-        CompanyProfile companyProfile = optionalCompanyProfile.isPresent() ?
-                optionalCompanyProfile.get() : new CompanyProfile();
-        Double avgRating = reviewAndRatingRepository.getAverageRatingByCompanyProfileId(id);
+        CompanyProfile companyProfile = optionalCompanyProfile.isPresent() ? optionalCompanyProfile.get() : new CompanyProfile();
+        if(reviewAndRatingObject.isPresent()){
+                companyProfileDetailsDTO.setAlreadyCommented(true);
+        }
+        else{
+            companyProfileDetailsDTO.setAlreadyCommented(false);
+        }
 
+        Double avgRating = reviewAndRatingRepository.getAverageRatingByCompanyProfileId(id,"candidate");
         companyProfileDetailsDTO.setCompanyReviewRatingDTOList(companyReviewRatingDTOList);
         companyProfileDetailsDTO.setCompanyProfile(companyProfile);
         companyProfileDetailsDTO.setAvgRating(avgRating);

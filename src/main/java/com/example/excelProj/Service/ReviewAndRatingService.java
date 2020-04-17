@@ -38,7 +38,7 @@ public class ReviewAndRatingService {
         Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(companyId);
         if(companyProfile.isPresent()){
 //            here get average rating
-            Double averageRating = reviewAndRatingRepository.getAverageRatingByCompanyProfileId(companyId);
+            Double averageRating = reviewAndRatingRepository.getAverageRatingByCompanyProfileId(companyId,"candidate");
             return new ApiResponse(200,"Average rating",averageRating);
         }
         return  new ApiResponse(500,"Something went wrong",null);
@@ -51,24 +51,36 @@ public class ReviewAndRatingService {
         User user = userDaoRepository.findByEmail(currentPrincipalName);
         reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
         String userType = user.getUserType();
+        Long companyId = reviewAndRatingDTO.getCompanyId();
 
-        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileId(reviewAndRatingDTO.getCandidateId(),reviewAndRatingDTO.getCompanyId());
+        Optional<ReviewAndRating> reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileIdAndAndRateBy(reviewAndRatingDTO.getCandidateId(),companyId,"candidate");
         if(reviewAndRatingObject.isPresent()) {
             return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "Already rated", reviewAndRatingObject.get().getRating());
 
         }
         else if(reviewAndRatingDTO.getRating()!=0 && reviewAndRatingDTO.getReview()!=null){
+
             ReviewAndRating reviewAndRating = new ReviewAndRating();
             reviewAndRating.setRating(reviewAndRatingDTO.getRating());
             reviewAndRating.setReview(reviewAndRatingDTO.getReview());
             reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
             reviewAndRating.setRateBy(userType);
             reviewAndRating.setDate(new Date());
+
             Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
             if(companyProfile.isPresent()){
+
                 reviewAndRating.setCompanyProfile(companyProfile.get());
                 reviewAndRatingRepository.save(reviewAndRating);
-                return new ApiResponse(200, "Get successfull rated", reviewAndRating.getRating());
+
+                Double avgRating = reviewAndRatingRepository.getAverageRatingByCompanyProfileId(companyId,"candidate");
+
+                if(!user.getUserType().equalsIgnoreCase("candidate"))
+                {
+                    return new ApiResponse(200, "Get successfull rated",avgRating);
+                }
+                return new ApiResponse(200,"Successfully rated by candidate",companyProfileRepository.getByCompanyId(companyId,"candidate"),avgRating);
+
             }
         }
 
@@ -98,7 +110,10 @@ public class ReviewAndRatingService {
             reviewAndRatingModel.setRateBy(user.getUserType());
             reviewAndRatingRepository.save(reviewAndRatingModel);
 
-            return new ApiResponse(200,"SucesssFull",reviewAndRatingRepository.getAllCompaniesWithReviews(reviewAndRatingDTO.getCandidateId(),user.getUserType()),reviewAndRatingRepository.getAverageCandidateRating(reviewAndRatingDTO.getCandidateId(),user.getUserType()));
+            return
+            new ApiResponse(200,"SucesssFull",
+            reviewAndRatingRepository.getAllCompaniesWithReviews(reviewAndRatingDTO.getCandidateId(),user.getUserType()),
+            reviewAndRatingRepository.getAverageCandidateRating(reviewAndRatingDTO.getCandidateId(),user.getUserType()));
         }
 
         return  new ApiResponse(500,"Something went wrong",null);
