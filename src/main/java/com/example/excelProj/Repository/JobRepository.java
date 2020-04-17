@@ -21,7 +21,10 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     List<Job> findByEmployeeId(@Param("id") Long id);
 
 
-    @Query(value = "select new com.example.excelProj.Dto.AllJobsDTO(j.id,j.title,j.description,j.city,cp.logo,cp.logoContentType,j.category, j.longitude, j.latitude,j.date) FROM Job j LEFT JOIN CompanyProfile cp\n"
+    @Query(value = "select new com.example.excelProj.Dto.AllJobsDTO" +
+            "(j.id,j.title,j.description,j.city,cp.logo,cp.logoContentType,j.category, j.longitude," +
+            " j.latitude,j.date,cp.name)" +
+            " FROM  Job j LEFT JOIN  CompanyProfile cp \n"
             + "ON j.companyProfile.id = cp.id")
     Page<AllJobsDTO>  joinAllJobs(Pageable pageable);
 
