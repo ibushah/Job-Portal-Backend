@@ -43,12 +43,9 @@ public class CandidateProfileService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User loggedInUser = userDaoRepository.findByEmail(currentPrincipalName);
-        Long companyId  = loggedInUser.getCompanyProfile().getId();
 //        First get candidateProfile
         Optional<User> user = userDaoRepository.findById(userId);
-
         candidateId = user.isPresent()?user.get().getCandidateProfile().getId():candidateId;
-
         CandidateProfile candidateProfile = candidateProfileRepository.findByUserId(userId);
         CandidateProfileWtihAllDetailsDTO candidateProfileWtihAllDetailsDTO = new CandidateProfileWtihAllDetailsDTO();
         if(candidateProfile!=null){
@@ -56,15 +53,20 @@ public class CandidateProfileService {
             candidateProfileWtihAllDetailsDTO.setRating(reviewAndRatingRepository.getAverageCandidateRating(candidateId,loggedInUser.getUserType()));
             List<AllCompaniesWithReviewDTO> companiesWithReviewDTOS = reviewAndRatingRepository.getAllCompaniesWithReviews(candidateId,"employer");
             candidateProfileWtihAllDetailsDTO.setCompaniesWithReviewDTOList(companiesWithReviewDTOS);
+
+
+            if(!loggedInUser.getUserType().equalsIgnoreCase("candidate")){
+                Long companyId  = loggedInUser.getCompanyProfile().getId();
                 ReviewAndRating reviewAndRating = reviewAndRatingRepository.checkReviewStatus(candidateId,companyId,"employer");
+                if(reviewAndRating!=null){
 
-            if(reviewAndRating!=null){
+                    candidateProfileWtihAllDetailsDTO.setAlreadyGivenReview(true);
+                }
+                else{
+                    candidateProfileWtihAllDetailsDTO.setAlreadyGivenReview(false);
+                }
+            }
 
-                candidateProfileWtihAllDetailsDTO.setAlreadyGivenReview(true);
-            }
-            else{
-                candidateProfileWtihAllDetailsDTO.setAlreadyGivenReview(false);
-            }
 
             return  new ApiResponse(200,"Successfull",candidateProfileWtihAllDetailsDTO);
         }

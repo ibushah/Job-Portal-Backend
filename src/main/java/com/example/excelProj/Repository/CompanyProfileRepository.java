@@ -14,7 +14,7 @@ public interface CompanyProfileRepository extends JpaRepository<CompanyProfile, 
 
     public CompanyProfile findByUserId(Long id);
 
-    @Query(value = "SELECT new com.example.excelProj.Dto.CompanyReviewRatingDTO(r.id,u.email,u.name,\n" +
+    @Query(value = "SELECT new com.example.excelProj.Dto.CompanyReviewRatingDTO(u.id,candp.id,u.name,u.email,\n" +
             "r.Rating,r.review,candp.cv," +
             "candp.dp,candp.field," +
             "candp.imageContentType,\n" +

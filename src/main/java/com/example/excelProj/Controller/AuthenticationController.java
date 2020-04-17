@@ -78,15 +78,10 @@ public class AuthenticationController {
     }
 
 
-
-
-
-
-//    @GetMapping("/user/{email}")
-//    public User getUserByEmail(@PathVariable("email") String email){
-//        return userService.findOne(email);
-//    }
-
+    @GetMapping("/getimage/{userId}")
+    public ApiResponse<String> getImgae(@PathVariable("userId") Long userId){
+        return userService.getLoggedInUserImage(userId);
+    }
 
     @GetMapping("/user/{id}")
     public User findById(@PathVariable("id") Long id)
