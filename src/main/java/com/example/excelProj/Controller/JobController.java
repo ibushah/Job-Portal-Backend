@@ -164,18 +164,28 @@ public class JobController implements JobSearchSPECIFICATIONS{
             companyProfile   = companyProfileRepository.findCompanyProfileByName(company);
             companyId  = companyProfile.getId();
         }
+
         String type=requestParams.get("type");
+        type = type.equalsIgnoreCase("all")?"":type;
         int page=Integer.parseInt(requestParams.get("page"));
+
+
 
         Pageable pageable = PageRequest.of(page,5);
 
-        if(type!=null && (company.length()<1 && city.length()<1)){
+
+//        Search by type
+        if(type.length()>1 && (company.length()<1 && city.length()<1)){
             return jobRepository.findAll((JobSearchSPECIFICATIONS.hasType(type)),pageable);
         }
+
+//        Search by company name
         else if(company.length()<1 && (type.length()>1 && city.length()>1)){
             return jobRepository.findAll(Specification.where(JobSearchSPECIFICATIONS.hasType(type).and(JobSearchSPECIFICATIONS.hasCity(city))),pageable);
         }
-        else if(city.length()>1 &&(company.length()<1 && type.length()>1))
+
+//        Search by
+        else if((city.length()>1 &&  type.length()>1) && company.length()<1)
         {
             return jobRepository.findAll(JobSearchSPECIFICATIONS.hasCity(city),pageable);
         }
