@@ -82,8 +82,8 @@ public class CompanyProfileService {
 
         CompanyProfileDetailsDTO companyProfileDetailsDTO = new CompanyProfileDetailsDTO();
         List<CompanyReviewRatingDTO> companyReviewRatingDTOList = companyProfileRepository.getByCompanyId(id,"candidate");
-        Optional<CompanyProfile> optionalCompanyProfile = companyProfileRepository.findById(id);
-        CompanyProfile companyProfile = optionalCompanyProfile.isPresent() ? optionalCompanyProfile.get() : new CompanyProfile();
+        CompanyProfile optionalCompanyProfile = companyProfileRepository.findByUserId(id);
+        CompanyProfile companyProfile = optionalCompanyProfile!=null ? optionalCompanyProfile : new CompanyProfile();
         if(reviewAndRatingObject.isPresent()){
                 companyProfileDetailsDTO.setAlreadyCommented(true);
         }
