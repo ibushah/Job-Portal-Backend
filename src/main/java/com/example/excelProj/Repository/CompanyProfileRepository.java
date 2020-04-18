@@ -28,6 +28,9 @@ public interface CompanyProfileRepository extends JpaRepository<CompanyProfile, 
     @Query(value = "select * from company_profile where user_id=:id",nativeQuery = true)
     public CompanyProfile getCompanyProfileAgainstUserId(@Param("id") Long id);
 
+
+    public CompanyProfile findCompanyProfileByName(String name);
+
 }
 
 
