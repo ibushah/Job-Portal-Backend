@@ -6,19 +6,20 @@ import com.example.excelProj.Dto.AllJobsDTO;
 import com.example.excelProj.Dto.GlobalJobSearchDTO;
 import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
-import com.example.excelProj.Model.CandidateProfile;
-import com.example.excelProj.Model.Job;
-import com.example.excelProj.Model.ReviewAndRating;
-import com.example.excelProj.Model.User;
+import com.example.excelProj.Model.*;
+import com.example.excelProj.Repository.CompanyProfileRepository;
 import com.example.excelProj.Repository.JobPaginationRepository;
 import com.example.excelProj.Repository.JobRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
 import com.example.excelProj.Service.JobService;
+import com.example.excelProj.Specifications.JobSearchSPECIFICATIONS;
 import jdk.nashorn.internal.scripts.JO;
 import org.hibernate.boot.jaxb.hbm.spi.JaxbHbmCollectionIdType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ import java.util.Map;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/job")
-public class JobController {
+public class JobController implements JobSearchSPECIFICATIONS{
 
     @Autowired
     JobService jobService;
@@ -40,6 +41,9 @@ public class JobController {
 
     @Autowired
     JobRepository jobRepository;
+
+    @Autowired
+    CompanyProfileRepository companyProfileRepository;
 
     @Autowired
     JobPaginationRepository jobPaginationRepository;
@@ -147,6 +151,73 @@ public class JobController {
     public ApiResponse deleteJobAndItsAssociations(@PathVariable(name = "jobId") Long jobId,@RequestParam(name = "page") int page){
              return  jobService.deleteJobById(jobId,PageRequest.of(page,5));
     }
+
+
+    @GetMapping("/specifications")
+    public Page<Job> testing(@RequestParam Map<String,String> requestParams){
+
+        CompanyProfile companyProfile = new CompanyProfile();
+        Long companyId = 0l;
+        String city=requestParams.get("city");
+        String company=requestParams.get("company");
+        if(company.length()>1){
+            companyProfile   = companyProfileRepository.findCompanyProfileByName(company);
+            companyId  = companyProfile.getId();
+        }
+
+        String type=requestParams.get("type");
+        type = type.equalsIgnoreCase("all")?"":type;
+        int page=Integer.parseInt(requestParams.get("page"));
+
+
+
+        Pageable pageable = PageRequest.of(page,5);
+
+
+//        Search by type
+        if(type.length()>1 && (company.length()<1 && city.length()<1)){
+            return jobRepository.findAll((JobSearchSPECIFICATIONS.hasType(type)),pageable);
+        }
+
+//        Search by company name
+        else if(company.length()<1 && (type.length()>1 && city.length()>1)){
+            return jobRepository.findAll(Specification.where(JobSearchSPECIFICATIONS.hasType(type).and(JobSearchSPECIFICATIONS.hasCity(city))),pageable);
+        }
+
+//        Search by
+        else if((city.length()>1 &&  type.length()>1) && company.length()<1)
+        {
+            return jobRepository.findAll(JobSearchSPECIFICATIONS.hasCity(city),pageable);
+        }
+
+        else if((company.length()>1 && type.length()>1) && city.length()<1)
+        {
+            return jobRepository.findAll(Specification.where(JobSearchSPECIFICATIONS.hasType(type)).and(JobSearchSPECIFICATIONS.hasCompany(companyId)),pageable);
+        }
+
+        else if((city.length()>1 && company.length()>1) && type.length()<1){
+            return jobRepository.findAll(Specification.where(JobSearchSPECIFICATIONS.hasCity(city)).and(JobSearchSPECIFICATIONS.hasCompany(companyId)),pageable);
+        }
+
+        else if(city.length()>1 && company.length()>1 && type.length()>1){
+            return jobRepository.findAll(Specification.where(JobSearchSPECIFICATIONS.hasCity(city)).and(JobSearchSPECIFICATIONS.hasCompany(companyId).and(JobSearchSPECIFICATIONS.hasType(type))),pageable);
+        }
+
+        else if(company.length()>1 && (city.length()<1 && type.length()>1)){
+
+            if(companyProfile!=null){
+
+                return jobRepository.findJobsByCompanyPaginated(companyId,pageable);
+            }
+            else{
+                return null;
+            }
+        }
+
+        return jobRepository.findAll(pageable);
+    }
+
+
 
 
 

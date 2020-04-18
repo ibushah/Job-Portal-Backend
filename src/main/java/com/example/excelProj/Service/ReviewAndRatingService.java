@@ -58,7 +58,7 @@ public class ReviewAndRatingService {
             return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "Already rated", reviewAndRatingObject.get().getRating());
 
         }
-        else if(reviewAndRatingDTO.getRating()!=0 && reviewAndRatingDTO.getReview()!=null){
+        else if(reviewAndRatingDTO.getRating()!=null  && reviewAndRatingDTO.getReview()!=null){
 
             ReviewAndRating reviewAndRating = new ReviewAndRating();
             reviewAndRating.setRating(reviewAndRatingDTO.getRating());
