@@ -179,7 +179,7 @@ public class JobController implements JobSearchSPECIFICATIONS{
             return jobRepository.findAll((JobSearchSPECIFICATIONS.hasType(type)),pageable);
         }
 
-//        Search by company name
+
         else if(company.length()<1 && (type.length()>1 && city.length()>1)){
             return jobRepository.findAll(Specification.where(JobSearchSPECIFICATIONS.hasType(type).and(JobSearchSPECIFICATIONS.hasCity(city))),pageable);
         }
@@ -203,7 +203,7 @@ public class JobController implements JobSearchSPECIFICATIONS{
             return jobRepository.findAll(Specification.where(JobSearchSPECIFICATIONS.hasCity(city)).and(JobSearchSPECIFICATIONS.hasCompany(companyId).and(JobSearchSPECIFICATIONS.hasType(type))),pageable);
         }
 
-        else if(company.length()>1 && (city.length()<1 && type.length()>1)){
+        else if(company.length()>1 && (city.length()<1 && type.length()<1)){
 
             if(companyProfile!=null){
 
