@@ -65,7 +65,7 @@ public class CompanyProfileService {
     }
 
 
-    public CompanyProfileDetailsDTO getCompanyProfile(Long id) {
+    public CompanyProfileDetailsDTO getCompanyProfile(Long companyId) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -73,17 +73,18 @@ public class CompanyProfileService {
         Optional<ReviewAndRating> reviewAndRatingObject = Optional.empty();
 
 
+
         if (user != null && user.getUserType().equalsIgnoreCase("candidate")){
             Long candidateId = user.getCandidateProfile().getId();
-            reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileIdAndAndRateBy(candidateId,id,"candidate");
+            reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndCompanyProfileIdAndAndRateBy(candidateId,companyId,"candidate");
         }
 
 
 
         CompanyProfileDetailsDTO companyProfileDetailsDTO = new CompanyProfileDetailsDTO();
-        List<CompanyReviewRatingDTO> companyReviewRatingDTOList = companyProfileRepository.getByCompanyId(id,"candidate");
-        CompanyProfile optionalCompanyProfile = companyProfileRepository.findByUserId(id);
-        CompanyProfile companyProfile = optionalCompanyProfile!=null ? optionalCompanyProfile : new CompanyProfile();
+        List<CompanyReviewRatingDTO> companyReviewRatingDTOList = companyProfileRepository.getByCompanyId(companyId,"candidate");
+        Optional<CompanyProfile> optionalCompanyProfile = companyProfileRepository.findById(companyId);
+        CompanyProfile companyProfile = optionalCompanyProfile!=null ? optionalCompanyProfile.get() : new CompanyProfile();
         if(reviewAndRatingObject.isPresent()){
                 companyProfileDetailsDTO.setAlreadyCommented(true);
         }
@@ -91,7 +92,7 @@ public class CompanyProfileService {
             companyProfileDetailsDTO.setAlreadyCommented(false);
         }
 
-        Double avgRating = reviewAndRatingRepository.getAverageRatingByCompanyProfileId(id,"candidate");
+        Double avgRating = reviewAndRatingRepository.getAverageRatingByCompanyProfileId(companyId,"candidate");
         companyProfileDetailsDTO.setCompanyReviewRatingDTOList(companyReviewRatingDTOList);
         companyProfileDetailsDTO.setCompanyProfile(companyProfile);
         companyProfileDetailsDTO.setAvgRating(avgRating);
