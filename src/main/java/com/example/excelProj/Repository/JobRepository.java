@@ -50,7 +50,7 @@ public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecification
 
 
 
-    @Query(value = "select COUNT(candidate_id) from applied_for where job_id=:id", nativeQuery = true)
+    @Query(value = "select COUNT(candidate_profile_id) from applied_for where job_id=:id", nativeQuery = true)
     public Integer countOfCandidates(@Param("id") Long id);
 
     @Modifying

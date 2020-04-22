@@ -5,14 +5,8 @@ import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.AllCompaniesWithReviewDTO;
 import com.example.excelProj.Dto.CandidateProfileDTO;
 import com.example.excelProj.Dto.CandidateProfileWtihAllDetailsDTO;
-import com.example.excelProj.Model.CandidateProfile;
-import com.example.excelProj.Model.Job;
-import com.example.excelProj.Model.ReviewAndRating;
-import com.example.excelProj.Model.User;
-import com.example.excelProj.Repository.CandidateProfileRepository;
-import com.example.excelProj.Repository.JobRepository;
-import com.example.excelProj.Repository.ReviewAndRatingRepository;
-import com.example.excelProj.Repository.UserDaoRepository;
+import com.example.excelProj.Model.*;
+import com.example.excelProj.Repository.*;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,6 +30,9 @@ public class CandidateProfileService {
 
     @Autowired
     ReviewAndRatingRepository reviewAndRatingRepository;
+
+    @Autowired
+    AppliedForRepository appliedForRepository;
 
 
     public ApiResponse getCandidateProfileComplete(Long userId,Long candidateId) {
@@ -135,22 +132,20 @@ public class CandidateProfileService {
         if (user != null && user.getUserType().equalsIgnoreCase("candidate")) {
 
             Optional<CandidateProfile> candidateProfile = candidateProfileRepository.findById(user.getCandidateProfile().getId());
-            if(candidateProfile.isPresent()){
+            Optional<Job> job=jobRepository.findById(jobId);
+            if(candidateProfile.isPresent() && job.isPresent()){
 
-                List<Job> jobList = candidateProfile.get().getJobList();
-                if(!jobList.isEmpty()){
-                    for (Job job : jobList) {
-                        if (job.getId() == jobId){
-                            isApplied = true;
-                            return new ApiResponse(200,"Applied Jobs against User Successfull",isApplied);
-                        }
-                    }
+               AppliedFor appliedFor= appliedForRepository.applied(job.get().getId(),candidateProfile.get().getId());
+               if(appliedFor!=null)
+               {
+                   return  new ApiResponse(200,"Already appied",true);
+               }
 
-                }
+                return  new ApiResponse(500,"Not applied on job",false);
             }
 
         }
-        return  new ApiResponse(500,"Something went wrong",isApplied);
+        return  new ApiResponse(500,"Something went wrong",false);
 
 
 

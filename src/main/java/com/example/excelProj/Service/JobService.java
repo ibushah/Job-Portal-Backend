@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.applet.Applet;
 import java.util.*;
 
 @Service
@@ -37,6 +38,9 @@ public class JobService {
 
     @Autowired
     ReviewAndRatingRepository reviewAndRatingRepository;
+
+    @Autowired
+    AppliedForRepository appliedForRepository;
 
 
     @Autowired
@@ -198,14 +202,10 @@ public class JobService {
 
             if(job.isPresent())
             {
-                List<CandidateProfile> candidateProfiles = job.get().getCandidateProfileList();
-                candidateProfiles.add(candidateProfile);
-                job.get().setCandidateProfileList(candidateProfiles);
+                AppliedFor appliedFor=new AppliedFor(candidateProfile,job.get(),false,new Date());
                 if(reviewAndRatingDTO.getRating()!=null && reviewAndRatingDTO.getReview()!=null){
-
-
                     if(saveRatingAndReview(reviewAndRatingDTO,user.getUserType())){
-                        return new ApiResponse(200, "Applied on job  with review and rating", jobRepository.save(job.get()));
+                        return new ApiResponse(200, "Applied on job", jobRepository.save(job.get()));
                     }
                     else{
                         return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "You can not give review to the same company twice", jobRepository.save(job.get()));
@@ -215,7 +215,7 @@ public class JobService {
 
 
                 else{
-                    return new ApiResponse(HttpStatus.CONTINUE.value(), "Applied on job without review and rating", jobRepository.save(job.get()));
+                    return new ApiResponse(200, "Applied on job without review and rating", appliedForRepository.save(appliedFor));
                 }
 
             }

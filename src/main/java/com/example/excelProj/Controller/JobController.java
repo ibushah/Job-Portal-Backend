@@ -11,6 +11,7 @@ import com.example.excelProj.Repository.CompanyProfileRepository;
 import com.example.excelProj.Repository.JobPaginationRepository;
 import com.example.excelProj.Repository.JobRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
+import com.example.excelProj.Service.AppliedForService;
 import com.example.excelProj.Service.JobService;
 import com.example.excelProj.Specifications.JobSearchSPECIFICATIONS;
 import jdk.nashorn.internal.scripts.JO;
@@ -50,6 +51,9 @@ public class JobController implements JobSearchSPECIFICATIONS{
 
     @Autowired
     UserDaoRepository userDaoRepository;
+
+    @Autowired
+    AppliedForService appliedForService;
 
     @GetMapping("/all")
     public List<Job> getAllJobs()
@@ -114,8 +118,8 @@ public class JobController implements JobSearchSPECIFICATIONS{
     }
 
     @PostMapping("/applyJob")
-    public ApiResponse<Job> applyJobDTOApiResponse(@RequestBody ReviewAndRatingDTO reviewAndRatingDTO){
-        return  jobService.apply_on_job(reviewAndRatingDTO);
+    public String applyJobDTOApiResponse(@RequestBody ReviewAndRatingDTO reviewAndRatingDTO){
+        return  appliedForService.applyOnJob(reviewAndRatingDTO);
     }
 
     @GetMapping("/searchbycity")
