@@ -118,7 +118,7 @@ public class JobController implements JobSearchSPECIFICATIONS{
     }
 
     @PostMapping("/applyJob")
-    public String applyJobDTOApiResponse(@RequestBody ReviewAndRatingDTO reviewAndRatingDTO){
+    public ApiResponse applyJobDTOApiResponse(@RequestBody ReviewAndRatingDTO reviewAndRatingDTO){
         return  appliedForService.applyOnJob(reviewAndRatingDTO);
     }
 

@@ -71,7 +71,7 @@ public class Job {
 //            inverseJoinColumns = @JoinColumn(name = "candidate_id"))
 //    List<CandidateProfile> candidateProfileList;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private Set<AppliedFor> AppliedFor = new HashSet<>();
 
