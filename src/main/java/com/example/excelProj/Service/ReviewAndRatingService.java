@@ -49,7 +49,9 @@ public class ReviewAndRatingService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
+
         reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+
         String userType = user.getUserType();
         Long companyId = reviewAndRatingDTO.getCompanyId();
 
