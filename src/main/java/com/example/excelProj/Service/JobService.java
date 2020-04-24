@@ -106,7 +106,7 @@ public class JobService {
         User user = userDaoRepository.findByEmail(currentPrincipalName);
 
 
-        if (user != null && !user.getUserType().equalsIgnoreCase("employer") && user.getCompanyProfile() != null) {
+        if (user != null && !user.getUserType().equalsIgnoreCase("candidate") && user.getCompanyProfile() != null) {
 
             Optional<Job> jobOptional = jobRepository.findById(jobId);
             if(jobOptional.isPresent()){
