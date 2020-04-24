@@ -47,17 +47,18 @@ public class CandidateProfileService {
         Optional<User> user = userDaoRepository.findById(userId);
         candidateId = user.isPresent()?user.get().getCandidateProfile().getId():candidateId;
         CandidateProfile candidateProfile = candidateProfileRepository.findByUserId(userId);
-        CandidateProfileWtihAllDetailsDTO candidateProfileWtihAllDetailsDTO = new CandidateProfileWtihAllDetailsDTO();
+        CandidateProfileWtihAllDetailsDTO candidateProfileWtihAllDetailsDTO =
+                new CandidateProfileWtihAllDetailsDTO();
         if(candidateProfile!=null){
             candidateProfileWtihAllDetailsDTO.setCandidateProfile(candidateProfile);
-            candidateProfileWtihAllDetailsDTO.setRating(reviewAndRatingRepository.getAverageCandidateRating(candidateId,loggedInUser.getUserType()));
-            List<AllCompaniesWithReviewDTO> companiesWithReviewDTOS = reviewAndRatingRepository.getAllCompaniesWithReviews(candidateId,"employer");
+            candidateProfileWtihAllDetailsDTO.setRating(reviewAndRatingRepository.getAverageCandidateRating(candidateId));
+            List<AllCompaniesWithReviewDTO> companiesWithReviewDTOS = reviewAndRatingRepository.getAllCompaniesWithReviews(candidateId);
             candidateProfileWtihAllDetailsDTO.setCompaniesWithReviewDTOList(companiesWithReviewDTOS);
 
 
             if(!loggedInUser.getUserType().equalsIgnoreCase("candidate")){
                 Long companyId  = loggedInUser.getCompanyProfile().getId();
-                ReviewAndRating reviewAndRating = reviewAndRatingRepository.checkReviewStatus(candidateId,companyId,"employer");
+                ReviewAndRating reviewAndRating = reviewAndRatingRepository.checkReviewStatus(candidateId,companyId,loggedInUser.getUserType());
                 if(reviewAndRating!=null){
 
                     candidateProfileWtihAllDetailsDTO.setAlreadyGivenReview(true);
@@ -68,7 +69,7 @@ public class CandidateProfileService {
             }
 
 
-            return  new ApiResponse(200,"Successfull",candidateProfileWtihAllDetailsDTO);
+         return  new ApiResponse(200,"Successfull",candidateProfileWtihAllDetailsDTO);
         }
         return new ApiResponse(500,"unsuccessfull",null);
 

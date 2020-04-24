@@ -114,8 +114,8 @@ public class ReviewAndRatingService {
 
             return
             new ApiResponse(200,"SucesssFull",
-            reviewAndRatingRepository.getAllCompaniesWithReviews(reviewAndRatingDTO.getCandidateId(),user.getUserType()),
-            reviewAndRatingRepository.getAverageCandidateRating(reviewAndRatingDTO.getCandidateId(),user.getUserType()));
+            reviewAndRatingRepository.getAllCompaniesWithReviews(reviewAndRatingDTO.getCandidateId()),
+            reviewAndRatingRepository.getAverageCandidateRating(reviewAndRatingDTO.getCandidateId()));
         }
 
         return  new ApiResponse(500,"Something went wrong",null);
