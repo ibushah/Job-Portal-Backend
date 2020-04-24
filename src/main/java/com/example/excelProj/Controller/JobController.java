@@ -110,7 +110,8 @@ public class JobController implements JobSearchSPECIFICATIONS{
         String category=requestParams.get("category");
         category = category.replaceAll("_and_","&");
         Integer page=Integer.parseInt(requestParams.get("page"));
-        return jobRepository.findByCategory(category,PageRequest.of(page,5));
+
+        return jobService.findByCategory(category,page);
     }
 
     @PostMapping("/applyJob")
@@ -158,20 +159,24 @@ public class JobController implements JobSearchSPECIFICATIONS{
 
         CompanyProfile companyProfile = new CompanyProfile();
         Long companyId = 0l;
-        String city=requestParams.get("city");
-        String company=requestParams.get("company");
+        String city=requestParams.get("city").equalsIgnoreCase("null")?"":requestParams.get("city");
+        String company=requestParams.get("company").equalsIgnoreCase("null")?"":requestParams.get("company");
+        String type=requestParams.get("type");
+        type = type.equalsIgnoreCase("all")?"":type;
+        int page=Integer.parseInt(requestParams.get("page"));
+
+        Pageable pageable = PageRequest.of(page,5);
+
         if(company.length()>1){
             companyProfile   = companyProfileRepository.findCompanyProfileByName(company);
             companyId  = companyProfile.getId();
         }
 
-        String type=requestParams.get("type");
-        type = type.equalsIgnoreCase("all")?"":type;
-        int page=Integer.parseInt(requestParams.get("page"));
 
 
 
-        Pageable pageable = PageRequest.of(page,5);
+
+
 
 
 //        Search by type
