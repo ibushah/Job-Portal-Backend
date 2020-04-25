@@ -10,14 +10,16 @@ public class NotificationDTO implements Serializable {
     byte[] candidateDp;
     Boolean isNotified;
     Date date;
+    Long jobId;
 
 
-    public NotificationDTO(String jobTitle, String candidate, byte[] candidateDp, Boolean isNotified, Date date) {
+    public NotificationDTO(String jobTitle, String candidate, byte[] candidateDp, Boolean isNotified, Date date,Long jobId) {
         this.jobTitle = jobTitle;
         this.candidate = candidate;
         this.candidateDp = candidateDp;
         this.isNotified = isNotified;
         this.date = date;
+        this.jobId=jobId;
     }
 
     public Boolean getNotified() {
@@ -61,5 +63,13 @@ public class NotificationDTO implements Serializable {
 
     public void setCandidateDp(byte[] candidateDp) {
         this.candidateDp = candidateDp;
+    }
+
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
     }
 }

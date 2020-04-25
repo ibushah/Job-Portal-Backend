@@ -28,6 +28,11 @@ public class AppliedFor  {
     @JoinColumn
     private Job job;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn
+    private CompanyProfile companyProfile;
+
     @Column
     private Boolean isNotified;
 
@@ -37,13 +42,21 @@ public class AppliedFor  {
     public AppliedFor() {
     }
 
-    public AppliedFor(CandidateProfile candidateProfile, Job job, Boolean isNotified, Date appliedDate) {
+    public AppliedFor(CandidateProfile candidateProfile, Job job, CompanyProfile companyProfile, Boolean isNotified, Date appliedDate) {
         this.candidateProfile = candidateProfile;
         this.job = job;
+        this.companyProfile = companyProfile;
         this.isNotified = isNotified;
         this.appliedDate = appliedDate;
     }
 
+    public CompanyProfile getCompanyProfile() {
+        return companyProfile;
+    }
+
+    public void setCompanyProfile(CompanyProfile companyProfile) {
+        this.companyProfile = companyProfile;
+    }
 
     public Long getId() {
         return id;
