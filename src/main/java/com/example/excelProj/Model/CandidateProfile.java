@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class CandidateProfile {
@@ -47,11 +48,16 @@ public class CandidateProfile {
      User user;
 
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "candidateProfileList")
-    List<Job> jobList;
+//    @JsonIgnore
+////    @ManyToMany(mappedBy = "candidateProfileList")
+////    List<Job> jobList;
 
-    public CandidateProfile(String field, String imageContentType, String resumeContentType, String presentationLetter, byte[] cv, byte[] dp, User user, List<Job> jobList) {
+    @JsonIgnore
+    @OneToMany(mappedBy = "candidateProfile", cascade = CascadeType.ALL)
+    private Set<AppliedFor> AppliedForSet;
+
+    public CandidateProfile(Long id, String field, String imageContentType, String resumeContentType, String presentationLetter, byte[] cv, byte[] dp, User user, Set<AppliedFor> appliedForSet) {
+        this.id = id;
         this.field = field;
         this.imageContentType = imageContentType;
         this.resumeContentType = resumeContentType;
@@ -59,7 +65,7 @@ public class CandidateProfile {
         this.cv = cv;
         this.dp = dp;
         this.user = user;
-        this.jobList = jobList;
+        AppliedForSet = appliedForSet;
     }
 
     public Long getId() {
@@ -127,11 +133,11 @@ public class CandidateProfile {
         this.user = user;
     }
 
-    public List<Job> getJobList() {
-        return jobList;
+    public Set<AppliedFor> getAppliedForSet() {
+        return AppliedForSet;
     }
 
-    public void setJobList(List<Job> jobList) {
-        this.jobList = jobList;
+    public void setAppliedForSet(Set<AppliedFor> appliedForSet) {
+        AppliedForSet = appliedForSet;
     }
 }

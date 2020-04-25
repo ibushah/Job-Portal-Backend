@@ -1,11 +1,14 @@
 package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Job {
@@ -60,20 +63,24 @@ public class Job {
     Date date;
 
 
+//    @JsonIgnore
+//    @ManyToMany
+//    @JoinTable(
+//            name = "applied_for",
+//            joinColumns = @JoinColumn(name = "job_id"),
+//            inverseJoinColumns = @JoinColumn(name = "candidate_id"))
+//    List<CandidateProfile> candidateProfileList;
+
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "applied_for",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "candidate_id"))
-    List<CandidateProfile> candidateProfileList;
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    private Set<AppliedFor> AppliedFor = new HashSet<>();
+
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
     CompanyProfile companyProfile;
 
-    public Job( String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, List<CandidateProfile> candidateProfileList, CompanyProfile companyProfile) {
-
+    public Job(String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -88,7 +95,7 @@ public class Job {
         this.latitude = latitude;
         this.address = address;
         this.date = date;
-        this.candidateProfileList = candidateProfileList;
+        AppliedFor = appliedFor;
         this.companyProfile = companyProfile;
     }
 
@@ -207,12 +214,13 @@ public class Job {
         this.latitude = latitude;
     }
 
-    public List<CandidateProfile> getCandidateProfileList() {
-        return candidateProfileList;
+
+    public Set<com.example.excelProj.Model.AppliedFor> getAppliedFor() {
+        return AppliedFor;
     }
 
-    public void setCandidateProfileList(List<CandidateProfile> candidateProfileList) {
-        this.candidateProfileList = candidateProfileList;
+    public void setAppliedFor(Set<com.example.excelProj.Model.AppliedFor> appliedFor) {
+        AppliedFor = appliedFor;
     }
 
     public String getAddress() {

@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.applet.Applet;
 import java.util.*;
 
 @Service
@@ -37,6 +38,9 @@ public class JobService {
 
     @Autowired
     ReviewAndRatingRepository reviewAndRatingRepository;
+
+    @Autowired
+    AppliedForRepository appliedForRepository;
 
 
     @Autowired
@@ -177,53 +181,49 @@ public class JobService {
 
 
 
-
-
-
-    public ApiResponse<Job> apply_on_job(ReviewAndRatingDTO reviewAndRatingDTO){
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User user = userDaoRepository.findByEmail(currentPrincipalName);
-
-
-
-        if (user != null && user.getUserType().equalsIgnoreCase("candidate") && user.getCandidateProfile()!=null){
-
-            reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
-            Optional<Job> job = jobRepository.findById(reviewAndRatingDTO.getJobId());
-            CandidateProfile candidateProfile = user.getCandidateProfile();
-
-//                reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
-
-            if(job.isPresent())
-            {
-                List<CandidateProfile> candidateProfiles = job.get().getCandidateProfileList();
-                candidateProfiles.add(candidateProfile);
-                job.get().setCandidateProfileList(candidateProfiles);
-                if(reviewAndRatingDTO.getRating()!=null && reviewAndRatingDTO.getReview()!=null){
-
-
-                    if(saveRatingAndReview(reviewAndRatingDTO,user.getUserType())){
-                        return new ApiResponse(200, "Applied on job  with review and rating", jobRepository.save(job.get()));
-                    }
-                    else{
-                        return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "You can not give review to the same company twice", jobRepository.save(job.get()));
-                    }
-
-                }
-
-
-                else{
-                    return new ApiResponse(HttpStatus.CONTINUE.value(), "Applied on job without review and rating", jobRepository.save(job.get()));
-                }
-
-            }
-
-        }
-        return new ApiResponse(500, "Something went wrong", null);
-
-    }
+//
+//
+//
+//    public ApiResponse<Job> apply_on_job(ReviewAndRatingDTO reviewAndRatingDTO){
+//
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentPrincipalName = authentication.getName();
+//        User user = userDaoRepository.findByEmail(currentPrincipalName);
+//
+//
+//
+//        if (user != null && user.getUserType().equalsIgnoreCase("candidate") && user.getCandidateProfile()!=null){
+//
+//            reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+//            Optional<Job> job = jobRepository.findById(reviewAndRatingDTO.getJobId());
+//            CandidateProfile candidateProfile = user.getCandidateProfile();
+//
+////                reviewAndRatingDTO.setCandidateId(user.getCandidateProfile().getId());
+//
+//            if(job.isPresent())
+//            {
+//                AppliedFor appliedFor=new AppliedFor(candidateProfile,job.get(),false,new Date());
+//                if(reviewAndRatingDTO.getRating()!=null && reviewAndRatingDTO.getReview()!=null){
+//                    if(saveRatingAndReview(reviewAndRatingDTO,user.getUserType())){
+//                        return new ApiResponse(200, "Applied on job", jobRepository.save(job.get()));
+//                    }
+//                    else{
+//                        return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "You can not give review to the same company twice", jobRepository.save(job.get()));
+//                    }
+//
+//                }
+//
+//
+//                else{
+//                    return new ApiResponse(200, "Applied on job without review and rating", appliedForRepository.save(appliedFor));
+//                }
+//
+//            }
+//
+//        }
+//        return new ApiResponse(500, "Something went wrong", null);
+//
+//    }
 
 
 
