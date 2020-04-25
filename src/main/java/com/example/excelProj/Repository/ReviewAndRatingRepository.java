@@ -35,8 +35,8 @@ public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRatin
                         "FROM ReviewAndRating r \n" +
                         "JOIN CompanyProfile comp \n" +
                         "ON r.companyProfile.id=comp.id \n" +
-                        "JOIN User u on comp.user.id=u.id where r.candidateId=:id AND r.rateBy=:userType")
-                List<AllCompaniesWithReviewDTO> getAllCompaniesWithReviews(@Param("id") Long id,@Param("userType") String userType);
+                        "JOIN User u on comp.user.id=u.id where r.candidateId=:id AND (r.rateBy ='recruiter' OR r.rateBy='employer')")
+                List<AllCompaniesWithReviewDTO> getAllCompaniesWithReviews(@Param("id") Long id);
 
 //    @Query(value = "select * from review_and_rating where rated_by;=1?",nativeQuery = true)
 //    public ReviewAndRating findByRatedBy(String ratedBy);
@@ -46,6 +46,6 @@ public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRatin
       ReviewAndRating checkReviewStatus(@Param("candId") Long canId,@Param("companyId") Long companyId,@Param("rateBy") String rateBy);
 
 
-    @Query(value = "SELECT AVG(rating) from  review_and_rating where candidate_id=:id AND rate_by=:rateBy",nativeQuery = true)
-    Double getAverageCandidateRating(@Param("id")Long id,@Param("rateBy") String rateBy);
+    @Query(value = "SELECT AVG(rating) from  review_and_rating where candidate_id=:id AND rate_by!='candidate'",nativeQuery = true)
+    Double getAverageCandidateRating(@Param("id")Long id);
 }

@@ -75,7 +75,7 @@ public class JobService {
         User user = userDaoRepository.findByEmail(currentPrincipalName);
 
 
-        if (user != null && user.getUserType().equalsIgnoreCase("employer") && user.getCompanyProfile() != null) {
+        if (user != null && !user.getUserType().equalsIgnoreCase("candidate") && user.getCompanyProfile() != null) {
 
             Job job = new Job();
 
@@ -110,7 +110,7 @@ public class JobService {
         User user = userDaoRepository.findByEmail(currentPrincipalName);
 
 
-        if (user != null && user.getUserType().equalsIgnoreCase("employer") && user.getCompanyProfile() != null) {
+        if (user != null && !user.getUserType().equalsIgnoreCase("candidate") && user.getCompanyProfile() != null) {
 
             Optional<Job> jobOptional = jobRepository.findById(jobId);
             if(jobOptional.isPresent()){
@@ -324,7 +324,7 @@ public class JobService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        if(user!=null && user.getUserType().equalsIgnoreCase("employer")) {
+        if(user!=null && !user.getUserType().equalsIgnoreCase("employer")) {
 
             Boolean jobExist = jobRepository.existsById(id);
             //first delete a job than then its association
@@ -350,5 +350,28 @@ public class JobService {
 
        return  jobRepository.getGlobalSearchJobs(city,type,company,page);
     }
+
+    public Page<Job> findByCategory(String cat,int pageNumber){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        Pageable pageable = PageRequest.of(pageNumber,5);
+
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+
+        if(user.getUserType().equalsIgnoreCase("candidate")){
+            return jobRepository.findByCategory(cat,pageable);
+        }
+        else{
+            Long companyId = user.getCompanyProfile().getId();
+            return jobRepository.findByCategoryAndCompanyId(cat,companyId,pageable);
+        }
+    }
+
+
+
+
+
+
+
 }
 

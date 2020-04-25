@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -32,6 +33,10 @@ public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecification
 
     @Query(value = "select * from job where category=:cat", nativeQuery = true)
     Page<Job> findByCategory(@Param("cat") String category, Pageable p);
+
+
+    @Query(value = "select * from job where category=:cat AND employee_id=:id", nativeQuery = true)
+    Page<Job> findByCategoryAndCompanyId(@Param("cat") String category, @Param("id") Long id, Pageable p);
 
 
     @Query(value = "select * from job where employee_id=:id", nativeQuery = true)
