@@ -25,7 +25,7 @@ public class Job {
     String description;
 
     @Column
-    Long salary;
+    String salary;
 
     @Column
     Date publishFrom;
@@ -80,7 +80,7 @@ public class Job {
     @JoinColumn(name = "employee_id")
     CompanyProfile companyProfile;
 
-    public Job(String title, String description, Long salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile) {
+    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -134,11 +134,11 @@ public class Job {
         this.description = description;
     }
 
-    public Long getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(Long salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 

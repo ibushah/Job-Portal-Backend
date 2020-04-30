@@ -1,23 +1,18 @@
 package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
-import com.example.excelProj.Dto.AllJobsDTO;
-import com.example.excelProj.Dto.GlobalJobSearchDTO;
 import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.*;
-import jdk.nashorn.internal.scripts.JO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.applet.Applet;
 import java.util.*;
 
 @Service
@@ -339,17 +334,6 @@ public class JobService {
         return new ApiResponse(500,"unsuccessfull",null);
     }
 
-
-    public Page<GlobalJobSearchDTO> globalSearch(String city, String type, String company,Pageable page)
-    {
-
-        if(type.equalsIgnoreCase("all") && company.equals("") && city.equals(""))
-            return jobRepository.findAllJobs(page);
-        else if (type.equalsIgnoreCase("all"))
-            return jobRepository.getAllTypeGlobalSearchJobs(city,company,page);
-
-       return  jobRepository.getGlobalSearchJobs(city,type,company,page);
-    }
 
     public Page<Job> findByCategory(String cat,int pageNumber){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

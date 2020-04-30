@@ -76,7 +76,8 @@ public class ReviewAndRatingService {
                 reviewAndRatingRepository.save(reviewAndRating);
 
                 Double avgRating = reviewAndRatingRepository.getAverageRatingByCompanyProfileId(companyId,"candidate");
-
+                companyProfile.get().setAvgRating(avgRating);
+                companyProfileRepository.save(companyProfile.get());
                 if(!user.getUserType().equalsIgnoreCase("candidate"))
                 {
                     return new ApiResponse(200, "Get successfull rated",avgRating);

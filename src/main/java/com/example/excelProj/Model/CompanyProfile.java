@@ -35,6 +35,9 @@ public class CompanyProfile {
     @Column
     String logoContentType;
 
+    @Column
+    Double avgRating;
+
 
     @OneToMany(mappedBy="companyProfile")
     @JsonBackReference(value = "job_list_reference")
@@ -50,7 +53,7 @@ public class CompanyProfile {
     @JsonBackReference(value = "user_reference")
     User user;
 
-    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
+    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, Double avgRating, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
@@ -58,11 +61,11 @@ public class CompanyProfile {
         this.contactTitle = contactTitle;
         this.logo = logo;
         this.logoContentType = logoContentType;
+        this.avgRating = avgRating;
         this.jobList = jobList;
         this.reviewAndRatings = reviewAndRatings;
         this.user = user;
     }
-
 
     public CompanyProfile() {
     }
@@ -153,6 +156,14 @@ public class CompanyProfile {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
     }
 }
 

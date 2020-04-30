@@ -1,9 +1,7 @@
 package com.example.excelProj.Controller;
 
 import com.example.excelProj.Commons.ApiResponse;
-import com.example.excelProj.Dto.AllJobsDTO;
 
-import com.example.excelProj.Dto.GlobalJobSearchDTO;
 import com.example.excelProj.Dto.JobDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.*;
@@ -14,8 +12,6 @@ import com.example.excelProj.Repository.UserDaoRepository;
 import com.example.excelProj.Service.AppliedForService;
 import com.example.excelProj.Service.JobService;
 import com.example.excelProj.Specifications.JobSearchSPECIFICATIONS;
-import jdk.nashorn.internal.scripts.JO;
-import org.hibernate.boot.jaxb.hbm.spi.JaxbHbmCollectionIdType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -103,10 +99,10 @@ public class JobController implements JobSearchSPECIFICATIONS{
     }
 
     @GetMapping("/paginatedjobs")
-    public Page<AllJobsDTO> getAllPaginatedJobs(@RequestParam(defaultValue = "0") int page)
+    public Page<Job> getAllPaginatedJobs(@RequestParam(defaultValue = "0") int page)
     {
 
-        return jobRepository.joinAllJobs(PageRequest.of(page,5));
+        return jobRepository.findAll(PageRequest.of(page,5));
     }
 
     @GetMapping("/jobsbycategory")
@@ -132,15 +128,6 @@ public class JobController implements JobSearchSPECIFICATIONS{
     }
 
 
-    @GetMapping("/globalsearch")
-    public Page<GlobalJobSearchDTO> globalSearch(@RequestParam Map<String,String> requestParams)
-    {
-        String city=requestParams.get("city");
-        String company=requestParams.get("company");
-        String type=requestParams.get("type");
-        int page=Integer.parseInt(requestParams.get("page"));
-        return jobService.globalSearch(city,type,company,PageRequest.of(page,5));
-    }
 
     @GetMapping("/candidatescount/{jobId}")
     public ApiResponse findNumberOfCandidateApplied(@NotNull @Valid @PathVariable(name = "jobId") Long jobId){
