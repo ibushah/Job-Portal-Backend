@@ -16,7 +16,7 @@ public class AppliedFor  {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
-  @JsonIgnore
+    @JsonIgnore
     @ManyToOne
     @JoinColumn
     private CandidateProfile candidateProfile;

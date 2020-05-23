@@ -13,44 +13,34 @@ public class CompanyProfileDTO {
     String contactName;
     String contactTitle;
     byte[] logo;
+    byte[] resume;
+    byte[] certificate;
     String logoContentType;
     List<Job> jobList;
 
-    public CompanyProfileDTO(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType) {
+    public CompanyProfileDTO(Long id, String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, List<Job> jobList) {
+        this.id = id;
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
         this.contactName = contactName;
         this.contactTitle = contactTitle;
         this.logo = logo;
+        this.resume = resume;
+        this.certificate = certificate;
         this.logoContentType = logoContentType;
-    }
-
-    public String getLogoContentType() {
-        return logoContentType;
-    }
-
-    public void setLogoContentType(String logoContentType) {
-        this.logoContentType = logoContentType;
-    }
-
-    public byte[] getLogo() {
-        return logo;
-    }
-
-    public void setLogo(byte[] logo) {
-        this.logo = logo;
-    }
-
-    public List<Job> getJobList() {
-        return jobList;
-    }
-
-    public void setJobList(List<Job> jobList) {
         this.jobList = jobList;
     }
 
     public CompanyProfileDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -91,5 +81,45 @@ public class CompanyProfileDTO {
 
     public void setContactTitle(String contactTitle) {
         this.contactTitle = contactTitle;
+    }
+
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public void setLogo(byte[] logo) {
+        this.logo = logo;
+    }
+
+    public byte[] getResume() {
+        return resume;
+    }
+
+    public void setResume(byte[] resume) {
+        this.resume = resume;
+    }
+
+    public byte[] getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(byte[] certificate) {
+        this.certificate = certificate;
+    }
+
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
+    }
+
+    public List<Job> getJobList() {
+        return jobList;
+    }
+
+    public void setJobList(List<Job> jobList) {
+        this.jobList = jobList;
     }
 }

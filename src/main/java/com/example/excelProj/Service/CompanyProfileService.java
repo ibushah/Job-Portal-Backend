@@ -54,6 +54,10 @@ public class CompanyProfileService {
             companyProfile.setName(companyProfileDTO.getName());
             companyProfile.setLogoContentType(companyProfileDTO.getLogoContentType());
             companyProfile.setUser(user);
+            if(user.getUserType().equalsIgnoreCase("recruiter")){
+                companyProfile.setResume(companyProfileDTO.getResume());
+                companyProfile.setCertificate(companyProfileDTO.getCertificate());
+            }
 
             companyProfileRepository.save(companyProfile);
             return new ApiResponse(200, "Company profile successfuly updated", companyProfileRepository.findByUserId(userId));

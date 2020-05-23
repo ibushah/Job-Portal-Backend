@@ -32,6 +32,12 @@ public class CompanyProfile {
     @Lob
     byte[] logo;
 
+    @Lob
+    byte[] resume;
+
+    @Lob
+    byte[] certificate;
+
     @Column
     String logoContentType;
 
@@ -53,21 +59,24 @@ public class CompanyProfile {
     @JsonBackReference(value = "user_reference")
     User user;
 
-    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, Double avgRating, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
+    public CompanyProfile() {
+    }
+
+    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, Double avgRating, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
         this.contactName = contactName;
         this.contactTitle = contactTitle;
         this.logo = logo;
+        this.resume = resume;
+        this.certificate = certificate;
         this.logoContentType = logoContentType;
         this.avgRating = avgRating;
         this.jobList = jobList;
         this.reviewAndRatings = reviewAndRatings;
         this.user = user;
-    }
 
-    public CompanyProfile() {
     }
 
     public Long getId() {
@@ -126,12 +135,36 @@ public class CompanyProfile {
         this.logo = logo;
     }
 
+    public byte[] getResume() {
+        return resume;
+    }
+
+    public void setResume(byte[] resume) {
+        this.resume = resume;
+    }
+
+    public byte[] getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(byte[] certificate) {
+        this.certificate = certificate;
+    }
+
     public String getLogoContentType() {
         return logoContentType;
     }
 
     public void setLogoContentType(String logoContentType) {
         this.logoContentType = logoContentType;
+    }
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public List<Job> getJobList() {
@@ -156,14 +189,6 @@ public class CompanyProfile {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Double getAvgRating() {
-        return avgRating;
-    }
-
-    public void setAvgRating(Double avgRating) {
-        this.avgRating = avgRating;
     }
 }
 
