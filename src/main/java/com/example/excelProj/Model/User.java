@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -13,10 +15,13 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
     @Column
-    private String email;
+	private String email;
+
     @Column
     private String name;
+
     @Column
     private String password;
 
@@ -36,32 +41,31 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private CompanyProfile companyProfile;
 
+	@OneToOne(mappedBy = "user")
+	private RecruiterProfile recruiterProfile;
 
-	public CompanyProfile getCompanyProfile() {
-		return companyProfile;
-	}
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List<RecruiterJobs> recruiterJobs;
 
-	public void setCompanyProfile(CompanyProfile companyProfile) {
-		this.companyProfile = companyProfile;
-	}
+	@JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<AppliedForRecruiterJob> appliedForRecruiterJobs;
+
 
 	public User() {
 	}
 
-	public CandidateProfile getCandidateProfile() {
-		return candidateProfile;
-	}
-
-	public void setCandidateProfile(CandidateProfile candidateProfile) {
-		this.candidateProfile = candidateProfile;
-	}
-
-	public Boolean getProfileActive() {
-		return profileActive;
-	}
-
-	public void setProfileActive(Boolean profileActive) {
+	public User(String email, String name, String password, Boolean active, Boolean profileActive, String userType, CandidateProfile candidateProfile, CompanyProfile companyProfile, RecruiterProfile recruiterProfile) {
+		this.email = email;
+		this.name = name;
+		this.password = password;
+		this.active = active;
 		this.profileActive = profileActive;
+		this.userType = userType;
+		this.candidateProfile = candidateProfile;
+		this.companyProfile = companyProfile;
+		this.recruiterProfile = recruiterProfile;
 	}
 
 	public Long getId() {
@@ -104,6 +108,14 @@ public class User {
 		this.active = active;
 	}
 
+	public Boolean getProfileActive() {
+		return profileActive;
+	}
+
+	public void setProfileActive(Boolean profileActive) {
+		this.profileActive = profileActive;
+	}
+
 	public String getUserType() {
 		return userType;
 	}
@@ -112,6 +124,27 @@ public class User {
 		this.userType = userType;
 	}
 
+	public CandidateProfile getCandidateProfile() {
+		return candidateProfile;
+	}
 
+	public void setCandidateProfile(CandidateProfile candidateProfile) {
+		this.candidateProfile = candidateProfile;
+	}
 
+	public CompanyProfile getCompanyProfile() {
+		return companyProfile;
+	}
+
+	public void setCompanyProfile(CompanyProfile companyProfile) {
+		this.companyProfile = companyProfile;
+	}
+
+	public RecruiterProfile getRecruiterProfile() {
+		return recruiterProfile;
+	}
+
+	public void setRecruiterProfile(RecruiterProfile recruiterProfile) {
+		this.recruiterProfile = recruiterProfile;
+	}
 }

@@ -74,7 +74,6 @@ public class AuthenticationController {
     @DeleteMapping("/delete/{id}")
     public List<User> deleteUserById(@PathVariable Long id){
         return this.userService.getActiveUsers(id);
-
     }
 
 

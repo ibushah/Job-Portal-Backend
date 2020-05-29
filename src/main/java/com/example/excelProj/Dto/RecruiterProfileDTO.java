@@ -1,52 +1,60 @@
 package com.example.excelProj.Dto;
 
-import com.example.excelProj.Model.Job;
+import com.example.excelProj.Model.User;
 
-import java.util.List;
+/**
+ * Created by Rehan on 5/28/2020.
+ */
+public class RecruiterProfileDTO {
 
-public class CompanyProfileDTO {
-
-    Long id;
     String name;
+
+
     String corporateAddress;
+
+
     String billingAddress;
+
     String contactName;
-    String contactTitle;
+
+
+
+
     byte[] logo;
+
+
     byte[] resume;
+
     byte[] certificate;
+
+
     String logoContentType;
-    List<Job> jobList;
+
+
+
+
 
     String resumeContentType;
 
     String certificateContentType;
 
-    public CompanyProfileDTO() {
+
+
+    public RecruiterProfileDTO() {
     }
 
-    public CompanyProfileDTO(Long id, String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, List<Job> jobList, String resumeContentType, String certificateContentType) {
-        this.id = id;
+    public RecruiterProfileDTO(String name, String corporateAddress, String billingAddress, String contactName, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, String resumeContentType, String certificateContentType) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
         this.contactName = contactName;
-        this.contactTitle = contactTitle;
         this.logo = logo;
         this.resume = resume;
         this.certificate = certificate;
         this.logoContentType = logoContentType;
-        this.jobList = jobList;
+
         this.resumeContentType = resumeContentType;
         this.certificateContentType = certificateContentType;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -60,6 +68,7 @@ public class CompanyProfileDTO {
     public String getCorporateAddress() {
         return corporateAddress;
     }
+
 
     public void setCorporateAddress(String corporateAddress) {
         this.corporateAddress = corporateAddress;
@@ -79,14 +88,6 @@ public class CompanyProfileDTO {
 
     public void setContactName(String contactName) {
         this.contactName = contactName;
-    }
-
-    public String getContactTitle() {
-        return contactTitle;
-    }
-
-    public void setContactTitle(String contactTitle) {
-        this.contactTitle = contactTitle;
     }
 
     public byte[] getLogo() {
@@ -121,13 +122,7 @@ public class CompanyProfileDTO {
         this.logoContentType = logoContentType;
     }
 
-    public List<Job> getJobList() {
-        return jobList;
-    }
 
-    public void setJobList(List<Job> jobList) {
-        this.jobList = jobList;
-    }
 
     public String getResumeContentType() {
         return resumeContentType;
@@ -144,4 +139,6 @@ public class CompanyProfileDTO {
     public void setCertificateContentType(String certificateContentType) {
         this.certificateContentType = certificateContentType;
     }
+
+
 }

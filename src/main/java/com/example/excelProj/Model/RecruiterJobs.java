@@ -1,18 +1,19 @@
 package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+/**
+ * Created by Rehan on 5/28/2020.
+ */
 @Entity
-public class Job {
-
+@Table(name = "recruiter_jobs")
+public class RecruiterJobs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -62,18 +63,21 @@ public class Job {
     @Column
     Date date;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn
+    User user;
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private Set<AppliedFor> AppliedFor = new HashSet<>();
+    @OneToMany(mappedBy = "recruiterJobs", cascade = CascadeType.ALL)
+    private Set<AppliedForRecruiterJob> appliedForRecruiterJobs;
 
+    public RecruiterJobs() {
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    CompanyProfile companyProfile;
+    }
 
-    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile) {
+    public RecruiterJobs(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, User user, Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -88,19 +92,8 @@ public class Job {
         this.latitude = latitude;
         this.address = address;
         this.date = date;
-        AppliedFor = appliedFor;
-        this.companyProfile = companyProfile;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Job() {
+        this.user = user;
+        this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
 
     public Long getId() {
@@ -207,15 +200,6 @@ public class Job {
         this.latitude = latitude;
     }
 
-
-    public Set<com.example.excelProj.Model.AppliedFor> getAppliedFor() {
-        return AppliedFor;
-    }
-
-    public void setAppliedFor(Set<com.example.excelProj.Model.AppliedFor> appliedFor) {
-        AppliedFor = appliedFor;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -224,11 +208,27 @@ public class Job {
         this.address = address;
     }
 
-    public CompanyProfile getCompanyProfile() {
-        return companyProfile;
+    public Date getDate() {
+        return date;
     }
 
-    public void setCompanyProfile(CompanyProfile companyProfile) {
-        this.companyProfile = companyProfile;
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<AppliedForRecruiterJob> getAppliedForRecruiterJobs() {
+        return appliedForRecruiterJobs;
+    }
+
+    public void setAppliedForRecruiterJobs(Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
+        this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
 }

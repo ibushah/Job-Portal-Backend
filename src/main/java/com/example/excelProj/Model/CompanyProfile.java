@@ -44,6 +44,12 @@ public class CompanyProfile {
     @Column
     Double avgRating;
 
+    @Column
+    String resumeContentType;
+
+    @Column
+    String certificateContentType;
+
 
     @OneToMany(mappedBy="companyProfile")
     @JsonBackReference(value = "job_list_reference")
@@ -62,7 +68,7 @@ public class CompanyProfile {
     public CompanyProfile() {
     }
 
-    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, Double avgRating, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
+    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, Double avgRating, String resumeContentType, String certificateContentType, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
@@ -73,10 +79,11 @@ public class CompanyProfile {
         this.certificate = certificate;
         this.logoContentType = logoContentType;
         this.avgRating = avgRating;
+        this.resumeContentType = resumeContentType;
+        this.certificateContentType = certificateContentType;
         this.jobList = jobList;
         this.reviewAndRatings = reviewAndRatings;
         this.user = user;
-
     }
 
     public Long getId() {
@@ -165,6 +172,22 @@ public class CompanyProfile {
 
     public void setAvgRating(Double avgRating) {
         this.avgRating = avgRating;
+    }
+
+    public String getResumeContentType() {
+        return resumeContentType;
+    }
+
+    public void setResumeContentType(String resumeContentType) {
+        this.resumeContentType = resumeContentType;
+    }
+
+    public String getCertificateContentType() {
+        return certificateContentType;
+    }
+
+    public void setCertificateContentType(String certificateContentType) {
+        this.certificateContentType = certificateContentType;
     }
 
     public List<Job> getJobList() {

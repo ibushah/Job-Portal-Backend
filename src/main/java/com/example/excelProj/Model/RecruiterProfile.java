@@ -1,32 +1,67 @@
-package com.example.excelProj.Dto;
+package com.example.excelProj.Model;
 
-import com.example.excelProj.Model.Job;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import java.util.List;
+import javax.persistence.*;
 
-public class CompanyProfileDTO {
+/**
+ * Created by Rehan on 5/28/2020.
+ */
+@Entity
+public class RecruiterProfile {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String name;
-    String corporateAddress;
-    String billingAddress;
-    String contactName;
-    String contactTitle;
-    byte[] logo;
-    byte[] resume;
-    byte[] certificate;
-    String logoContentType;
-    List<Job> jobList;
 
+    @Column
+    String name;
+
+    @Column(columnDefinition = "LONGTEXT")
+    String corporateAddress;
+
+    @Column
+    String billingAddress;
+
+    @Column
+    String contactName;
+
+    @Column
+    String contactTitle;
+
+    @Lob
+    byte[] logo;
+
+    @Lob
+    byte[] resume;
+
+    @Lob
+    byte[] certificate;
+
+    @Column
+    String logoContentType;
+
+    @Column
+    Double avgRating;
+
+    @Column
     String resumeContentType;
 
+    @Column
     String certificateContentType;
 
-    public CompanyProfileDTO() {
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonBackReference
+    User user;
+
+
+
+    public RecruiterProfile() {
     }
 
-    public CompanyProfileDTO(Long id, String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, List<Job> jobList, String resumeContentType, String certificateContentType) {
-        this.id = id;
+    public RecruiterProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, Double avgRating, String resumeContentType, String certificateContentType, User user) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
@@ -36,9 +71,10 @@ public class CompanyProfileDTO {
         this.resume = resume;
         this.certificate = certificate;
         this.logoContentType = logoContentType;
-        this.jobList = jobList;
+        this.avgRating = avgRating;
         this.resumeContentType = resumeContentType;
         this.certificateContentType = certificateContentType;
+        this.user = user;
     }
 
     public Long getId() {
@@ -121,12 +157,12 @@ public class CompanyProfileDTO {
         this.logoContentType = logoContentType;
     }
 
-    public List<Job> getJobList() {
-        return jobList;
+    public Double getAvgRating() {
+        return avgRating;
     }
 
-    public void setJobList(List<Job> jobList) {
-        this.jobList = jobList;
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public String getResumeContentType() {
@@ -143,5 +179,13 @@ public class CompanyProfileDTO {
 
     public void setCertificateContentType(String certificateContentType) {
         this.certificateContentType = certificateContentType;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
