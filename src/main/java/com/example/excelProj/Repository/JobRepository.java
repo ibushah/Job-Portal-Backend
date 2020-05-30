@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecificationExecutor<Job> {
-    @Query(value = "Select * from job where job.employee_id=:id", nativeQuery = true)
+    @Query(value = "Select * from job where job.job_poster_id=:id", nativeQuery = true)
     List<Job> findByEmployeeId(@Param("id") Long id);
 
 
@@ -23,14 +23,14 @@ public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecification
     Page<Job> findByCategory(@Param("cat") String category, Pageable p);
 
 
-    @Query(value = "select * from job where category=:cat AND employee_id=:id", nativeQuery = true)
+    @Query(value = "select * from job where category=:cat AND job_poster_id=:id", nativeQuery = true)
     Page<Job> findByCategoryAndCompanyId(@Param("cat") String category, @Param("id") Long id, Pageable p);
 
 
-    @Query(value = "select * from job where employee_id=:id", nativeQuery = true)
+    @Query(value = "select * from job where job_poster_id=:id", nativeQuery = true)
     List<Job> findByCompanyId(@Param("id") Long id);
 
-    @Query(value = "select * from job where employee_id=:id", nativeQuery = true)
+    @Query(value = "select * from job where job_poster_id=:id", nativeQuery = true)
     Page<Job> findJobsByCompanyPaginated(@Param("id") Long id, Pageable pageable);
 
 
@@ -38,12 +38,12 @@ public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecification
     Page<Job> findByCity(String city, Pageable pageable);
 
 
-    @Query(value = "select candidate_profile_id from applied_for where job_id=:id", nativeQuery = true)
+    @Query(value = "select applied_by_id from applied_for where job_id=:id", nativeQuery = true)
     public List<Long> findAllCandidateProfile(@Param("id") Long id);
 
 
 
-    @Query(value = "select COUNT(candidate_profile_id) from applied_for where job_id=:id", nativeQuery = true)
+    @Query(value = "select COUNT(poster_id) from applied_for where job_id=:id", nativeQuery = true)
     public Integer countOfCandidates(@Param("id") Long id);
 
     @Modifying

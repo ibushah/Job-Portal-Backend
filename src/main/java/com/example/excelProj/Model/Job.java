@@ -77,10 +77,11 @@ public class Job {
 
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    CompanyProfile companyProfile;
+    @JoinColumn
+    User jobPoster;
 
-    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile) {
+
+    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Set<com.example.excelProj.Model.AppliedFor> appliedFor, User jobPoster) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -96,7 +97,7 @@ public class Job {
         this.address = address;
         this.date = date;
         AppliedFor = appliedFor;
-        this.companyProfile = companyProfile;
+        this.jobPoster = jobPoster;
     }
 
     public Date getDate() {
@@ -231,11 +232,11 @@ public class Job {
         this.address = address;
     }
 
-    public CompanyProfile getCompanyProfile() {
-        return companyProfile;
+    public User getJobPoster() {
+        return jobPoster;
     }
 
-    public void setCompanyProfile(CompanyProfile companyProfile) {
-        this.companyProfile = companyProfile;
+    public void setJobPoster(User jobPoster) {
+        this.jobPoster = jobPoster;
     }
 }

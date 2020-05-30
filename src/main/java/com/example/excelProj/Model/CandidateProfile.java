@@ -42,7 +42,7 @@ public class CandidateProfile {
     public CandidateProfile() {
     }
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
      User user;
@@ -52,12 +52,8 @@ public class CandidateProfile {
 ////    @ManyToMany(mappedBy = "candidateProfileList")
 ////    List<Job> jobList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "candidateProfile", cascade = CascadeType.ALL)
-    private Set<AppliedFor> AppliedForSet;
 
-    public CandidateProfile(Long id, String field, String imageContentType, String resumeContentType, String presentationLetter, byte[] cv, byte[] dp, User user, Set<AppliedFor> appliedForSet) {
-        this.id = id;
+    public CandidateProfile(String field, String imageContentType, String resumeContentType, String presentationLetter, byte[] cv, byte[] dp, User user) {
         this.field = field;
         this.imageContentType = imageContentType;
         this.resumeContentType = resumeContentType;
@@ -65,7 +61,6 @@ public class CandidateProfile {
         this.cv = cv;
         this.dp = dp;
         this.user = user;
-        AppliedForSet = appliedForSet;
     }
 
     public Long getId() {
@@ -133,11 +128,5 @@ public class CandidateProfile {
         this.user = user;
     }
 
-    public Set<AppliedFor> getAppliedForSet() {
-        return AppliedForSet;
-    }
 
-    public void setAppliedForSet(Set<AppliedFor> appliedForSet) {
-        AppliedForSet = appliedForSet;
-    }
 }

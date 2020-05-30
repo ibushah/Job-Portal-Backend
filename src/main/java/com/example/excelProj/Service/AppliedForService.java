@@ -41,17 +41,17 @@ public class AppliedForService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-      Optional<CompanyProfile> companyProfile=companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
+      Optional<User> jobPoster=userDaoRepository.findById(reviewAndRatingDTO.getCompanyId());
 
 
-        if (companyProfile.isPresent()  && user != null && user.getUserType().equalsIgnoreCase("candidate") && user.getCandidateProfile() != null) {
+        if (jobPoster.isPresent()  && user != null && user.getUserType().equalsIgnoreCase("candidate") && user.getCandidateProfile() != null) {
 
 
             Optional<Job> job = jobRepository.findById(reviewAndRatingDTO.getJobId());
             CandidateProfile candidateProfile = user.getCandidateProfile();
-            AppliedFor appliedForPresent=appliedForRepository.applied(job.get().getId(),candidateProfile.getId());
+            AppliedFor appliedForPresent=appliedForRepository.applied(job.get().getId(),user.getId());
             if(appliedForPresent==null) {
-                AppliedFor appliedFor = new AppliedFor(candidateProfile, job.get(),companyProfile.get(), false, new Date());
+                AppliedFor appliedFor = new AppliedFor(user,jobPoster.get(), job.get(), false, new Date());
                 appliedForRepository.save(appliedFor);
                 return new ApiResponse(200,"You have successfully applied for the job",  job.get());
             }

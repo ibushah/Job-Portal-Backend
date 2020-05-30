@@ -87,7 +87,7 @@ public class JobService {
             job.setPublishFrom(jobDTO.getPublishFrom());
             job.setAddress(jobDTO.getAddress());
             job.setPublishTo(jobDTO.getPublishTo());
-            job.setCompanyProfile(user.getCompanyProfile());
+            job.setJobPoster(user);
             job.setDate(new Date());
             return new ApiResponse(200, "Job successfully posted", jobRepository.save(job));
         }
@@ -124,7 +124,7 @@ public class JobService {
                 job.setAddress(jobDTO.getAddress());
                 job.setPublishFrom(jobDTO.getPublishFrom());
                 job.setPublishTo(jobDTO.getPublishTo());
-                job.setCompanyProfile(user.getCompanyProfile());
+                job.setJobPoster(user);
                 job.setDate(new Date());
                 return new ApiResponse(200, "Job Updated posted", jobRepository.save(job));
             }
@@ -245,7 +245,7 @@ public class JobService {
        Optional<Job> job=jobRepository.findById(id);
         if(job.isPresent())
         {
-            return jobRepository.findByCompanyId(job.get().getCompanyProfile().getId());
+            return jobRepository.findByCompanyId(job.get().getJobPoster().getId());
         }
         return null;
 
@@ -298,14 +298,14 @@ public class JobService {
 
     public ApiResponse getAppliedCandidateProfilesByJobId(Long jobId){
         Optional<Job> job = jobRepository.findById(jobId);
-        List<CandidateProfile> candidateProfiles = new ArrayList<>();
+        List<User> candidateProfiles = new ArrayList<>();
         if(job.isPresent()){
             List<Long> idList = jobRepository.findAllCandidateProfile(jobId);
             for (Long candidateId:idList) {
-                Optional<CandidateProfile> candidateProfileOptional = candidateProfileRepository.findById(candidateId);
+                Optional<User> candidateProfileOptional = userDaoRepository.findById(candidateId);
 
                     if(candidateProfileOptional.isPresent()){
-                            CandidateProfile candidateProfile = candidateProfileOptional.get();
+                            User candidateProfile = candidateProfileOptional.get();
                         candidateProfiles.add(candidateProfile);
                     }
             }

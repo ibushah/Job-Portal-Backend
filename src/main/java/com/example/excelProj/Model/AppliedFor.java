@@ -19,19 +19,19 @@ public class AppliedFor  {
   @JsonIgnore
     @ManyToOne
     @JoinColumn
-    private CandidateProfile candidateProfile;
+    private User appliedBy;
 
-
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn
+    private User poster;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn
     private Job job;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn
-    private CompanyProfile companyProfile;
+
 
     @Column
     private Boolean isNotified;
@@ -39,23 +39,34 @@ public class AppliedFor  {
     @Column
     Date appliedDate;
 
+
+
     public AppliedFor() {
     }
 
-    public AppliedFor(CandidateProfile candidateProfile, Job job, CompanyProfile companyProfile, Boolean isNotified, Date appliedDate) {
-        this.candidateProfile = candidateProfile;
+
+    public AppliedFor(User appliedBy, User poster, Job job, Boolean isNotified, Date appliedDate) {
+        this.appliedBy = appliedBy;
+        this.poster = poster;
         this.job = job;
-        this.companyProfile = companyProfile;
         this.isNotified = isNotified;
         this.appliedDate = appliedDate;
     }
 
-    public CompanyProfile getCompanyProfile() {
-        return companyProfile;
+    public User getPoster() {
+        return poster;
     }
 
-    public void setCompanyProfile(CompanyProfile companyProfile) {
-        this.companyProfile = companyProfile;
+    public void setPoster(User poster) {
+        this.poster = poster;
+    }
+
+    public User getAppliedBy() {
+        return appliedBy;
+    }
+
+    public void setAppliedBy(User appliedBy) {
+        this.appliedBy = appliedBy;
     }
 
     public Long getId() {
@@ -66,13 +77,7 @@ public class AppliedFor  {
         this.id = id;
     }
 
-    public CandidateProfile getCandidateProfile() {
-        return candidateProfile;
-    }
 
-    public void setCandidateProfile(CandidateProfile candidateProfile) {
-        this.candidateProfile = candidateProfile;
-    }
 
     public Job getJob() {
         return job;

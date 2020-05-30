@@ -2,9 +2,11 @@ package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -29,12 +31,23 @@ public class User {
     @Column
     private String userType;
 
-	@JsonBackReference
+
+	@JsonManagedReference
 	@OneToOne(mappedBy = "user")
 	private CandidateProfile candidateProfile;
 
 	@OneToOne(mappedBy = "user")
 	private CompanyProfile companyProfile;
+
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "appliedBy", cascade = CascadeType.ALL)
+	private Set<AppliedFor> AppliedForSet;
+
+
+	@OneToMany(mappedBy="jobPoster")
+	@JsonBackReference(value = "job_list_reference")
+	List<Job> jobList;
 
 
 	public CompanyProfile getCompanyProfile() {
