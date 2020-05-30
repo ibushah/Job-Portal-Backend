@@ -89,8 +89,34 @@ public class JobService {
             job.setPublishTo(jobDTO.getPublishTo());
             job.setCompanyProfile(user.getCompanyProfile());
             job.setDate(new Date());
+            job.setJobPostPermission(true);
             return new ApiResponse(200, "Job successfully posted", jobRepository.save(job));
         }
+
+        else if(user!=null && user.getUserType().equalsIgnoreCase("recruiter")){
+
+                Job job = new Job();
+                job.setDescription(jobDTO.getDescription());
+                job.setSalary(jobDTO.getSalary());
+                job.setLatitude(jobDTO.getLatitude());
+                job.setLongitude(jobDTO.getLongitude());
+                job.setTitle(jobDTO.getTitle());
+                job.setCity(jobDTO.getCity());
+                job.setCountry(jobDTO.getCountry());
+                job.setProvince(jobDTO.getProvince());
+                job.setCategory(jobDTO.getCategory());
+                job.setType(jobDTO.getType());
+                job.setAddress(jobDTO.getAddress());
+                job.setPublishFrom(jobDTO.getPublishFrom());
+                job.setPublishTo(jobDTO.getPublishTo());
+                job.setUser(user);
+                job.setDate(new Date());
+            job.setJobPostPermission(true);
+
+                return new ApiResponse(200, "Job posted succesffully by recruiter", jobRepository.save(job));
+            }
+
+
 
         return new ApiResponse(500, "Something went wrong", null);
     }
@@ -105,7 +131,8 @@ public class JobService {
         User user = userDaoRepository.findByEmail(currentPrincipalName);
 
 
-        if (user != null && !user.getUserType().equalsIgnoreCase("candidate") && user.getCompanyProfile() != null) {
+//        job post for company
+        if (user != null && user.getUserType().equalsIgnoreCase("employer") && user.getCompanyProfile() != null) {
 
             Optional<Job> jobOptional = jobRepository.findById(jobId);
             if(jobOptional.isPresent()){
@@ -126,11 +153,38 @@ public class JobService {
                 job.setPublishTo(jobDTO.getPublishTo());
                 job.setCompanyProfile(user.getCompanyProfile());
                 job.setDate(new Date());
+                job.setJobPostPermission(true);
                 return new ApiResponse(200, "Job Updated posted", jobRepository.save(job));
             }
 
 
         }
+        else if(user!=null && user.getUserType().equalsIgnoreCase("recruiter")){
+            Optional<Job> jobOptional = jobRepository.findById(jobId);
+            if(jobOptional.isPresent()){
+
+                Job job = jobOptional.get();
+                job.setDescription(jobDTO.getDescription());
+                job.setSalary(jobDTO.getSalary());
+                job.setLatitude(jobDTO.getLatitude());
+                job.setLongitude(jobDTO.getLongitude());
+                job.setTitle(jobDTO.getTitle());
+                job.setCity(jobDTO.getCity());
+                job.setCountry(jobDTO.getCountry());
+                job.setProvince(jobDTO.getProvince());
+                job.setCategory(jobDTO.getCategory());
+                job.setType(jobDTO.getType());
+                job.setAddress(jobDTO.getAddress());
+                job.setPublishFrom(jobDTO.getPublishFrom());
+                job.setPublishTo(jobDTO.getPublishTo());
+                job.setUser(user);
+                job.setDate(new Date());
+                job.setJobPostPermission(true);
+                return new ApiResponse(200, "Job Updated posted", jobRepository.save(job));
+            }
+
+        }
+
 
         return new ApiResponse(500, "Something went wrong", null);
     }
@@ -345,9 +399,13 @@ public class JobService {
         if(user.getUserType().equalsIgnoreCase("candidate")){
             return jobRepository.findByCategory(cat,pageable);
         }
-        else{
+        else if(user.getUserType().equalsIgnoreCase("employer")){
             Long companyId = user.getCompanyProfile().getId();
             return jobRepository.findByCategoryAndCompanyId(cat,companyId,pageable);
+        }
+        else{
+            Long recruiterUserId = user.getId();
+            return jobRepository.findByCategoryAndRecruiterId(cat,recruiterUserId,pageable);
         }
     }
 

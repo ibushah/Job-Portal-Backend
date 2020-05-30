@@ -53,10 +53,15 @@ public class User {
 	private Set<AppliedForRecruiterJob> appliedForRecruiterJobs;
 
 
+	@JsonIgnore
+	@OneToMany(mappedBy="user")
+	List<Job> jobList;
+
+
 	public User() {
 	}
 
-	public User(String email, String name, String password, Boolean active, Boolean profileActive, String userType, CandidateProfile candidateProfile, CompanyProfile companyProfile, RecruiterProfile recruiterProfile) {
+	public User(String email, String name, String password, Boolean active, Boolean profileActive, String userType, CandidateProfile candidateProfile, CompanyProfile companyProfile, RecruiterProfile recruiterProfile, List<RecruiterJobs> recruiterJobs, Set<AppliedForRecruiterJob> appliedForRecruiterJobs, List<Job> jobList) {
 		this.email = email;
 		this.name = name;
 		this.password = password;
@@ -66,6 +71,33 @@ public class User {
 		this.candidateProfile = candidateProfile;
 		this.companyProfile = companyProfile;
 		this.recruiterProfile = recruiterProfile;
+		this.recruiterJobs = recruiterJobs;
+		this.appliedForRecruiterJobs = appliedForRecruiterJobs;
+		this.jobList = jobList;
+	}
+
+	public List<RecruiterJobs> getRecruiterJobs() {
+		return recruiterJobs;
+	}
+
+	public void setRecruiterJobs(List<RecruiterJobs> recruiterJobs) {
+		this.recruiterJobs = recruiterJobs;
+	}
+
+	public Set<AppliedForRecruiterJob> getAppliedForRecruiterJobs() {
+		return appliedForRecruiterJobs;
+	}
+
+	public void setAppliedForRecruiterJobs(Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
+		this.appliedForRecruiterJobs = appliedForRecruiterJobs;
+	}
+
+	public List<Job> getJobList() {
+		return jobList;
+	}
+
+	public void setJobList(List<Job> jobList) {
+		this.jobList = jobList;
 	}
 
 	public Long getId() {

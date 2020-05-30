@@ -92,8 +92,13 @@ public class JobController implements JobSearchSPECIFICATIONS{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
+        Long id = 0l;
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        Long id = user.getCompanyProfile().getId();
+        if(user.getUserType().equalsIgnoreCase("recruiter")){
+            id = user.getId();
+            return jobRepository.findJobsByRecruiterPaginated(id,PageRequest.of(page,5));
+        }
+        id = user.getCompanyProfile().getId();
         return jobRepository.findJobsByCompanyPaginated(id,PageRequest.of(page,5));
 
     }

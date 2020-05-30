@@ -62,18 +62,10 @@ public class Job {
     @Column
     Date date;
 
+    @Column
+    Boolean jobPostPermission;
 
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private Set<AppliedFor> AppliedFor = new HashSet<>();
-
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    CompanyProfile companyProfile;
-
-    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile) {
+    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Boolean jobPostPermission, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile, User user) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -88,9 +80,35 @@ public class Job {
         this.latitude = latitude;
         this.address = address;
         this.date = date;
+        this.jobPostPermission = jobPostPermission;
         AppliedFor = appliedFor;
         this.companyProfile = companyProfile;
+        this.user = user;
     }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+    private Set<AppliedFor> AppliedFor = new HashSet<>();
+
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    CompanyProfile companyProfile;
+
+
+    @ManyToOne
+    @JoinColumn(name = "recruiter_user_id")
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
     public Date getDate() {
         return date;
@@ -101,6 +119,14 @@ public class Job {
     }
 
     public Job() {
+    }
+
+    public Boolean getJobPostPermission() {
+        return jobPostPermission;
+    }
+
+    public void setJobPostPermission(Boolean jobPostPermission) {
+        this.jobPostPermission = jobPostPermission;
     }
 
     public Long getId() {

@@ -26,6 +26,9 @@ public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecification
     @Query(value = "select * from job where category=:cat AND employee_id=:id", nativeQuery = true)
     Page<Job> findByCategoryAndCompanyId(@Param("cat") String category, @Param("id") Long id, Pageable p);
 
+    @Query(value = "select * from job where category=:cat AND recruiter_user_id=:id", nativeQuery = true)
+    Page<Job> findByCategoryAndRecruiterId(@Param("cat") String category, @Param("id") Long id, Pageable p);
+
 
     @Query(value = "select * from job where employee_id=:id", nativeQuery = true)
     List<Job> findByCompanyId(@Param("id") Long id);
@@ -33,6 +36,8 @@ public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecification
     @Query(value = "select * from job where employee_id=:id", nativeQuery = true)
     Page<Job> findJobsByCompanyPaginated(@Param("id") Long id, Pageable pageable);
 
+    @Query(value = "select * from job where recruiter_user_id=:id", nativeQuery = true)
+    Page<Job> findJobsByRecruiterPaginated(@Param("id") Long id, Pageable pageable);
 
     //    @Query(value = "select * from job where city:city",nativeQuery = true)
     Page<Job> findByCity(String city, Pageable pageable);
