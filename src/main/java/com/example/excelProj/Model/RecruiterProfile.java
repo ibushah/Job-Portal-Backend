@@ -3,6 +3,7 @@ package com.example.excelProj.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Rehan on 5/28/2020.
@@ -57,11 +58,17 @@ public class RecruiterProfile {
     User user;
 
 
+    @OneToMany(mappedBy="recruiterProfile")
+    @JsonBackReference(value = "recruiter_reviews_reference")
+    List<ReviewAndRating> reviewAndRatings;
+
+
+
 
     public RecruiterProfile() {
     }
 
-    public RecruiterProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, Double avgRating, String resumeContentType, String certificateContentType, User user) {
+    public RecruiterProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, Double avgRating, String resumeContentType, String certificateContentType, User user, List<ReviewAndRating> reviewAndRatings) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
@@ -75,10 +82,19 @@ public class RecruiterProfile {
         this.resumeContentType = resumeContentType;
         this.certificateContentType = certificateContentType;
         this.user = user;
+        this.reviewAndRatings = reviewAndRatings;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public List<ReviewAndRating> getReviewAndRatings() {
+        return reviewAndRatings;
+    }
+
+    public void setReviewAndRatings(List<ReviewAndRating> reviewAndRatings) {
+        this.reviewAndRatings = reviewAndRatings;
     }
 
     public void setId(Long id) {

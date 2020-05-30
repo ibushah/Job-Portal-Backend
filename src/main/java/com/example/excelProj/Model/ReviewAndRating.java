@@ -31,18 +31,33 @@ public class ReviewAndRating {
     @JoinColumn(name = "company_id")
     CompanyProfile companyProfile;
 
+
+    @ManyToOne
+//    @JsonManagedReference
+    @JoinColumn(name = "recruiter_id")
+    RecruiterProfile recruiterProfile;
+
     public ReviewAndRating() {
     }
 
-    public ReviewAndRating(String review, Integer rating, Long candidateId, String rateBy, Date date, CompanyProfile companyProfile) {
+
+    public RecruiterProfile getRecruiterProfile() {
+        return recruiterProfile;
+    }
+
+    public void setRecruiterProfile(RecruiterProfile recruiterProfile) {
+        this.recruiterProfile = recruiterProfile;
+    }
+
+    public ReviewAndRating(String review, Integer rating, Long candidateId, String rateBy, Date date, CompanyProfile companyProfile, RecruiterProfile recruiterProfile) {
         this.review = review;
         Rating = rating;
         this.candidateId = candidateId;
         this.rateBy = rateBy;
         this.date = date;
         this.companyProfile = companyProfile;
+        this.recruiterProfile = recruiterProfile;
     }
-
 
     public Long getId() {
         return id;

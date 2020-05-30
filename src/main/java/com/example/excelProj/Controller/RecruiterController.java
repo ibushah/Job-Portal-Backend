@@ -74,9 +74,12 @@ public class RecruiterController {
 
         return recruiterService.referJob(referJobToCandidateDTO);
 
-
     }
 
+    @GetMapping("allDetails/{recruiterUserId}")
+    public ApiResponse allRecruiterProfileDetails(@PathVariable("recruiterUserId") Long recruiterUserId){
+        return recruiterService.getAllDetails(recruiterUserId);
+    }
 
 
 

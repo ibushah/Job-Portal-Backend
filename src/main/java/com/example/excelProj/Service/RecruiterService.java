@@ -1,10 +1,7 @@
 package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
-import com.example.excelProj.Dto.JobDTO;
-import com.example.excelProj.Dto.RecruiterJobsDTO;
-import com.example.excelProj.Dto.RecruiterProfileDTO;
-import com.example.excelProj.Dto.ReferJobToCandidateDTO;
+import com.example.excelProj.Dto.*;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +35,10 @@ public class RecruiterService {
     AppliedForRecruiterJobRepository appliedForRecruiterJobRepository;
     @Autowired
     CandidateProfileRepository candidateProfileRepository;
+
+
+    @Autowired
+    ReviewAndRatingRepository reviewAndRatingRepository;
 
     public ApiResponse saveRecruiterProfile(Long userId, RecruiterProfileDTO recruiterProfileDTO) {
         Optional<User> optionalUser = userDaoRepository.findById(userId);
@@ -170,6 +171,45 @@ public class RecruiterService {
 
 
 
+
+
+    public ApiResponse getAllDetails(Long userId){
+
+
+        RecruiterProfileDetailsDTO recruiterProfileDetailsDTO = new RecruiterProfileDetailsDTO();
+        Optional<ReviewAndRating> reviewAndRatingObject = Optional.empty();
+
+//        LoggedInUserDetails
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User loggedInUser = userDaoRepository.findByEmail(currentPrincipalName);
+
+
+//        Recruiter User profile
+        Optional<User> user = userDaoRepository.findById(userId);
+        recruiterProfileDetailsDTO.setUserProfile(user.get());
+        recruiterProfileDetailsDTO.setAlreadyCommented(false);
+        recruiterProfileDetailsDTO.setCompanyReviewRatingDTOList(null);
+
+        if(user.get().getRecruiterProfile()!=null){
+            Long recruiterId = user.get().getRecruiterProfile().getId();
+            List<CompanyReviewRatingDTO> recruiterProfileReviews = recruiterRepository.getAllReviewsAndRatingOfRecruiterProfile(recruiterId,"candidate");
+        }
+
+
+
+
+
+
+//        If a profile is view by a candidate than check review status
+        if(loggedInUser!=null && loggedInUser.getUserType().equalsIgnoreCase("candidate")){
+            reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndRecruiterProfileIdAndAndRateBy(loggedInUser.getCandidateProfile().getId(),userId,"candidate");
+            if(reviewAndRatingObject.isPresent()) recruiterProfileDetailsDTO.setAlreadyCommented(true);
+        }
+
+
+        return new ApiResponse(200,"Company All Details",recruiterProfileDetailsDTO);
+    }
 
 
 
