@@ -32,11 +32,7 @@ public class CompanyProfile {
     @Lob
     byte[] logo;
 
-    @Lob
-    byte[] resume;
 
-    @Lob
-    byte[] certificate;
 
     @Column
     String logoContentType;
@@ -44,11 +40,7 @@ public class CompanyProfile {
     @Column
     Double avgRating;
 
-    @Column
-    String resumeContentType;
 
-    @Column
-    String certificateContentType;
 
 
     @OneToMany(mappedBy="companyProfile")
@@ -68,19 +60,15 @@ public class CompanyProfile {
     public CompanyProfile() {
     }
 
-    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, Double avgRating, String resumeContentType, String certificateContentType, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
+    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, Double avgRating, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
         this.contactName = contactName;
         this.contactTitle = contactTitle;
         this.logo = logo;
-        this.resume = resume;
-        this.certificate = certificate;
         this.logoContentType = logoContentType;
         this.avgRating = avgRating;
-        this.resumeContentType = resumeContentType;
-        this.certificateContentType = certificateContentType;
         this.jobList = jobList;
         this.reviewAndRatings = reviewAndRatings;
         this.user = user;
@@ -142,22 +130,6 @@ public class CompanyProfile {
         this.logo = logo;
     }
 
-    public byte[] getResume() {
-        return resume;
-    }
-
-    public void setResume(byte[] resume) {
-        this.resume = resume;
-    }
-
-    public byte[] getCertificate() {
-        return certificate;
-    }
-
-    public void setCertificate(byte[] certificate) {
-        this.certificate = certificate;
-    }
-
     public String getLogoContentType() {
         return logoContentType;
     }
@@ -172,22 +144,6 @@ public class CompanyProfile {
 
     public void setAvgRating(Double avgRating) {
         this.avgRating = avgRating;
-    }
-
-    public String getResumeContentType() {
-        return resumeContentType;
-    }
-
-    public void setResumeContentType(String resumeContentType) {
-        this.resumeContentType = resumeContentType;
-    }
-
-    public String getCertificateContentType() {
-        return certificateContentType;
-    }
-
-    public void setCertificateContentType(String certificateContentType) {
-        this.certificateContentType = certificateContentType;
     }
 
     public List<Job> getJobList() {
