@@ -2,19 +2,12 @@ package com.example.excelProj.Controller;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.RecruiterJobsDTO;
-import com.example.excelProj.Dto.RecruiterProfileDTO;
 import com.example.excelProj.Dto.ReferJobToCandidateDTO;
-import com.example.excelProj.Model.RecruiterProfile;
 import com.example.excelProj.Repository.RecruiterJobRepository;
-import com.example.excelProj.Repository.RecruiterRepository;
 import com.example.excelProj.Service.RecruiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.print.Pageable;
-import java.util.Map;
 
 /**
  * Created by Rehan on 5/28/2020.
@@ -26,8 +19,7 @@ import java.util.Map;
 public class RecruiterController {
 
 
-    @Autowired
-    RecruiterRepository recruiterRepository;
+
 
     @Autowired
     RecruiterJobRepository recruiterJobRepository;
@@ -36,10 +28,7 @@ public class RecruiterController {
     RecruiterService recruiterService;
 
 
-    @PostMapping("post/{userId}")
-    public ApiResponse postRecruiterProfile(@PathVariable("userId") Long userId,@RequestBody RecruiterProfileDTO recruiterProfileDTO){
-        return recruiterService.saveRecruiterProfile(userId,recruiterProfileDTO);
-    }
+
 
     @PostMapping("post/job")
     public ApiResponse postRecruiterJob(@RequestBody RecruiterJobsDTO recruiterProfileDTO){
@@ -52,11 +41,11 @@ public class RecruiterController {
     }
 
     @GetMapping("get/job/{userId}")
-    public ApiResponse getAllJobsOfRecruiterUserId(@PathVariable("userId") Long userId,@RequestParam(defaultValue = "0")int page){
+    public ApiResponse getAllJobsOfRecruiterUserId(@PathVariable("userId") Long companyId,@RequestParam(defaultValue = "0")int page){
 
         org.springframework.data.domain.Pageable pageable = PageRequest.of(page,5);
 
-         return  new ApiResponse(200,"Successfull",recruiterJobRepository.findAllJobsByRecruiterUserId(userId,pageable));
+         return  new ApiResponse(200,"Successfull",recruiterJobRepository.findAllJobsByRecruiterCompanyId(companyId,pageable));
     }
 
     @GetMapping("get/{jobId}")
@@ -76,10 +65,7 @@ public class RecruiterController {
 
     }
 
-    @GetMapping("allDetails/{recruiterUserId}")
-    public ApiResponse allRecruiterProfileDetails(@PathVariable("recruiterUserId") Long recruiterUserId){
-        return recruiterService.getAllDetails(recruiterUserId);
-    }
+
 
 
 

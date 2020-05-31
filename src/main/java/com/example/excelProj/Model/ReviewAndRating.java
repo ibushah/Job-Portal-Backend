@@ -32,31 +32,16 @@ public class ReviewAndRating {
     CompanyProfile companyProfile;
 
 
-    @ManyToOne
-//    @JsonManagedReference
-    @JoinColumn(name = "recruiter_id")
-    RecruiterProfile recruiterProfile;
-
-    public ReviewAndRating() {
-    }
-
-
-    public RecruiterProfile getRecruiterProfile() {
-        return recruiterProfile;
-    }
-
-    public void setRecruiterProfile(RecruiterProfile recruiterProfile) {
-        this.recruiterProfile = recruiterProfile;
-    }
-
-    public ReviewAndRating(String review, Integer rating, Long candidateId, String rateBy, Date date, CompanyProfile companyProfile, RecruiterProfile recruiterProfile) {
+    public ReviewAndRating(String review, Integer rating, Long candidateId, String rateBy, Date date, CompanyProfile companyProfile) {
         this.review = review;
         Rating = rating;
         this.candidateId = candidateId;
         this.rateBy = rateBy;
         this.date = date;
         this.companyProfile = companyProfile;
-        this.recruiterProfile = recruiterProfile;
+    }
+
+    public ReviewAndRating() {
     }
 
     public Long getId() {
@@ -110,6 +95,7 @@ public class ReviewAndRating {
     public CompanyProfile getCompanyProfile() {
         return companyProfile;
     }
+
 
     public void setCompanyProfile(CompanyProfile companyProfile) {
         this.companyProfile = companyProfile;

@@ -8,25 +8,25 @@ import java.util.List;
  * Created by Rehan on 5/28/2020.
  */
 public class ReferJobToCandidateDTO {
-    Long userId;
+    Long companyId;
     Long jobId;
     List<Long> candidateProfilesIds;
 
     public ReferJobToCandidateDTO() {
     }
 
-    public ReferJobToCandidateDTO(Long userId, Long jobId, List<Long> candidateProfilesIds) {
-        this.userId = userId;
+    public ReferJobToCandidateDTO(Long companyId, Long jobId, List<Long> candidateProfilesIds) {
+        this.companyId = companyId;
         this.jobId = jobId;
         this.candidateProfilesIds = candidateProfilesIds;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public Long getJobId() {

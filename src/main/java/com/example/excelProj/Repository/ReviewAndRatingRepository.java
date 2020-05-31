@@ -24,7 +24,7 @@ public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRatin
 
 
      Optional<ReviewAndRating> findByCandidateIdAndCompanyProfileIdAndAndRateBy(Long candidateId,Long comanyId,String rateBy);
-     Optional<ReviewAndRating> findByCandidateIdAndRecruiterProfileIdAndAndRateBy(Long candidateId,Long recruiterUserId,String rateBy);
+//     Optional<ReviewAndRating> findByCandidateIdAndRecruiterProfileIdAndAndRateBy(Long candidateId,Long recruiterUserId,String rateBy);
 
 
 //    ALL THE COMANIES WITH REVIEWS AGFAINST THIS CANDIDATE ID

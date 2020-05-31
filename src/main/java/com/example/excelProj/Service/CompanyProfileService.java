@@ -54,12 +54,12 @@ public class CompanyProfileService {
             companyProfile.setName(companyProfileDTO.getName());
             companyProfile.setLogoContentType(companyProfileDTO.getLogoContentType());
             companyProfile.setUser(user);
-//            if(user.getUserType().equalsIgnoreCase("recruiter")){
-//                companyProfile.setResume(companyProfileDTO.getResume());
-//                companyProfile.setCertificate(companyProfileDTO.getCertificate());
-//                companyProfile.setResumeContentType(companyProfileDTO.getResumeContentType());
-//                companyProfile.setCertificateContentType(companyProfileDTO.getCertificateContentType());
-//            }
+            if(user.getUserType().equalsIgnoreCase("recruiter")){
+                companyProfile.setResume(companyProfileDTO.getResume());
+                companyProfile.setCertificate(companyProfileDTO.getCertificate());
+                companyProfile.setResumeContentType(companyProfileDTO.getResumeContentType());
+                companyProfile.setCertificateContentType(companyProfileDTO.getCertificateContentType());
+            }
 
             companyProfileRepository.save(companyProfile);
             return new ApiResponse(200, "Company profile successfuly updated", companyProfileRepository.findByUserId(userId));

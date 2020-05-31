@@ -20,8 +20,8 @@ public interface JobSearchSPECIFICATIONS {
         return (jobRoot, cq, cb) -> cb.equal(jobRoot.get("city"), city);
     }
 
-    static Specification<Job> hasCompany(Long employee_id) {
-        return (jobRoot, cq, cb) -> cb.equal(jobRoot.get("companyProfile"), employee_id);
+    static Specification<Job> hasCompany(Long company_id) {
+        return (jobRoot, cq, cb) -> cb.equal(jobRoot.get("companyProfile"), company_id);
     }
 
 

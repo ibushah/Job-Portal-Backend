@@ -65,8 +65,8 @@ public class RecruiterJobs {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn
-    User user;
+    @JoinColumn(name = "company_id")
+    CompanyProfile companyProfileJobs;
 
 
     @JsonIgnore
@@ -74,10 +74,9 @@ public class RecruiterJobs {
     private Set<AppliedForRecruiterJob> appliedForRecruiterJobs;
 
     public RecruiterJobs() {
-
     }
 
-    public RecruiterJobs(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, User user, Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
+    public RecruiterJobs(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, CompanyProfile companyProfileJobs, Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -92,7 +91,7 @@ public class RecruiterJobs {
         this.latitude = latitude;
         this.address = address;
         this.date = date;
-        this.user = user;
+        this.companyProfileJobs = companyProfileJobs;
         this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
 
@@ -216,12 +215,12 @@ public class RecruiterJobs {
         this.date = date;
     }
 
-    public User getUser() {
-        return user;
+    public CompanyProfile getCompanyProfileJobs() {
+        return companyProfileJobs;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCompanyProfileJobs(CompanyProfile companyProfileJobs) {
+        this.companyProfileJobs = companyProfileJobs;
     }
 
     public Set<AppliedForRecruiterJob> getAppliedForRecruiterJobs() {

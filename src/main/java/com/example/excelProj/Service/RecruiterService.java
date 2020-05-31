@@ -23,8 +23,7 @@ import java.util.Optional;
 
 public class RecruiterService {
 
-    @Autowired
-    RecruiterRepository recruiterRepository;
+
 
     @Autowired
     RecruiterJobRepository recruiterJobRepository;
@@ -38,38 +37,11 @@ public class RecruiterService {
 
 
     @Autowired
+    CompanyProfileRepository companyProfileRepository;
+
+
+    @Autowired
     ReviewAndRatingRepository reviewAndRatingRepository;
-
-    public ApiResponse saveRecruiterProfile(Long userId, RecruiterProfileDTO recruiterProfileDTO) {
-        Optional<User> optionalUser = userDaoRepository.findById(userId);
-
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-
-            if (!user.getProfileActive()) {
-                user.setProfileActive(true);
-                userDaoRepository.save(user);
-            }
-            RecruiterProfile recruiterProfile = recruiterRepository.findByUserId(userId) != null ? recruiterRepository.findByUserId(userId) : new RecruiterProfile();
-
-            recruiterProfile.setName(recruiterProfileDTO.getName());
-            recruiterProfile.setBillingAddress(recruiterProfileDTO.getBillingAddress());
-            recruiterProfile.setCertificate(recruiterProfileDTO.getCertificate());
-            recruiterProfile.setCertificateContentType(recruiterProfileDTO.getCertificateContentType());
-            recruiterProfile.setResume(recruiterProfileDTO.getResume());
-            recruiterProfile.setResumeContentType(recruiterProfileDTO.getResumeContentType());
-            recruiterProfile.setBillingAddress(recruiterProfileDTO.getBillingAddress());
-            recruiterProfile.setCorporateAddress(recruiterProfileDTO.getCorporateAddress());
-            recruiterProfile.setContactName(recruiterProfileDTO.getContactName());
-            recruiterProfile.setLogo(recruiterProfileDTO.getLogo());
-            recruiterProfile.setLogoContentType(recruiterProfileDTO.getLogoContentType());
-            recruiterProfile.setUser(user);
-            recruiterRepository.save(recruiterProfile);
-            return new ApiResponse(200, "ADDEDD SUCCESSFULLY", recruiterProfile);
-        }
-        return new ApiResponse(500, "USER NOT PRESENT", null);
-    }
-
 
 
 
@@ -98,7 +70,7 @@ public class RecruiterService {
             job.setPublishFrom(jobDTO.getPublishFrom());
             job.setAddress(jobDTO.getAddress());
             job.setPublishTo(jobDTO.getPublishTo());
-            job.setUser(user);
+            job.setCompanyProfileJobs(user.getCompanyProfile());
             job.setDate(new Date());
             return new ApiResponse(200, "Recruiter Job successfully posted", recruiterJobRepository.save(job));
         }
@@ -114,7 +86,7 @@ public class RecruiterService {
 
         User user = userDaoRepository.findByEmail(currentPrincipalName);
 
-        if (user != null && user.getUserType().equalsIgnoreCase("recruiter")) {
+        if (user != null && user.getUserType().equalsIgnoreCase("recruiter") && user.getCompanyProfile()!=null) {
 
             RecruiterJobs job = new RecruiterJobs();
             job.setDescription(jobDTO.getDescription());
@@ -130,7 +102,7 @@ public class RecruiterService {
             job.setPublishFrom(jobDTO.getPublishFrom());
             job.setAddress(jobDTO.getAddress());
             job.setPublishTo(jobDTO.getPublishTo());
-            job.setUser(user);
+            job.setCompanyProfileJobs(user.getCompanyProfile());
             job.setDate(new Date());
             return new ApiResponse(200, "Recruiter Job successfully updated", recruiterJobRepository.save(job));
         }
@@ -145,14 +117,14 @@ public class RecruiterService {
 
 //        check all these three things exits or not
 
-        Optional<User> user = userDaoRepository.findById(referJobToCandidateDTO.getUserId());
+        Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(referJobToCandidateDTO.getCompanyId());
         Optional<RecruiterJobs> recruiterJobs = recruiterJobRepository.findById(referJobToCandidateDTO.getJobId());
 
-        if(user.isPresent() && recruiterJobs.isPresent()){
+        if(companyProfile.isPresent() && recruiterJobs.isPresent()){
             AppliedForRecruiterJob appliedForRecruiterJob = new AppliedForRecruiterJob();
 
             for (Long candidateIds:referJobToCandidateDTO.getCandidateProfilesIds()) {
-                appliedForRecruiterJob.setUser(user.get());
+                appliedForRecruiterJob.setCompanyProfile(companyProfile.get());
                 appliedForRecruiterJob.setRecruiterJobs(recruiterJobs.get());
                 appliedForRecruiterJob.setCandidateProfile(candidateProfileRepository.findById(candidateIds).get());
                 appliedForRecruiterJob.setSeen(false);
@@ -167,83 +139,6 @@ public class RecruiterService {
         return  new ApiResponse(500,"ERROR OCCURED",null);
 
     }
-
-
-
-
-
-
-    public ApiResponse getAllDetails(Long userId){
-
-
-        RecruiterProfileDetailsDTO recruiterProfileDetailsDTO = new RecruiterProfileDetailsDTO();
-        Optional<ReviewAndRating> reviewAndRatingObject = Optional.empty();
-
-//        LoggedInUserDetails
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        User loggedInUser = userDaoRepository.findByEmail(currentPrincipalName);
-
-
-//        Recruiter User profile
-        Optional<User> user = userDaoRepository.findById(userId);
-        recruiterProfileDetailsDTO.setUserProfile(user.get());
-        recruiterProfileDetailsDTO.setAlreadyCommented(false);
-        recruiterProfileDetailsDTO.setCompanyReviewRatingDTOList(null);
-
-        if(user.get().getRecruiterProfile()!=null){
-            Long recruiterId = user.get().getRecruiterProfile().getId();
-            List<CompanyReviewRatingDTO> recruiterProfileReviews = recruiterRepository.getAllReviewsAndRatingOfRecruiterProfile(recruiterId,"candidate");
-        }
-
-
-
-
-
-
-//        If a profile is view by a candidate than check review status
-        if(loggedInUser!=null && loggedInUser.getUserType().equalsIgnoreCase("candidate")){
-            reviewAndRatingObject = reviewAndRatingRepository.findByCandidateIdAndRecruiterProfileIdAndAndRateBy(loggedInUser.getCandidateProfile().getId(),userId,"candidate");
-            if(reviewAndRatingObject.isPresent()) recruiterProfileDetailsDTO.setAlreadyCommented(true);
-        }
-
-
-        return new ApiResponse(200,"Company All Details",recruiterProfileDetailsDTO);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

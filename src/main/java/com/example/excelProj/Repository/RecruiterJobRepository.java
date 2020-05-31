@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecruiterJobRepository extends JpaRepository<RecruiterJobs,Long>{
 
-    @Query(value = "select * from recruiter_jobs where user_id=:id",nativeQuery = true)
-    Page<RecruiterJobs> findAllJobsByRecruiterUserId(@Param("id") Long id, Pageable pageable);
+    @Query(value = "select * from recruiter_jobs where company_id=:id",nativeQuery = true)
+    Page<RecruiterJobs> findAllJobsByRecruiterCompanyId(@Param("id") Long id, Pageable pageable);
 }

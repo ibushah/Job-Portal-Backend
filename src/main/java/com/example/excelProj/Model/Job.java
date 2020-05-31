@@ -65,7 +65,10 @@ public class Job {
     @Column
     Boolean jobPostPermission;
 
-    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Boolean jobPostPermission, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile, User user) {
+    public Job() {
+    }
+
+    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Boolean jobPostPermission, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -83,7 +86,6 @@ public class Job {
         this.jobPostPermission = jobPostPermission;
         AppliedFor = appliedFor;
         this.companyProfile = companyProfile;
-        this.user = user;
     }
 
     @JsonIgnore
@@ -92,42 +94,9 @@ public class Job {
 
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "company_id")
     CompanyProfile companyProfile;
 
-
-    @ManyToOne
-    @JoinColumn(name = "recruiter_user_id")
-    User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Job() {
-    }
-
-    public Boolean getJobPostPermission() {
-        return jobPostPermission;
-    }
-
-    public void setJobPostPermission(Boolean jobPostPermission) {
-        this.jobPostPermission = jobPostPermission;
-    }
 
     public Long getId() {
         return id;
@@ -233,6 +202,29 @@ public class Job {
         this.latitude = latitude;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Boolean getJobPostPermission() {
+        return jobPostPermission;
+    }
+
+    public void setJobPostPermission(Boolean jobPostPermission) {
+        this.jobPostPermission = jobPostPermission;
+    }
 
     public Set<com.example.excelProj.Model.AppliedFor> getAppliedFor() {
         return AppliedFor;
@@ -240,14 +232,6 @@ public class Job {
 
     public void setAppliedFor(Set<com.example.excelProj.Model.AppliedFor> appliedFor) {
         AppliedFor = appliedFor;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public CompanyProfile getCompanyProfile() {

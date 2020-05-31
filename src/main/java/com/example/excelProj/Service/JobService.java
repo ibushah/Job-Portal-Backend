@@ -109,7 +109,7 @@ public class JobService {
                 job.setAddress(jobDTO.getAddress());
                 job.setPublishFrom(jobDTO.getPublishFrom());
                 job.setPublishTo(jobDTO.getPublishTo());
-                job.setUser(user);
+                job.setCompanyProfile(user.getCompanyProfile());
                 job.setDate(new Date());
             job.setJobPostPermission(true);
 
@@ -177,7 +177,8 @@ public class JobService {
                 job.setAddress(jobDTO.getAddress());
                 job.setPublishFrom(jobDTO.getPublishFrom());
                 job.setPublishTo(jobDTO.getPublishTo());
-                job.setUser(user);
+
+                job.setCompanyProfile(user.getCompanyProfile());
                 job.setDate(new Date());
                 job.setJobPostPermission(true);
                 return new ApiResponse(200, "Job Updated posted", jobRepository.save(job));
@@ -399,14 +400,11 @@ public class JobService {
         if(user.getUserType().equalsIgnoreCase("candidate")){
             return jobRepository.findByCategory(cat,pageable);
         }
-        else if(user.getUserType().equalsIgnoreCase("employer")){
+        else{
             Long companyId = user.getCompanyProfile().getId();
             return jobRepository.findByCategoryAndCompanyId(cat,companyId,pageable);
         }
-        else{
-            Long recruiterUserId = user.getId();
-            return jobRepository.findByCategoryAndRecruiterId(cat,recruiterUserId,pageable);
-        }
+
     }
 
 

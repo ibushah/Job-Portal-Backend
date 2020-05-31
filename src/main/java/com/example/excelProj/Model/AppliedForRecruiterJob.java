@@ -29,7 +29,7 @@ public class AppliedForRecruiterJob {
     @JsonIgnore
     @ManyToOne
     @JoinColumn
-    private User user;
+    private CompanyProfile companyProfile;
 
     @Column
     private Boolean isSeen;
@@ -46,10 +46,10 @@ public class AppliedForRecruiterJob {
     public AppliedForRecruiterJob() {
     }
 
-    public AppliedForRecruiterJob(CandidateProfile candidateProfile, RecruiterJobs recruiterJobs, User user, Boolean isSeen, Boolean isApplied, Date appliedDate, Date referedDate) {
+    public AppliedForRecruiterJob(CandidateProfile candidateProfile, RecruiterJobs recruiterJobs, CompanyProfile companyProfile, Boolean isSeen, Boolean isApplied, Date appliedDate, Date referedDate) {
         this.candidateProfile = candidateProfile;
         this.recruiterJobs = recruiterJobs;
-        this.user = user;
+        this.companyProfile = companyProfile;
         this.isSeen = isSeen;
         this.isApplied = isApplied;
         this.appliedDate = appliedDate;
@@ -80,12 +80,12 @@ public class AppliedForRecruiterJob {
         this.recruiterJobs = recruiterJobs;
     }
 
-    public User getUser() {
-        return user;
+    public CompanyProfile getCompanyProfile() {
+        return companyProfile;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCompanyProfile(CompanyProfile companyProfile) {
+        this.companyProfile = companyProfile;
     }
 
     public Boolean getSeen() {

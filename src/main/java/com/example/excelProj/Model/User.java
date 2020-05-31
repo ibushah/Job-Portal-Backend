@@ -13,7 +13,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -41,27 +41,8 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private CompanyProfile companyProfile;
 
-	@OneToOne(mappedBy = "user")
-	private RecruiterProfile recruiterProfile;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "user")
-	private List<RecruiterJobs> recruiterJobs;
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<AppliedForRecruiterJob> appliedForRecruiterJobs;
-
-
-	@JsonIgnore
-	@OneToMany(mappedBy="user")
-	List<Job> jobList;
-
-
-	public User() {
-	}
-
-	public User(String email, String name, String password, Boolean active, Boolean profileActive, String userType, CandidateProfile candidateProfile, CompanyProfile companyProfile, RecruiterProfile recruiterProfile, List<RecruiterJobs> recruiterJobs, Set<AppliedForRecruiterJob> appliedForRecruiterJobs, List<Job> jobList) {
+	public User(String email, String name, String password, Boolean active, Boolean profileActive, String userType, CandidateProfile candidateProfile, CompanyProfile companyProfile) {
 		this.email = email;
 		this.name = name;
 		this.password = password;
@@ -70,34 +51,9 @@ public class User {
 		this.userType = userType;
 		this.candidateProfile = candidateProfile;
 		this.companyProfile = companyProfile;
-		this.recruiterProfile = recruiterProfile;
-		this.recruiterJobs = recruiterJobs;
-		this.appliedForRecruiterJobs = appliedForRecruiterJobs;
-		this.jobList = jobList;
 	}
 
-	public List<RecruiterJobs> getRecruiterJobs() {
-		return recruiterJobs;
-	}
-
-	public void setRecruiterJobs(List<RecruiterJobs> recruiterJobs) {
-		this.recruiterJobs = recruiterJobs;
-	}
-
-	public Set<AppliedForRecruiterJob> getAppliedForRecruiterJobs() {
-		return appliedForRecruiterJobs;
-	}
-
-	public void setAppliedForRecruiterJobs(Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
-		this.appliedForRecruiterJobs = appliedForRecruiterJobs;
-	}
-
-	public List<Job> getJobList() {
-		return jobList;
-	}
-
-	public void setJobList(List<Job> jobList) {
-		this.jobList = jobList;
+	public User() {
 	}
 
 	public Long getId() {
@@ -170,13 +126,5 @@ public class User {
 
 	public void setCompanyProfile(CompanyProfile companyProfile) {
 		this.companyProfile = companyProfile;
-	}
-
-	public RecruiterProfile getRecruiterProfile() {
-		return recruiterProfile;
-	}
-
-	public void setRecruiterProfile(RecruiterProfile recruiterProfile) {
-		this.recruiterProfile = recruiterProfile;
 	}
 }
