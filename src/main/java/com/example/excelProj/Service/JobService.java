@@ -2,6 +2,7 @@ package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.JobDTO;
+import com.example.excelProj.Dto.JobPostDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.*;
@@ -63,7 +64,7 @@ public class JobService {
     }
 
 
-    public ApiResponse postJob(JobDTO jobDTO) {
+    public ApiResponse postJob(JobPostDTO jobDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -124,7 +125,7 @@ public class JobService {
 
 //    UPDATE JOB
 
-    public ApiResponse updateJOB(Long jobId,JobDTO jobDTO) {
+    public ApiResponse updateJOB(Long jobId,JobPostDTO jobDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -374,7 +375,7 @@ public class JobService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        if(user!=null && !user.getUserType().equalsIgnoreCase("employer")) {
+        if(user!=null) {
 
             Boolean jobExist = jobRepository.existsById(id);
             //first delete a job than then its association

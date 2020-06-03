@@ -5,9 +5,11 @@ import com.example.excelProj.Dto.*;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import sun.security.acl.AllPermissionsImpl;
 
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
@@ -70,7 +72,7 @@ public class RecruiterService {
             job.setPublishFrom(jobDTO.getPublishFrom());
             job.setAddress(jobDTO.getAddress());
             job.setPublishTo(jobDTO.getPublishTo());
-            job.setCompanyProfileJobs(user.getCompanyProfile());
+            job.companyProfile(user.getCompanyProfile());
             job.setDate(new Date());
             return new ApiResponse(200, "Recruiter Job successfully posted", recruiterJobRepository.save(job));
         }
@@ -102,7 +104,8 @@ public class RecruiterService {
             job.setPublishFrom(jobDTO.getPublishFrom());
             job.setAddress(jobDTO.getAddress());
             job.setPublishTo(jobDTO.getPublishTo());
-            job.setCompanyProfileJobs(user.getCompanyProfile());
+            job.companyProfile
+                    (user.getCompanyProfile());
             job.setDate(new Date());
             return new ApiResponse(200, "Recruiter Job successfully updated", recruiterJobRepository.save(job));
         }
@@ -121,24 +124,111 @@ public class RecruiterService {
         Optional<RecruiterJobs> recruiterJobs = recruiterJobRepository.findById(referJobToCandidateDTO.getJobId());
 
         if(companyProfile.isPresent() && recruiterJobs.isPresent()){
-            AppliedForRecruiterJob appliedForRecruiterJob = new AppliedForRecruiterJob();
 
-            for (Long candidateIds:referJobToCandidateDTO.getCandidateProfilesIds()) {
+
+                AppliedForRecruiterJob appliedForRecruiterJob = new AppliedForRecruiterJob();
                 appliedForRecruiterJob.setCompanyProfile(companyProfile.get());
                 appliedForRecruiterJob.setRecruiterJobs(recruiterJobs.get());
-                appliedForRecruiterJob.setCandidateProfile(candidateProfileRepository.findById(candidateIds).get());
+                appliedForRecruiterJob.setCandidateProfile(candidateProfileRepository.findById(referJobToCandidateDTO.getCandidateId()).get());
                 appliedForRecruiterJob.setSeen(false);
                 appliedForRecruiterJob.setApplied(false);
                 appliedForRecruiterJob.setAppliedDate(null);
                 appliedForRecruiterJob.setReferedDate(new Date());
                 appliedForRecruiterJobRepository.save(appliedForRecruiterJob);
-            }
 
-            return new ApiResponse(200,"SuccessFully refered",appliedForRecruiterJob);
+
+            return new ApiResponse(200,"SuccessFully refered",true);
         }
         return  new ApiResponse(500,"ERROR OCCURED",null);
 
     }
 
+
+
+    public ApiResponse getAllInfoOfJobIdForRecruiter(Long jobId){
+
+
+        ViewPrivateJobDTO viewPrivateJobDTO = new ViewPrivateJobDTO();
+        Optional<RecruiterJobs> recruiterJobs = recruiterJobRepository.findById(jobId);
+        viewPrivateJobDTO.setRecruiterJobs(recruiterJobs.get());
+        List<AllCandidatesReferedOrNotList> allCandidatesReferedOrNotLists = appliedForRecruiterJobRepository.getAllCandidates(jobId);
+        viewPrivateJobDTO.setAllCandidatesReferedOrNotList(allCandidatesReferedOrNotLists);
+        return new ApiResponse(200,"SUCCESSFULL",viewPrivateJobDTO);
+
+    }
+
+
+
+
+    public ApiResponse privateJobDetailsForCandidate(Long jobId){
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+
+        if(user.getUserType().equalsIgnoreCase("candidate")){
+            Optional<RecruiterJobs> recruiterJobs = recruiterJobRepository.findById(jobId);
+            Long companyId = recruiterJobs.get().companyProfile().getId();
+            Long candiateId = user.getCandidateProfile().getId();
+
+           Optional<AppliedForRecruiterJob> appliedForRecruiterJob =  appliedForRecruiterJobRepository.findByCandidateProfileIdAndCandidateProfileIdAndRecruiterJobsId(candiateId,companyId,jobId);
+            if(appliedForRecruiterJob.isPresent()){
+                return new ApiResponse(200,"Successfull",recruiterJobs.get(),null,true);
+            }
+            return new ApiResponse(200,"Successfull",recruiterJobs.get(),null,false);
+
+
+        }
+
+        return  null;
+    }
+
+    public ApiResponse applyOnJobByCandidate(ReferJobToCandidateDTO referJobToCandidateDTO){
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        Long candId = user.getCandidateProfile().getId();
+        AppliedForRecruiterJob  appliedForRecruiterJob = appliedForRecruiterJobRepository.applyOnJob(candId,referJobToCandidateDTO.getCompanyId(),referJobToCandidateDTO.getJobId());
+        if(appliedForRecruiterJob!=null){
+            appliedForRecruiterJob.setApplied(true);
+            appliedForRecruiterJob.setAppliedDate(new Date());
+            appliedForRecruiterJobRepository.save(appliedForRecruiterJob);
+            return new ApiResponse(200,"Successfull",appliedForRecruiterJob);
+        }
+        else {
+            return  new ApiResponse(500,"Unsuccessfull",null);
+        }
+    }
+
+
+    public ApiResponse deleteJobById(Long id,Pageable pageable){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        if(user!=null) {
+
+            Boolean jobExist = recruiterJobRepository.existsById(id);
+            //first delete a job than then its association
+            if (jobExist) {
+                recruiterJobRepository.deleteById(id);
+                //now delete its associations in the applied for table
+                appliedForRecruiterJobRepository.deleteAssociatedRecords(id);
+                return new ApiResponse(200, "Deleted", recruiterJobRepository.findAllJobsByRecruiterCompanyId(user.getCompanyProfile().getId(),pageable));
+            }
+
+        }
+        return new ApiResponse(500,"unsuccessfull",null);
+    }
+
+
+
+        public ApiResponse searchAllCandidates(String search){
+            List<CandidateProfile> candidateProfiles = candidateProfileRepository.search(search);
+            return new ApiResponse(200,"Successfull",candidateProfiles);
+        }
 
 }

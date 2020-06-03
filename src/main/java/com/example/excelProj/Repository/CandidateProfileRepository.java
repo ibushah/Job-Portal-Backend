@@ -13,5 +13,12 @@ public interface CandidateProfileRepository extends JpaRepository<CandidateProfi
   public CandidateProfile findByUserId(@Param("id") Long id);
 
 
+    @Query(value = "select * from candidate_profile candp left join user u on candp.user_id=u.id where u.name LIKE %:search%",nativeQuery = true)
+    public List<CandidateProfile> search(@Param("search") String search);
+
+
+
+
+
 
 }

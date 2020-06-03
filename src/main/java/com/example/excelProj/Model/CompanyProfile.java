@@ -60,8 +60,9 @@ public class CompanyProfile {
     List<Job> jobList;
 
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "companyProfileJobs")
+
+    @OneToMany(mappedBy = "companyProfile")
+    @JsonBackReference(value = "jobList_recruiter")
     private List<RecruiterJobs> recruiterJobs;
 
     @OneToMany(mappedBy = "companyProfile")

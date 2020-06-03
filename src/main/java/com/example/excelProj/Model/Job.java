@@ -92,7 +92,7 @@ public class Job {
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private Set<AppliedFor> AppliedFor = new HashSet<>();
 
-
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "company_id")
     CompanyProfile companyProfile;

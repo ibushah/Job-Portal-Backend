@@ -1,6 +1,7 @@
 package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
@@ -63,10 +64,10 @@ public class RecruiterJobs {
     @Column
     Date date;
 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "company_id")
-    CompanyProfile companyProfileJobs;
+    CompanyProfile companyProfile;
 
 
     @JsonIgnore
@@ -76,7 +77,7 @@ public class RecruiterJobs {
     public RecruiterJobs() {
     }
 
-    public RecruiterJobs(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, CompanyProfile companyProfileJobs, Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
+    public RecruiterJobs(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, CompanyProfile companyProfile, Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -91,7 +92,7 @@ public class RecruiterJobs {
         this.latitude = latitude;
         this.address = address;
         this.date = date;
-        this.companyProfileJobs = companyProfileJobs;
+        this.companyProfile = companyProfile;
         this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
 
@@ -215,12 +216,12 @@ public class RecruiterJobs {
         this.date = date;
     }
 
-    public CompanyProfile getCompanyProfileJobs() {
-        return companyProfileJobs;
+    public CompanyProfile companyProfile() {
+        return companyProfile;
     }
 
-    public void setCompanyProfileJobs(CompanyProfile companyProfileJobs) {
-        this.companyProfileJobs = companyProfileJobs;
+    public void companyProfile(CompanyProfile companyProfile) {
+        this.companyProfile = companyProfile;
     }
 
     public Set<AppliedForRecruiterJob> getAppliedForRecruiterJobs() {

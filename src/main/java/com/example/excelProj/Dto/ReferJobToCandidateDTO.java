@@ -10,15 +10,15 @@ import java.util.List;
 public class ReferJobToCandidateDTO {
     Long companyId;
     Long jobId;
-    List<Long> candidateProfilesIds;
+    Long  candidateId;
 
     public ReferJobToCandidateDTO() {
     }
 
-    public ReferJobToCandidateDTO(Long companyId, Long jobId, List<Long> candidateProfilesIds) {
+    public ReferJobToCandidateDTO(Long companyId, Long jobId, Long candidateId) {
         this.companyId = companyId;
         this.jobId = jobId;
-        this.candidateProfilesIds = candidateProfilesIds;
+        this.candidateId = candidateId;
     }
 
     public Long getCompanyId() {
@@ -37,11 +37,11 @@ public class ReferJobToCandidateDTO {
         this.jobId = jobId;
     }
 
-    public List<Long> getCandidateProfilesIds() {
-        return candidateProfilesIds;
+    public Long getCandidateId() {
+        return candidateId;
     }
 
-    public void setCandidateProfilesIds(List<Long> candidateProfilesIds) {
-        this.candidateProfilesIds = candidateProfilesIds;
+    public void setCandidateId(Long candidateId) {
+        this.candidateId = candidateId;
     }
 }

@@ -23,16 +23,10 @@ public class CandidateProfileDTO {
     List<Job> jobList;
 
 
-    @Column
     String imageContentType;
+    String resumeContetnType;
 
-    @Column
-    String resumeContentType;
-
-    public CandidateProfileDTO() {
-    }
-
-    public CandidateProfileDTO(Long id, String name, String email, String field, String presentationLetter, Long candidateForeignId, byte[] cv, byte[] dp, List<Job> jobList, String imageContentType, String resumeContentType) {
+    public CandidateProfileDTO(Long id, String name, String email, String field, String presentationLetter, Long candidateForeignId, byte[] cv, byte[] dp, List<Job> jobList, String imageContentType, String resumeContetnType) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -43,7 +37,10 @@ public class CandidateProfileDTO {
         this.dp = dp;
         this.jobList = jobList;
         this.imageContentType = imageContentType;
-        this.resumeContentType = resumeContentType;
+        this.resumeContetnType = resumeContetnType;
+    }
+
+    public CandidateProfileDTO() {
     }
 
     public Long getId() {
@@ -126,11 +123,11 @@ public class CandidateProfileDTO {
         this.imageContentType = imageContentType;
     }
 
-    public String getResumeContentType() {
-        return resumeContentType;
+    public String getResumeContetnType() {
+        return resumeContetnType;
     }
 
-    public void setResumeContentType(String resumeContentType) {
-        this.resumeContentType = resumeContentType;
+    public void setResumeContetnType(String resumeContetnType) {
+        this.resumeContetnType = resumeContetnType;
     }
 }
