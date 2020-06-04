@@ -31,7 +31,7 @@ public interface AppliedForRecruiterJobRepository extends JpaRepository<AppliedF
             "(u.id,u.name,candp.id,\n" +
             "candp.dp,candp.presentationLetter,candp.imageContentType," +
             "ref.appliedDate,ref.isApplied," +
-            "ref.isSeen,ref.referedDate)"+
+            "ref.seenOrNot,ref.referedDate)"+
             "FROM CandidateProfile candp  \n" +
             " inner join  AppliedForRecruiterJob ref\n" +
             "ON candp.id=ref.candidateProfile.id \n" +
@@ -52,7 +52,7 @@ public interface AppliedForRecruiterJobRepository extends JpaRepository<AppliedF
     List<Object[]> getAllByCandidateProfile(@Param("id") Long id);
 
 
-    Optional<AppliedForRecruiterJob> findByCandidateProfileIdAndCandidateProfileIdAndRecruiterJobsId(Long candId,Long compId,Long jobId);
+    Optional<AppliedForRecruiterJob> findByCandidateProfileIdAndCompanyProfileIdAndRecruiterJobsIdAndIsApplied(Long candId,Long compId,Long jobId,Boolean applied);
 
 
     @Query(value = "select * from applied_or_refered_recruiter_jobs where (candidate_profile_id=:candId AND company_profile_id=:companyId AND recruiter_jobs_id=:jobId)",nativeQuery = true)
@@ -67,6 +67,30 @@ public interface AppliedForRecruiterJobRepository extends JpaRepository<AppliedF
     void deleteAssociatedRecords(@Param("id") Long id);
 
 
+    @Query("Select new com.example.excelProj.Dto.NotificationDTO(a.recruiterJobs.title,a.companyProfile.user.name,a.companyProfile.logo," +
+            "a.seenOrNot,a.referedDate,a.recruiterJobs.id) " +
+            "from  AppliedForRecruiterJob a " +
+            "where a.candidateProfile.id=:id ORDER BY a.appliedDate DESC")
+    Page<NotificationDTO> getNotifications(@Param("id") Long id, Pageable page);
+
+
+
+    @Query("select count(*) from   AppliedForRecruiterJob a where a.candidateProfile.id=:id AND a.seenOrNot=false")
+    Long getNotificationsCount(@Param("id") Long id);
+
+
+    @Transactional
+    @Modifying
+    @Query("update AppliedForRecruiterJob a " +
+            "set " +
+            "a.seenOrNot = true where a.candidateProfile.id=:id")
+    void setAllNoticationsAsRead(@Param("id") Long id);
+
+    @Transactional
+    @Modifying
+    @Query("update AppliedForRecruiterJob a set a.seenOrNot=true where a.candidateProfile.id=:id AND a.recruiterJobs.id=:jobId")
+    void setSelectedNotificationAsRead(@Param("id") Long id,@Param("jobId") Long jobId);
+
 
 
     @Query(value = "select recruiter_jobs.id from recruiter_jobs   left join\n" +
@@ -75,6 +99,8 @@ public interface AppliedForRecruiterJobRepository extends JpaRepository<AppliedF
             "WHERE ref.recruiter_jobs_id is NULL",
             nativeQuery = true)
     public List<Long> getDetails(@Param("candId") Long candId, @Param("companyId") Long companyId,Pageable pageable);
+
+
 
 
 }

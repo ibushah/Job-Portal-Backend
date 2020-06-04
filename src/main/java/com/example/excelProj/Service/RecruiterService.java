@@ -31,6 +31,9 @@ public class RecruiterService {
     RecruiterJobRepository recruiterJobRepository;
 
     @Autowired
+    NotificationsRepository notificationsRepository;
+
+    @Autowired
     UserDaoRepository userDaoRepository;
     @Autowired
     AppliedForRecruiterJobRepository appliedForRecruiterJobRepository;
@@ -130,7 +133,7 @@ public class RecruiterService {
                 appliedForRecruiterJob.setCompanyProfile(companyProfile.get());
                 appliedForRecruiterJob.setRecruiterJobs(recruiterJobs.get());
                 appliedForRecruiterJob.setCandidateProfile(candidateProfileRepository.findById(referJobToCandidateDTO.getCandidateId()).get());
-                appliedForRecruiterJob.setSeen(false);
+                appliedForRecruiterJob.setSeenOrNot(false);
                 appliedForRecruiterJob.setApplied(false);
                 appliedForRecruiterJob.setAppliedDate(null);
                 appliedForRecruiterJob.setReferedDate(new Date());
@@ -166,17 +169,22 @@ public class RecruiterService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
+        ViewPrivateJobDTO viewPrivateJobDTO = new ViewPrivateJobDTO();
 
         if(user.getUserType().equalsIgnoreCase("candidate")){
             Optional<RecruiterJobs> recruiterJobs = recruiterJobRepository.findById(jobId);
             Long companyId = recruiterJobs.get().companyProfile().getId();
             Long candiateId = user.getCandidateProfile().getId();
 
-           Optional<AppliedForRecruiterJob> appliedForRecruiterJob =  appliedForRecruiterJobRepository.findByCandidateProfileIdAndCandidateProfileIdAndRecruiterJobsId(candiateId,companyId,jobId);
+            viewPrivateJobDTO.setRecruiterJobs(recruiterJobs.get());
+            viewPrivateJobDTO.setCandidateProfiles(null);
+            viewPrivateJobDTO.setAllCandidatesReferedOrNotList(null);
+
+           Optional<AppliedForRecruiterJob> appliedForRecruiterJob =  appliedForRecruiterJobRepository.findByCandidateProfileIdAndCompanyProfileIdAndRecruiterJobsIdAndIsApplied(candiateId,companyId,jobId,true);
             if(appliedForRecruiterJob.isPresent()){
-                return new ApiResponse(200,"Successfull",recruiterJobs.get(),null,true);
+                return new ApiResponse(200,"Successfull",viewPrivateJobDTO,null,true);
             }
-            return new ApiResponse(200,"Successfull",recruiterJobs.get(),null,false);
+            return new ApiResponse(200,"Successfull",viewPrivateJobDTO,null,false);
 
 
         }
@@ -194,9 +202,23 @@ public class RecruiterService {
         Long candId = user.getCandidateProfile().getId();
         AppliedForRecruiterJob  appliedForRecruiterJob = appliedForRecruiterJobRepository.applyOnJob(candId,referJobToCandidateDTO.getCompanyId(),referJobToCandidateDTO.getJobId());
         if(appliedForRecruiterJob!=null){
+
+
             appliedForRecruiterJob.setApplied(true);
             appliedForRecruiterJob.setAppliedDate(new Date());
             appliedForRecruiterJobRepository.save(appliedForRecruiterJob);
+
+//            Notifications notifications = new Notifications();
+//            notifications.setCandidateId(candId);
+//            notifications.setCompanyId(referJobToCandidateDTO.getCompanyId());
+//            notifications.setJobId(referJobToCandidateDTO.getJobId());
+//            notifications.setNotificateFor("candidate");
+//            notifications.setNotificationDate(new Date());
+//            notifications.setSeenOrNot(false);
+//            notifications.setTypeOfJob("private");
+//            notificationsRepository.save(notifications);
+
+
             return new ApiResponse(200,"Successfull",appliedForRecruiterJob);
         }
         else {

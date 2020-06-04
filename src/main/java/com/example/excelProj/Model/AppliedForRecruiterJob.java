@@ -32,7 +32,7 @@ public class AppliedForRecruiterJob {
     private CompanyProfile companyProfile;
 
     @Column
-    private Boolean isSeen;
+    private Boolean seenOrNot;
 
     @Column
     private  Boolean isApplied;
@@ -46,11 +46,11 @@ public class AppliedForRecruiterJob {
     public AppliedForRecruiterJob() {
     }
 
-    public AppliedForRecruiterJob(CandidateProfile candidateProfile, RecruiterJobs recruiterJobs, CompanyProfile companyProfile, Boolean isSeen, Boolean isApplied, Date appliedDate, Date referedDate) {
+    public AppliedForRecruiterJob(CandidateProfile candidateProfile, RecruiterJobs recruiterJobs, CompanyProfile companyProfile, Boolean seenOrNot, Boolean isApplied, Date appliedDate, Date referedDate) {
         this.candidateProfile = candidateProfile;
         this.recruiterJobs = recruiterJobs;
         this.companyProfile = companyProfile;
-        this.isSeen = isSeen;
+        this.seenOrNot = seenOrNot;
         this.isApplied = isApplied;
         this.appliedDate = appliedDate;
         this.referedDate = referedDate;
@@ -88,12 +88,12 @@ public class AppliedForRecruiterJob {
         this.companyProfile = companyProfile;
     }
 
-    public Boolean getSeen() {
-        return isSeen;
+    public Boolean getSeenOrNot() {
+        return seenOrNot;
     }
 
-    public void setSeen(Boolean seen) {
-        isSeen = seen;
+    public void setSeenOrNot(Boolean seenOrNot) {
+        this.seenOrNot = seenOrNot;
     }
 
     public Boolean getApplied() {
