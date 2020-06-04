@@ -48,16 +48,13 @@ public class CandidateProfile {
      User user;
 
 
-//    @JsonIgnore
-////    @ManyToMany(mappedBy = "candidateProfileList")
-////    List<Job> jobList;
 
     @JsonIgnore
     @OneToMany(mappedBy = "candidateProfile", cascade = CascadeType.ALL)
     private Set<AppliedFor> AppliedForSet;
 
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "candidateProfile", cascade = CascadeType.ALL)
     private Set<AppliedForRecruiterJob> appliedForRecruiterJobs;
 
@@ -69,7 +66,7 @@ public class CandidateProfile {
         this.cv = cv;
         this.dp = dp;
         this.user = user;
-        AppliedForSet = appliedForSet;
+        this.AppliedForSet = appliedForSet;
         this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
 

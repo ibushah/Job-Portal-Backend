@@ -3,19 +3,28 @@ package com.example.excelProj.Controller;
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.RecruiterJobsDTO;
 import com.example.excelProj.Dto.ReferJobToCandidateDTO;
+import com.example.excelProj.Dto.TestDTO;
 import com.example.excelProj.Model.Job;
 import com.example.excelProj.Model.RecruiterJobs;
 import com.example.excelProj.Repository.AppliedForRecruiterJobRepository;
 import com.example.excelProj.Repository.RecruiterJobRepository;
 import com.example.excelProj.Service.RecruiterService;
+import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import java.lang.reflect.Type;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by Rehan on 5/28/2020.
@@ -62,7 +71,16 @@ public class RecruiterController {
     @GetMapping("get/{jobId}")
     public ApiResponse getJobByJobId(@PathVariable("jobId") Long jobId){
 
+
         return  new ApiResponse(200,"Successfull",recruiterJobRepository.findById(jobId));
+    }
+
+    <S, T> List<T> mapList(List<S> source, Class<T> targetClass) {
+        ModelMapper modelMapper = new ModelMapper();
+        return source
+                .stream()
+                .map(element -> modelMapper.map(element, targetClass))
+                .collect(Collectors.toList());
     }
 
 
@@ -121,6 +139,27 @@ public class RecruiterController {
         return  recruiterService.searchAllCandidates(searchString);
     }
 
+
+
+    @GetMapping("notReferedJobs")
+    public ApiResponse testingCalls(@RequestParam Map<String,String> requestParams){
+        Long candId = Long.parseLong(requestParams.get("candId"));
+        Long companyId = Long.parseLong(requestParams.get("companyId"));
+        Integer page=Integer.parseInt(requestParams.get("page"));
+
+        Pageable pageable = PageRequest.of(page,3);
+
+
+        List<Long> idList = appliedForRecruiterJobRepository.getDetails(candId,companyId,pageable);
+        List<RecruiterJobs> recruiterJobs = new ArrayList<>();
+        for (Long id:idList) {
+            Optional<RecruiterJobs> jobsOptional = recruiterJobRepository.findById(id);
+            if(jobsOptional.isPresent()){
+                recruiterJobs.add(jobsOptional.get()) ;
+            }
+        }
+        return new ApiResponse(200,"Successfull",recruiterJobs);
+    }
 
 
 
