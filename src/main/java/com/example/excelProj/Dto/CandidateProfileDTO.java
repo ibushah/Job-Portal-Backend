@@ -20,13 +20,17 @@ public class CandidateProfileDTO {
 
     byte[] dp;
 
-    List<Job> jobList;
+//    List<Job> jobList;
 
+
+    public CandidateProfileDTO() {
+    }
 
     String imageContentType;
     String resumeContetnType;
 
-    public CandidateProfileDTO(Long id, String name, String email, String field, String presentationLetter, Long candidateForeignId, byte[] cv, byte[] dp, List<Job> jobList, String imageContentType, String resumeContetnType) {
+
+    public CandidateProfileDTO(Long id, String name, String email, String field, String presentationLetter, Long candidateForeignId, byte[] cv, byte[] dp, String imageContentType, String resumeContetnType) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -35,12 +39,8 @@ public class CandidateProfileDTO {
         this.candidateForeignId = candidateForeignId;
         this.cv = cv;
         this.dp = dp;
-        this.jobList = jobList;
         this.imageContentType = imageContentType;
         this.resumeContetnType = resumeContetnType;
-    }
-
-    public CandidateProfileDTO() {
     }
 
     public Long getId() {
@@ -105,14 +105,6 @@ public class CandidateProfileDTO {
 
     public void setDp(byte[] dp) {
         this.dp = dp;
-    }
-
-    public List<Job> getJobList() {
-        return jobList;
-    }
-
-    public void setJobList(List<Job> jobList) {
-        this.jobList = jobList;
     }
 
     public String getImageContentType() {

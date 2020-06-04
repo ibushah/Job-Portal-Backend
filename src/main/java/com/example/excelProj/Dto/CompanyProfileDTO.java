@@ -16,7 +16,7 @@ public class CompanyProfileDTO {
     byte[] resume;
     byte[] certificate;
     String logoContentType;
-    List<Job> jobList;
+//    List<Job> jobList;
 
     String resumeContentType;
 
@@ -25,7 +25,7 @@ public class CompanyProfileDTO {
     public CompanyProfileDTO() {
     }
 
-    public CompanyProfileDTO(Long id, String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, List<Job> jobList, String resumeContentType, String certificateContentType) {
+    public CompanyProfileDTO(Long id, String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, String resumeContentType, String certificateContentType) {
         this.id = id;
         this.name = name;
         this.corporateAddress = corporateAddress;
@@ -36,7 +36,6 @@ public class CompanyProfileDTO {
         this.resume = resume;
         this.certificate = certificate;
         this.logoContentType = logoContentType;
-        this.jobList = jobList;
         this.resumeContentType = resumeContentType;
         this.certificateContentType = certificateContentType;
     }
@@ -119,14 +118,6 @@ public class CompanyProfileDTO {
 
     public void setLogoContentType(String logoContentType) {
         this.logoContentType = logoContentType;
-    }
-
-    public List<Job> getJobList() {
-        return jobList;
-    }
-
-    public void setJobList(List<Job> jobList) {
-        this.jobList = jobList;
     }
 
     public String getResumeContentType() {
