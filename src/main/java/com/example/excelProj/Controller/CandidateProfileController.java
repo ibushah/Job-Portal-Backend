@@ -96,8 +96,12 @@ public class CandidateProfileController {
         return appliedForRecruiterJobRepository.getNotifications(id, PageRequest.of(page,5));
     }
 
-    @GetMapping("/notification_count/{companyId}")
-    public Long getNotificationsCount(@PathVariable("companyId") Long id) {
+    @GetMapping("/notification_count/{candidateId}")
+    public Long getNotificationsCount(@PathVariable(value = "candidateId",required = false) Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        id = user.getCandidateProfile().getId();
         return appliedForRecruiterJobRepository.getNotificationsCount(id);
     }
 

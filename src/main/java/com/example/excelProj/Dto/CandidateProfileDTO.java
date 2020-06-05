@@ -13,6 +13,8 @@ public class CandidateProfileDTO {
     String field;
     String presentationLetter;
     Long candidateForeignId;
+    String imageContentType;
+    String resumeContentType;
 
 
 
@@ -26,21 +28,18 @@ public class CandidateProfileDTO {
     public CandidateProfileDTO() {
     }
 
-    String imageContentType;
-    String resumeContetnType;
 
-
-    public CandidateProfileDTO(Long id, String name, String email, String field, String presentationLetter, Long candidateForeignId, byte[] cv, byte[] dp, String imageContentType, String resumeContetnType) {
+    public CandidateProfileDTO(Long id, String name, String email, String field, String presentationLetter, Long candidateForeignId, String imageContentType, String resumeContentType, byte[] cv, byte[] dp) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.field = field;
         this.presentationLetter = presentationLetter;
         this.candidateForeignId = candidateForeignId;
+        this.imageContentType = imageContentType;
+        this.resumeContentType = resumeContentType;
         this.cv = cv;
         this.dp = dp;
-        this.imageContentType = imageContentType;
-        this.resumeContetnType = resumeContetnType;
     }
 
     public Long getId() {
@@ -91,6 +90,22 @@ public class CandidateProfileDTO {
         this.candidateForeignId = candidateForeignId;
     }
 
+    public String getImageContentType() {
+        return imageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
+    public String getResumeContentType() {
+        return resumeContentType;
+    }
+
+    public void setResumeContentType(String resumeContentType) {
+        this.resumeContentType = resumeContentType;
+    }
+
     public byte[] getCv() {
         return cv;
     }
@@ -105,21 +120,5 @@ public class CandidateProfileDTO {
 
     public void setDp(byte[] dp) {
         this.dp = dp;
-    }
-
-    public String getImageContentType() {
-        return imageContentType;
-    }
-
-    public void setImageContentType(String imageContentType) {
-        this.imageContentType = imageContentType;
-    }
-
-    public String getResumeContetnType() {
-        return resumeContetnType;
-    }
-
-    public void setResumeContetnType(String resumeContetnType) {
-        this.resumeContetnType = resumeContetnType;
     }
 }

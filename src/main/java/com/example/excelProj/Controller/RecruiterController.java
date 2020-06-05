@@ -164,6 +164,21 @@ public class RecruiterController {
 
 
 
+    @DeleteMapping("undoRefer/{jobId}/{candId}")
+    public ApiResponse undoReferToCandidate(@PathVariable("jobId") Long jobId,@PathVariable("candId") Long candId){
+//        Long userId = Long.parseLong(requestParam.get("userId"));
+//        Long jobId  = Long.parseLong(requestParam.get("jobId"));
+//        Long candidateId = Long.parseLong(requestParam.get("candidateId"));
+
+        return recruiterService.undoRefered(jobId,candId);
+
+    }
+
+
+
+
+
+
 }
 
 

@@ -103,8 +103,8 @@ public class CandidateProfileService {
             candidateProfile.setField(candidateProfileDTO.getField());
             candidateProfile.setCv(candidateProfileDTO.getCv());
             candidateProfile.setDp(candidateProfileDTO.getDp());
-            candidateProfile.setResumeContentType(candidateProfileDTO.getResumeContetnType());
-            candidateProfile.setImageContentType(candidateProfileDTO.getImageContentType());
+            candidateProfile.setResumeContentType(candidateProfileDTO.getImageContentType());
+            candidateProfile.setImageContentType(candidateProfileDTO.getResumeContentType());
             candidateProfile.setUser(newUser);
             candidateProfileRepository.save(candidateProfile);
             return new ApiResponse(200,"Candidate profile successfuly updated",userDaoRepository.findById(userId).get());

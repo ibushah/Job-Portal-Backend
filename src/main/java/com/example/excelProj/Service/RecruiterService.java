@@ -163,6 +163,9 @@ public class RecruiterService {
 
 
 
+
+
+
     public ApiResponse privateJobDetailsForCandidate(Long jobId){
 
 
@@ -244,6 +247,7 @@ public class RecruiterService {
 
         }
         return new ApiResponse(500,"unsuccessfull",null);
+
     }
 
 
@@ -252,5 +256,13 @@ public class RecruiterService {
             List<CandidateProfile> candidateProfiles = candidateProfileRepository.search(search);
             return new ApiResponse(200,"Successfull",candidateProfiles);
         }
+
+
+
+    public ApiResponse undoRefered(Long jobId,Long candidateId){
+
+            appliedForRecruiterJobRepository.undoRefer(jobId,candidateId);
+            return new ApiResponse(200,"Successfull",appliedForRecruiterJobRepository.getAllCandidates(jobId));
+    }
 
 }
