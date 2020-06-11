@@ -2,6 +2,7 @@ package com.example.excelProj.Repository;
 
 import com.example.excelProj.Model.CandidateProfile;
 import com.example.excelProj.Model.Job;
+import com.example.excelProj.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +16,9 @@ public interface CandidateProfileRepository extends JpaRepository<CandidateProfi
 
     @Query(value = "select * from candidate_profile candp left join user u on candp.user_id=u.id where u.name LIKE %:search%",nativeQuery = true)
     public List<CandidateProfile> search(@Param("search") String search);
+
+    @Query(value = "select * from user u where u.name like %:search%",nativeQuery = true)
+    public List<User> searchUser(@Param("search") String search);
 
 
 

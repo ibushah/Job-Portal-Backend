@@ -4,9 +4,12 @@ import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.RecruiterJobsDTO;
 import com.example.excelProj.Dto.ReferJobToCandidateDTO;
 import com.example.excelProj.Dto.TestDTO;
+import com.example.excelProj.Dto.UserDto;
 import com.example.excelProj.Model.Job;
 import com.example.excelProj.Model.RecruiterJobs;
+import com.example.excelProj.Model.User;
 import com.example.excelProj.Repository.AppliedForRecruiterJobRepository;
+import com.example.excelProj.Repository.CandidateProfileRepository;
 import com.example.excelProj.Repository.RecruiterJobRepository;
 import com.example.excelProj.Service.RecruiterService;
 import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
@@ -48,6 +51,9 @@ public class RecruiterController {
     @Autowired
     AppliedForRecruiterJobRepository appliedForRecruiterJobRepository;
 
+
+    @Autowired
+    CandidateProfileRepository candidateProfileRepository;
 
 
     @PostMapping("post/job")
@@ -137,6 +143,10 @@ public class RecruiterController {
     public ApiResponse searchAllCandidates(@RequestParam("search") String searchString){
 
         return  recruiterService.searchAllCandidates(searchString);
+//        List<User> list = new ArrayList<>();
+//        candidateProfileRepository.searchUser(searchString).iterator().forEachRemaining(list::add);
+//        return list;
+
     }
 
 
