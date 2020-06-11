@@ -16,9 +16,16 @@ public class CompanyProfileDTO {
     byte[] resume;
     byte[] certificate;
     String logoContentType;
-    List<Job> jobList;
+//    List<Job> jobList;
 
-    public CompanyProfileDTO(Long id, String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, List<Job> jobList) {
+    String resumeContentType;
+
+    String certificateContentType;
+
+    public CompanyProfileDTO() {
+    }
+
+    public CompanyProfileDTO(Long id, String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, String resumeContentType, String certificateContentType) {
         this.id = id;
         this.name = name;
         this.corporateAddress = corporateAddress;
@@ -29,10 +36,8 @@ public class CompanyProfileDTO {
         this.resume = resume;
         this.certificate = certificate;
         this.logoContentType = logoContentType;
-        this.jobList = jobList;
-    }
-
-    public CompanyProfileDTO() {
+        this.resumeContentType = resumeContentType;
+        this.certificateContentType = certificateContentType;
     }
 
     public Long getId() {
@@ -115,11 +120,19 @@ public class CompanyProfileDTO {
         this.logoContentType = logoContentType;
     }
 
-    public List<Job> getJobList() {
-        return jobList;
+    public String getResumeContentType() {
+        return resumeContentType;
     }
 
-    public void setJobList(List<Job> jobList) {
-        this.jobList = jobList;
+    public void setResumeContentType(String resumeContentType) {
+        this.resumeContentType = resumeContentType;
+    }
+
+    public String getCertificateContentType() {
+        return certificateContentType;
+    }
+
+    public void setCertificateContentType(String certificateContentType) {
+        this.certificateContentType = certificateContentType;
     }
 }

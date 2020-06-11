@@ -2,17 +2,19 @@ package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+/**
+ * Created by Rehan on 5/28/2020.
+ */
 @Entity
-public class Job {
-
+@Table(name = "recruiter_jobs")
+public class RecruiterJobs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -62,13 +64,20 @@ public class Job {
     @Column
     Date date;
 
-    @Column
-    Boolean jobPostPermission;
+    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    CompanyProfile companyProfile;
 
-    public Job() {
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "recruiterJobs", cascade = CascadeType.ALL)
+    private Set<AppliedForRecruiterJob> appliedForRecruiterJobs;
+
+    public RecruiterJobs() {
     }
 
-    public Job(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, Boolean jobPostPermission, Set<com.example.excelProj.Model.AppliedFor> appliedFor, CompanyProfile companyProfile) {
+    public RecruiterJobs(String title, String description, String salary, Date publishFrom, Date publishTo, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, Date date, CompanyProfile companyProfile, Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
         this.title = title;
         this.description = description;
         this.salary = salary;
@@ -83,20 +92,9 @@ public class Job {
         this.latitude = latitude;
         this.address = address;
         this.date = date;
-        this.jobPostPermission = jobPostPermission;
-        AppliedFor = appliedFor;
         this.companyProfile = companyProfile;
+        this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private Set<AppliedFor> AppliedFor = new HashSet<>();
-
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    CompanyProfile companyProfile;
-
 
     public Long getId() {
         return id;
@@ -218,27 +216,19 @@ public class Job {
         this.date = date;
     }
 
-    public Boolean getJobPostPermission() {
-        return jobPostPermission;
-    }
-
-    public void setJobPostPermission(Boolean jobPostPermission) {
-        this.jobPostPermission = jobPostPermission;
-    }
-
-    public Set<com.example.excelProj.Model.AppliedFor> getAppliedFor() {
-        return AppliedFor;
-    }
-
-    public void setAppliedFor(Set<com.example.excelProj.Model.AppliedFor> appliedFor) {
-        AppliedFor = appliedFor;
-    }
-
-    public CompanyProfile getCompanyProfile() {
+    public CompanyProfile companyProfile() {
         return companyProfile;
     }
 
-    public void setCompanyProfile(CompanyProfile companyProfile) {
+    public void companyProfile(CompanyProfile companyProfile) {
         this.companyProfile = companyProfile;
+    }
+
+    public Set<AppliedForRecruiterJob> getAppliedForRecruiterJobs() {
+        return appliedForRecruiterJobs;
+    }
+
+    public void setAppliedForRecruiterJobs(Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
+        this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
 }

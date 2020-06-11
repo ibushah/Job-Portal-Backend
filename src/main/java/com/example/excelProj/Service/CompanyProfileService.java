@@ -57,6 +57,8 @@ public class CompanyProfileService {
             if(user.getUserType().equalsIgnoreCase("recruiter")){
                 companyProfile.setResume(companyProfileDTO.getResume());
                 companyProfile.setCertificate(companyProfileDTO.getCertificate());
+                companyProfile.setResumeContentType(companyProfileDTO.getResumeContentType());
+                companyProfile.setCertificateContentType(companyProfileDTO.getCertificateContentType());
             }
 
             companyProfileRepository.save(companyProfile);

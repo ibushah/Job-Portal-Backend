@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecificationExecutor<Job> {
-    @Query(value = "Select * from job where job.employee_id=:id", nativeQuery = true)
+    @Query(value = "Select * from job where job.company_id=:id", nativeQuery = true)
     List<Job> findByEmployeeId(@Param("id") Long id);
 
 
@@ -23,16 +23,19 @@ public interface JobRepository extends JpaRepository<Job, Long>,JpaSpecification
     Page<Job> findByCategory(@Param("cat") String category, Pageable p);
 
 
-    @Query(value = "select * from job where category=:cat AND employee_id=:id", nativeQuery = true)
+    @Query(value = "select * from job where category=:cat AND company_id=:id", nativeQuery = true)
     Page<Job> findByCategoryAndCompanyId(@Param("cat") String category, @Param("id") Long id, Pageable p);
 
 
-    @Query(value = "select * from job where employee_id=:id", nativeQuery = true)
+
+    @Query(value = "select * from job where company_id=:id", nativeQuery = true)
     List<Job> findByCompanyId(@Param("id") Long id);
 
-    @Query(value = "select * from job where employee_id=:id", nativeQuery = true)
+    @Query(value = "select * from job where company_id=:id", nativeQuery = true)
     Page<Job> findJobsByCompanyPaginated(@Param("id") Long id, Pageable pageable);
 
+    @Query(value = "select * from job where recruiter_user_id=:id", nativeQuery = true)
+    Page<Job> findJobsByRecruiterPaginated(@Param("id") Long id, Pageable pageable);
 
     //    @Query(value = "select * from job where city:city",nativeQuery = true)
     Page<Job> findByCity(String city, Pageable pageable);

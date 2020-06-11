@@ -25,6 +25,9 @@ public interface CompanyProfileRepository extends JpaRepository<CompanyProfile, 
             "JOIN User u on candp.user.id=u.id where r.companyProfile.id=:id AND r.rateBy=:userType")
     List<CompanyReviewRatingDTO> getByCompanyId(@Param("id") Long id,@Param("userType") String userType);
 
+
+
+
     @Query(value = "select * from company_profile where user_id=:id",nativeQuery = true)
     public CompanyProfile getCompanyProfileAgainstUserId(@Param("id") Long id);
 

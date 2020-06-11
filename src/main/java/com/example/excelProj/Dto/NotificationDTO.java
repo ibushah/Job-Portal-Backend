@@ -13,6 +13,7 @@ public class NotificationDTO implements Serializable {
     Long jobId;
 
 
+
     public NotificationDTO(String jobTitle, String candidate, byte[] candidateDp, Boolean isNotified, Date date,Long jobId) {
         this.jobTitle = jobTitle;
         this.candidate = candidate;

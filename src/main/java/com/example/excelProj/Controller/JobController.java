@@ -3,6 +3,7 @@ package com.example.excelProj.Controller;
 import com.example.excelProj.Commons.ApiResponse;
 
 import com.example.excelProj.Dto.JobDTO;
+import com.example.excelProj.Dto.JobPostDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.CompanyProfileRepository;
@@ -73,14 +74,14 @@ public class JobController implements JobSearchSPECIFICATIONS{
 
 
     @PostMapping("/")
-    public ApiResponse postJob(@RequestBody JobDTO jobDTO)
+    public ApiResponse postJob(@RequestBody JobPostDTO jobDTO)
     {
         return jobService.postJob(jobDTO);
     }
 
 
     @PutMapping("/update/{jobId}")
-    public ApiResponse updateJob(@PathVariable("jobId") Long jobId,@RequestBody JobDTO jobDTO)
+    public ApiResponse updateJob(@PathVariable("jobId") Long jobId,@RequestBody JobPostDTO jobDTO)
     {
         return jobService.updateJOB(jobId,jobDTO);
     }
@@ -92,8 +93,9 @@ public class JobController implements JobSearchSPECIFICATIONS{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
+        Long id = 0l;
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        Long id = user.getCompanyProfile().getId();
+        id = user.getCompanyProfile().getId();
         return jobRepository.findJobsByCompanyPaginated(id,PageRequest.of(page,5));
 
     }

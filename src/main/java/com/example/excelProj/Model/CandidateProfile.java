@@ -48,16 +48,17 @@ public class CandidateProfile {
      User user;
 
 
-//    @JsonIgnore
-////    @ManyToMany(mappedBy = "candidateProfileList")
-////    List<Job> jobList;
 
     @JsonIgnore
     @OneToMany(mappedBy = "candidateProfile", cascade = CascadeType.ALL)
     private Set<AppliedFor> AppliedForSet;
 
-    public CandidateProfile(Long id, String field, String imageContentType, String resumeContentType, String presentationLetter, byte[] cv, byte[] dp, User user, Set<AppliedFor> appliedForSet) {
-        this.id = id;
+
+
+    @OneToMany(mappedBy = "candidateProfile", cascade = CascadeType.ALL)
+    private Set<AppliedForRecruiterJob> appliedForRecruiterJobs;
+
+    public CandidateProfile(String field, String imageContentType, String resumeContentType, String presentationLetter, byte[] cv, byte[] dp, User user, Set<AppliedFor> appliedForSet, Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
         this.field = field;
         this.imageContentType = imageContentType;
         this.resumeContentType = resumeContentType;
@@ -65,7 +66,8 @@ public class CandidateProfile {
         this.cv = cv;
         this.dp = dp;
         this.user = user;
-        AppliedForSet = appliedForSet;
+        this.AppliedForSet = appliedForSet;
+        this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
 
     public Long getId() {
@@ -124,7 +126,6 @@ public class CandidateProfile {
         this.dp = dp;
     }
 
-
     public User getUser() {
         return user;
     }
@@ -139,5 +140,13 @@ public class CandidateProfile {
 
     public void setAppliedForSet(Set<AppliedFor> appliedForSet) {
         AppliedForSet = appliedForSet;
+    }
+
+    public Set<AppliedForRecruiterJob> getAppliedForRecruiterJobs() {
+        return appliedForRecruiterJobs;
+    }
+
+    public void setAppliedForRecruiterJobs(Set<AppliedForRecruiterJob> appliedForRecruiterJobs) {
+        this.appliedForRecruiterJobs = appliedForRecruiterJobs;
     }
 }

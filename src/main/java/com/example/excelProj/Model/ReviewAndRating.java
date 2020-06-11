@@ -31,8 +31,6 @@ public class ReviewAndRating {
     @JoinColumn(name = "company_id")
     CompanyProfile companyProfile;
 
-    public ReviewAndRating() {
-    }
 
     public ReviewAndRating(String review, Integer rating, Long candidateId, String rateBy, Date date, CompanyProfile companyProfile) {
         this.review = review;
@@ -43,6 +41,8 @@ public class ReviewAndRating {
         this.companyProfile = companyProfile;
     }
 
+    public ReviewAndRating() {
+    }
 
     public Long getId() {
         return id;
@@ -95,6 +95,7 @@ public class ReviewAndRating {
     public CompanyProfile getCompanyProfile() {
         return companyProfile;
     }
+
 
     public void setCompanyProfile(CompanyProfile companyProfile) {
         this.companyProfile = companyProfile;

@@ -1,6 +1,7 @@
 package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -32,24 +33,39 @@ public class CompanyProfile {
     @Lob
     byte[] logo;
 
+
+    @Column
+    String logoContentType;
+
+
+    @Column
+    String resumeContentType;
+
     @Lob
     byte[] resume;
+
+
+    @Column
+    String certificateContentType;
 
     @Lob
     byte[] certificate;
 
     @Column
-    String logoContentType;
-
-    @Column
     Double avgRating;
 
 
-    @OneToMany(mappedBy="companyProfile")
+    @OneToMany(mappedBy = "companyProfile")
     @JsonBackReference(value = "job_list_reference")
     List<Job> jobList;
 
-    @OneToMany(mappedBy="companyProfile")
+
+
+    @OneToMany(mappedBy = "companyProfile")
+    @JsonBackReference(value = "jobList_recruiter")
+    private List<RecruiterJobs> recruiterJobs;
+
+    @OneToMany(mappedBy = "companyProfile")
     @JsonBackReference(value = "reiview_list_reference")
     List<ReviewAndRating> reviewAndRatings;
 
@@ -62,21 +78,23 @@ public class CompanyProfile {
     public CompanyProfile() {
     }
 
-    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, byte[] resume, byte[] certificate, String logoContentType, Double avgRating, List<Job> jobList, List<ReviewAndRating> reviewAndRatings, User user) {
+    public CompanyProfile(String name, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, String resumeContentType, byte[] resume, String certificateContentType, byte[] certificate, Double avgRating, List<Job> jobList, List<RecruiterJobs> recruiterJobs, List<ReviewAndRating> reviewAndRatings, User user) {
         this.name = name;
         this.corporateAddress = corporateAddress;
         this.billingAddress = billingAddress;
         this.contactName = contactName;
         this.contactTitle = contactTitle;
         this.logo = logo;
-        this.resume = resume;
-        this.certificate = certificate;
         this.logoContentType = logoContentType;
+        this.resumeContentType = resumeContentType;
+        this.resume = resume;
+        this.certificateContentType = certificateContentType;
+        this.certificate = certificate;
         this.avgRating = avgRating;
         this.jobList = jobList;
+        this.recruiterJobs = recruiterJobs;
         this.reviewAndRatings = reviewAndRatings;
         this.user = user;
-
     }
 
     public Long getId() {
@@ -135,6 +153,22 @@ public class CompanyProfile {
         this.logo = logo;
     }
 
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
+    }
+
+    public String getResumeContentType() {
+        return resumeContentType;
+    }
+
+    public void setResumeContentType(String resumeContentType) {
+        this.resumeContentType = resumeContentType;
+    }
+
     public byte[] getResume() {
         return resume;
     }
@@ -143,20 +177,20 @@ public class CompanyProfile {
         this.resume = resume;
     }
 
+    public String getCertificateContentType() {
+        return certificateContentType;
+    }
+
+    public void setCertificateContentType(String certificateContentType) {
+        this.certificateContentType = certificateContentType;
+    }
+
     public byte[] getCertificate() {
         return certificate;
     }
 
     public void setCertificate(byte[] certificate) {
         this.certificate = certificate;
-    }
-
-    public String getLogoContentType() {
-        return logoContentType;
-    }
-
-    public void setLogoContentType(String logoContentType) {
-        this.logoContentType = logoContentType;
     }
 
     public Double getAvgRating() {
@@ -175,6 +209,14 @@ public class CompanyProfile {
         this.jobList = jobList;
     }
 
+    public List<RecruiterJobs> getRecruiterJobs() {
+        return recruiterJobs;
+    }
+
+    public void setRecruiterJobs(List<RecruiterJobs> recruiterJobs) {
+        this.recruiterJobs = recruiterJobs;
+    }
+
     public List<ReviewAndRating> getReviewAndRatings() {
         return reviewAndRatings;
     }
@@ -191,4 +233,3 @@ public class CompanyProfile {
         this.user = user;
     }
 }
-

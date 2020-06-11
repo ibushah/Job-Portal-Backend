@@ -3,7 +3,9 @@ package com.example.excelProj.Controller;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.CandidateProfileDTO;
+import com.example.excelProj.Dto.NotificationDTO;
 import com.example.excelProj.Model.User;
+import com.example.excelProj.Repository.AppliedForRecruiterJobRepository;
 import com.example.excelProj.Repository.CandidateProfileRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
 import com.example.excelProj.Service.CandidateProfileService;
@@ -34,6 +36,9 @@ public class CandidateProfileController {
 
     @Autowired
     UserDaoRepository userDaoRepository;
+
+    @Autowired
+    AppliedForRecruiterJobRepository appliedForRecruiterJobRepository;
 
     @PostMapping("/{userid}")
     public ApiResponse postCandidateProfile(@PathVariable("userid") Long userId, @RequestBody CandidateProfileDTO candidateProfileDTO) {
@@ -82,6 +87,37 @@ public class CandidateProfileController {
 
 //        get all candidates
         return  new ApiResponse(200,"SUCCESSSFULL",candidateProfileRepository.findAll(PageRequest.of(page,5)));
+    }
+
+
+    @GetMapping("/notifications/{id}")
+    public Page<NotificationDTO> getNotificationsByCandidateId(@PathVariable("id") Long id, @RequestParam(defaultValue = "0") int page) {
+
+        return appliedForRecruiterJobRepository.getNotifications(id, PageRequest.of(page,5));
+    }
+
+    @GetMapping("/notification_count/{candidateId}")
+    public Long getNotificationsCount(@PathVariable(value = "candidateId",required = false) Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = userDaoRepository.findByEmail(currentPrincipalName);
+        id = user.getCandidateProfile().getId();
+        return appliedForRecruiterJobRepository.getNotificationsCount(id);
+    }
+
+    @GetMapping("/notifications_read/{candidateId}")
+    public ApiResponse markAllNoticationsRead(@PathVariable("candidateId") Long id) {
+
+        appliedForRecruiterJobRepository.setAllNoticationsAsRead(id);
+        return  new ApiResponse<>(200,"All notifications read",appliedForRecruiterJobRepository.getNotifications(id,PageRequest.of(0,5)));
+    }
+
+    @GetMapping("/notification_marked")
+    public ApiResponse markSelectedNotificationAsRead(@RequestParam Map<String,String> requestParms) {
+        Long candidateId=Long.parseLong(requestParms.get("candidateId"));
+        Long jobId=Long.parseLong(requestParms.get("jobId"));
+        appliedForRecruiterJobRepository.setSelectedNotificationAsRead(candidateId,jobId);
+        return    new ApiResponse<>(200,"notification read",appliedForRecruiterJobRepository.getNotifications(candidateId,PageRequest.of(0,5)));
     }
 
 

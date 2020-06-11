@@ -6,6 +6,15 @@ public class ApiResponse<T> {
     private String message;
     private Object result;
     private Double rating;
+    private Boolean already;
+
+    public ApiResponse(int status, String message, Object result, Double rating, Boolean already) {
+        this.status = status;
+        this.message = message;
+        this.result = result;
+        this.rating = rating;
+        this.already = already;
+    }
 
     public ApiResponse(int status, String message, Object result) {
         this.status = status;
@@ -50,5 +59,13 @@ public class ApiResponse<T> {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    public Boolean getAlready() {
+        return already;
+    }
+
+    public void setAlready(Boolean already) {
+        this.already = already;
     }
 }

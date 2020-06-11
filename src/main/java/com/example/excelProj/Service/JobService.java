@@ -2,6 +2,7 @@ package com.example.excelProj.Service;
 
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.JobDTO;
+import com.example.excelProj.Dto.JobPostDTO;
 import com.example.excelProj.Dto.ReviewAndRatingDTO;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.*;
@@ -63,7 +64,7 @@ public class JobService {
     }
 
 
-    public ApiResponse postJob(JobDTO jobDTO) {
+    public ApiResponse postJob(JobPostDTO jobDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
@@ -89,8 +90,34 @@ public class JobService {
             job.setPublishTo(jobDTO.getPublishTo());
             job.setCompanyProfile(user.getCompanyProfile());
             job.setDate(new Date());
+            job.setJobPostPermission(true);
             return new ApiResponse(200, "Job successfully posted", jobRepository.save(job));
         }
+
+        else if(user!=null && user.getUserType().equalsIgnoreCase("recruiter")){
+
+                Job job = new Job();
+                job.setDescription(jobDTO.getDescription());
+                job.setSalary(jobDTO.getSalary());
+                job.setLatitude(jobDTO.getLatitude());
+                job.setLongitude(jobDTO.getLongitude());
+                job.setTitle(jobDTO.getTitle());
+                job.setCity(jobDTO.getCity());
+                job.setCountry(jobDTO.getCountry());
+                job.setProvince(jobDTO.getProvince());
+                job.setCategory(jobDTO.getCategory());
+                job.setType(jobDTO.getType());
+                job.setAddress(jobDTO.getAddress());
+                job.setPublishFrom(jobDTO.getPublishFrom());
+                job.setPublishTo(jobDTO.getPublishTo());
+                job.setCompanyProfile(user.getCompanyProfile());
+                job.setDate(new Date());
+            job.setJobPostPermission(true);
+
+                return new ApiResponse(200, "Job posted succesffully by recruiter", jobRepository.save(job));
+            }
+
+
 
         return new ApiResponse(500, "Something went wrong", null);
     }
@@ -98,14 +125,15 @@ public class JobService {
 
 //    UPDATE JOB
 
-    public ApiResponse updateJOB(Long jobId,JobDTO jobDTO) {
+    public ApiResponse updateJOB(Long jobId,JobPostDTO jobDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
         User user = userDaoRepository.findByEmail(currentPrincipalName);
 
 
-        if (user != null && !user.getUserType().equalsIgnoreCase("candidate") && user.getCompanyProfile() != null) {
+//        job post for company
+        if (user != null && user.getUserType().equalsIgnoreCase("employer") && user.getCompanyProfile() != null) {
 
             Optional<Job> jobOptional = jobRepository.findById(jobId);
             if(jobOptional.isPresent()){
@@ -126,11 +154,39 @@ public class JobService {
                 job.setPublishTo(jobDTO.getPublishTo());
                 job.setCompanyProfile(user.getCompanyProfile());
                 job.setDate(new Date());
+                job.setJobPostPermission(true);
                 return new ApiResponse(200, "Job Updated posted", jobRepository.save(job));
             }
 
 
         }
+        else if(user!=null && user.getUserType().equalsIgnoreCase("recruiter")){
+            Optional<Job> jobOptional = jobRepository.findById(jobId);
+            if(jobOptional.isPresent()){
+
+                Job job = jobOptional.get();
+                job.setDescription(jobDTO.getDescription());
+                job.setSalary(jobDTO.getSalary());
+                job.setLatitude(jobDTO.getLatitude());
+                job.setLongitude(jobDTO.getLongitude());
+                job.setTitle(jobDTO.getTitle());
+                job.setCity(jobDTO.getCity());
+                job.setCountry(jobDTO.getCountry());
+                job.setProvince(jobDTO.getProvince());
+                job.setCategory(jobDTO.getCategory());
+                job.setType(jobDTO.getType());
+                job.setAddress(jobDTO.getAddress());
+                job.setPublishFrom(jobDTO.getPublishFrom());
+                job.setPublishTo(jobDTO.getPublishTo());
+
+                job.setCompanyProfile(user.getCompanyProfile());
+                job.setDate(new Date());
+                job.setJobPostPermission(true);
+                return new ApiResponse(200, "Job Updated posted", jobRepository.save(job));
+            }
+
+        }
+
 
         return new ApiResponse(500, "Something went wrong", null);
     }
@@ -319,7 +375,7 @@ public class JobService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-        if(user!=null && !user.getUserType().equalsIgnoreCase("employer")) {
+        if(user!=null) {
 
             Boolean jobExist = jobRepository.existsById(id);
             //first delete a job than then its association
@@ -349,6 +405,7 @@ public class JobService {
             Long companyId = user.getCompanyProfile().getId();
             return jobRepository.findByCategoryAndCompanyId(cat,companyId,pageable);
         }
+
     }
 
 
