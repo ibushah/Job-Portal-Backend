@@ -64,7 +64,10 @@ public class CompanyProfileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
+        if(user.getUserType().equals("candidate"))
         id = user.getCandidateProfile().getId();
+        else
+            id = user.getCompanyProfile().getId();
         return appliedForRepository.getNotifications(id, PageRequest.of(page,5));
     }
 
