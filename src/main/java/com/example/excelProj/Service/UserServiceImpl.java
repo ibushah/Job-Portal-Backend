@@ -1,7 +1,9 @@
 package com.example.excelProj.Service;
 
 import com.example.excelProj.Model.CandidateProfile;
+import com.example.excelProj.Model.CompanyProfile;
 import com.example.excelProj.Repository.CandidateProfileRepository;
+import com.example.excelProj.Repository.CompanyProfileRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.UserDto;
@@ -32,6 +34,10 @@ public class UserServiceImpl implements UserDetailsService {
 
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
+
+
+	@Autowired
+	CompanyProfileRepository companyProfileRepository;
 
 	@Autowired
 	private CandidateProfileRepository candidateProfileRepository;
@@ -88,13 +94,25 @@ public class UserServiceImpl implements UserDetailsService {
 		User founduser = userDaoRepository.findByEmail(user.getEmail());
 		if(founduser == null) {
 			User newUser = new User();
+
 			newUser.setEmail(user.getEmail());
 			newUser.setName(user.getName());
 			newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 			newUser.setActive(true);
 			newUser.setProfileActive(false);
 			newUser.setUserType(user.getUserType());
+			userDaoRepository.save(newUser);
+//			setting legal company name
+			if(user.getLegalCompanyName()!=null){
+				CompanyProfile companyProfile = new CompanyProfile();
+				companyProfile.setUser(newUser);
+				newUser.setName(user.getLegalCompanyName());
+				companyProfile.setName(user.getLegalCompanyName());
+				companyProfile.setContactName(user.getName());
 
+				companyProfileRepository.save(companyProfile);
+
+			}
 
 			return new ApiResponse<>(HttpStatus.OK.value(), "User saved successfully.",userDaoRepository.save(newUser));//return ;
 		}

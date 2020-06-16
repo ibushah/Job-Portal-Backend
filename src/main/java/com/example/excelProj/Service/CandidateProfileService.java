@@ -40,12 +40,14 @@ public class CandidateProfileService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User loggedInUser = userDaoRepository.findByEmail(currentPrincipalName);
+
 //        First get candidateProfile
         Optional<User> user = userDaoRepository.findById(userId);
         candidateId = user.isPresent()?user.get().getCandidateProfile().getId():candidateId;
         CandidateProfile candidateProfile = candidateProfileRepository.findByUserId(userId);
-        CandidateProfileWtihAllDetailsDTO candidateProfileWtihAllDetailsDTO =
-                new CandidateProfileWtihAllDetailsDTO();
+        CandidateProfileWtihAllDetailsDTO candidateProfileWtihAllDetailsDTO = new CandidateProfileWtihAllDetailsDTO();
+
+
         if(candidateProfile!=null){
             candidateProfileWtihAllDetailsDTO.setCandidateProfile(candidateProfile);
             candidateProfileWtihAllDetailsDTO.setRating(reviewAndRatingRepository.getAverageCandidateRating(candidateId));

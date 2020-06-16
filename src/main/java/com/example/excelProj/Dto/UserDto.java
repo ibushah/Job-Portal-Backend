@@ -9,6 +9,7 @@ public class UserDto {
     private String userType;
     private String field;
     private String presentationLetter;
+    private String legalCompanyName;
 
 
 //    private Long clientId;
@@ -17,6 +18,7 @@ public class UserDto {
 	public UserDto() {
 	}
 
+
 	public UserDto(String name, String email, String password, Boolean active, String userType) {
 		this.name = name;
 		this.email = email;
@@ -24,6 +26,14 @@ public class UserDto {
 		this.active = active;
 		this.userType = userType;
 
+	}
+
+	public String getLegalCompanyName() {
+		return legalCompanyName;
+	}
+
+	public void setLegalCompanyName(String legalCompanyName) {
+		this.legalCompanyName = legalCompanyName;
 	}
 
 	public String getName() {
@@ -69,6 +79,17 @@ public class UserDto {
 
 	//extraFileds for candidate
 
+
+	public UserDto(String name, String email, String password, Boolean active, String userType, String field, String presentationLetter, String legalCompanyName) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.active = active;
+		this.userType = userType;
+		this.field = field;
+		this.presentationLetter = presentationLetter;
+		this.legalCompanyName = legalCompanyName;
+	}
 
 	public String getField() {
 		return field;

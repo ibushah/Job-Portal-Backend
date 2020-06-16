@@ -9,6 +9,7 @@ import com.example.excelProj.Repository.AppliedForRecruiterJobRepository;
 import com.example.excelProj.Repository.CandidateProfileRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
 import com.example.excelProj.Service.CandidateProfileService;
+import com.example.excelProj.Service.UserServiceImpl;
 import org.hibernate.hql.internal.classic.AbstractParameterInformation;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,10 @@ public class CandidateProfileController {
     @Autowired
     AppliedForRecruiterJobRepository appliedForRecruiterJobRepository;
 
+
+    @Autowired
+    UserServiceImpl userService;
+
     @PostMapping("/{userid}")
     public ApiResponse postCandidateProfile(@PathVariable("userid") Long userId, @RequestBody CandidateProfileDTO candidateProfileDTO) {
         return candidateProfileService.postCandidateProfile(userId, candidateProfileDTO);
@@ -61,8 +66,8 @@ public class CandidateProfileController {
     @GetMapping("/complete")
     public ApiResponse getProfile(@RequestParam(required = false) Map<String,String> requestParams){
         Long userId  = Long.parseLong(requestParams.get("userId"));
-        Long candidateId = 0l;
-        if(userId==0){
+        Long candidateId = Long.parseLong(requestParams.get("candidateId"));
+        if(userId==0 && candidateId==0){
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentPrincipalName = authentication.getName();
             User user = userDaoRepository.findByEmail(currentPrincipalName);
@@ -71,8 +76,10 @@ public class CandidateProfileController {
             return candidateProfileService.getCandidateProfileComplete(userId,candidateId);
 
         }
-        userId= Long.parseLong(requestParams.get("userId"));
-        candidateId = Long.parseLong(requestParams.get("candidateId"));
+
+        if(candidateId==0 && userId!=0){
+            return new ApiResponse(200,"profilenotcompleted",userService.findById(userId));
+        }
         return candidateProfileService.getCandidateProfileComplete(userId,candidateId);
 
     }
