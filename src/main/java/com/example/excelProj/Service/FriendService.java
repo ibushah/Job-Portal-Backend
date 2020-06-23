@@ -183,13 +183,28 @@ public class FriendService {
         else  return new ResponseEntity<>("\""+friend.getStatus()+"\"", HttpStatus.OK);
     }
 
-    public ApiResponse getAllFriends(Long id) {
+    public ResponseEntity getAllFriends(Long id) {
         List<Friend> friends = friendRepository.findAllFriends(id);
-        if (!friends.isEmpty()) {
-            return new ApiResponse(200, "Friends found", friends);
-        } else {
-            return new ApiResponse(400, "No friends found", null);
-        }
+        List<SearchUserDTO> searchUserDTOList = new ArrayList<>();
+
+        friends.forEach((friend) -> {
+            if (!friend.getFriend().getUserType().equals("candidate")) {
+                searchUserDTOList.add(new SearchUserDTO(friend.getFriend().getName(),
+                        friend.getFriend().getUserType(),
+                        friend.getFriend().getId(),
+                        friend.getFriend().getCompanyProfile().getId(),
+                        friend.getFriend().getCompanyProfile().getLogo()
+                ));
+            } else {
+                searchUserDTOList.add(new SearchUserDTO(friend.getFriend().getName(),
+                        friend.getFriend().getUserType(),
+                        friend.getFriend().getId(),
+                        friend.getFriend().getCandidateProfile().getId(),
+                        friend.getFriend().getCandidateProfile().getDp()
+                ));
+            }
+        });
+        return  new ResponseEntity(searchUserDTOList,HttpStatus.OK);
     }
 
 

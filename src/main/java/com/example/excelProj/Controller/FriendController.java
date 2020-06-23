@@ -49,7 +49,7 @@ public class FriendController {
     }
 
     @GetMapping("/get-all-friends/{id}")
-    public ApiResponse getAllFriends(@PathVariable("id")  Long userId) {
+    public ResponseEntity getAllFriends(@PathVariable("id")  Long userId) {
         return friendService.getAllFriends(userId);
     }
 
