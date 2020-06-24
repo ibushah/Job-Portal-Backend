@@ -1,5 +1,7 @@
 package com.example.excelProj.Service;
 
+import com.example.excelProj.Dto.ChatroomDTO;
+import com.example.excelProj.Dto.SearchUserDTO;
 import com.example.excelProj.Model.Chat;
 import com.example.excelProj.Model.Chatroom;
 import com.example.excelProj.Model.User;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.Entity;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,16 +46,52 @@ public class ChatService {
                 chatroomRepository.save(new Chatroom(user1.get(), user2.get(), uuid));
                 chatroomRepository.save(new Chatroom(user2.get(), user1.get(), uuid));
 
-                return new ResponseEntity<>("\""+uuid+"\"", HttpStatus.OK);
+                return new ResponseEntity<>("\"" + uuid + "\"", HttpStatus.OK);
 
             }
             return new ResponseEntity<>("\"Chat users not found\"", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>("\""+chatroom.getChatroomId()+"\"", HttpStatus.OK);
+        return new ResponseEntity<>("\"" + chatroom.getChatroomId() + "\"", HttpStatus.OK);
     }
 
 
-    public ResponseEntity<List<Chat>>  getAllChats( String chatroomId){
-       return new ResponseEntity(chatRepository.findAllChats(chatroomId),HttpStatus.OK);
+    public ResponseEntity<List<Chat>> getAllChats(String chatroomId, Long freindId) {
+        chatRepository.setSeenMessage(chatroomId, freindId);
+        return new ResponseEntity(chatRepository.findAllChats(chatroomId), HttpStatus.OK);
+    }
+
+    public ResponseEntity seenAllUserChatroomMessages(String chatroomId, Long id) {
+        chatRepository.setSeenMessage(chatroomId, id);
+        return new ResponseEntity("\"Messages seen\"", HttpStatus.OK);
+    }
+
+    public ResponseEntity<SearchUserDTO> getAllChatrooms(Long id)
+    {
+       List<ChatroomDTO> chatroomDTOList=chatroomRepository.findChatrooms(id);
+
+        List<SearchUserDTO> searchUserDTOList = new ArrayList<>();
+
+        chatroomDTOList.forEach((chatroom) -> {
+            if (!chatroom.getUser().getUserType().equals("candidate")) {
+                searchUserDTOList.add(new SearchUserDTO(chatroom.getUser().getName(),
+                        chatroom.getUser().getUserType(),
+                        chatroom.getUser().getId(),
+                        chatroom.getUser().getCompanyProfile().getId(),
+                        chatroom.getUser().getCompanyProfile().getLogo(),
+                        chatroom.getMessage(),
+                        chatroom.getDate()
+                ));
+            } else {
+                searchUserDTOList.add(new SearchUserDTO(chatroom.getUser().getName(),
+                        chatroom.getUser().getUserType(),
+                        chatroom.getUser().getId(),
+                        chatroom.getUser().getCandidateProfile().getId(),
+                        chatroom.getUser().getCandidateProfile().getDp(),
+                        chatroom.getMessage(),
+                        chatroom.getDate()
+                ));
+            }
+        });
+        return new ResponseEntity(searchUserDTOList,HttpStatus.OK);
     }
 }
