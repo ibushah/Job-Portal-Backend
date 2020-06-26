@@ -16,7 +16,7 @@ public interface ChatroomRepository extends JpaRepository<Chatroom,Long> {
     @Query(value = "select * from chatroom where user1_id=:user1 And user2_id=:user2",nativeQuery = true)
     Chatroom findChatroom(@Param("user1") Long user1, @Param("user2") Long user2);
 
-    @Query("select new com.example.excelProj.Dto.ChatroomDTO(cr.user2,c.message,cr.chatroomId,c.date) " +
+    @Query("select new com.example.excelProj.Dto.ChatroomDTO(cr.user2,c.message,cr.chatroomId,c.seen,c.date,c.sender) " +
             "from Chatroom cr join Chat c \n" +
             "on cr.chatroomId = c.chatroomId \n" +
             "where cr.user1.id = :id \n" +

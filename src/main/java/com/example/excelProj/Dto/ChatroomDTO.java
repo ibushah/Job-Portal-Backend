@@ -10,14 +10,17 @@ public class ChatroomDTO implements Serializable {
     User user;
     String message;
     String chatroomId;
+    Boolean seen;
     Date date;
+    Long sender;
 
-
-    public ChatroomDTO(User user, String message, String chatroomId, Date date) {
+    public ChatroomDTO(User user, String message, String chatroomId, Boolean seen, Date date, Long sender) {
         this.user = user;
         this.message = message;
         this.chatroomId = chatroomId;
+        this.seen = seen;
         this.date = date;
+        this.sender = sender;
     }
 
     public ChatroomDTO() {
@@ -53,5 +56,21 @@ public class ChatroomDTO implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getSeen() {
+        return seen;
+    }
+
+    public void setSeen(Boolean seen) {
+        this.seen = seen;
+    }
+
+    public Long getSender() {
+        return sender;
+    }
+
+    public void setSender(Long sender) {
+        this.sender = sender;
     }
 }

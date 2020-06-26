@@ -79,7 +79,9 @@ public class ChatService {
                         chatroom.getUser().getCompanyProfile().getId(),
                         chatroom.getUser().getCompanyProfile().getLogo(),
                         chatroom.getMessage(),
-                        chatroom.getDate()
+                        chatroom.getSeen(),
+                        chatroom.getDate(),
+                        chatroom.getSender()
                 ));
             } else {
                 searchUserDTOList.add(new SearchUserDTO(chatroom.getUser().getName(),
@@ -88,7 +90,9 @@ public class ChatService {
                         chatroom.getUser().getCandidateProfile().getId(),
                         chatroom.getUser().getCandidateProfile().getDp(),
                         chatroom.getMessage(),
-                        chatroom.getDate()
+                        chatroom.getSeen(),
+                        chatroom.getDate(),
+                        chatroom.getSender()
                 ));
             }
         });

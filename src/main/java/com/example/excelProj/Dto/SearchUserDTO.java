@@ -13,7 +13,9 @@ public class SearchUserDTO
     Long profileId;
     byte[] dp;
     String message;
+    Boolean seen;
     Date date;
+    Long sender;
 
 
     public SearchUserDTO(String name, String userType, Long userId, Long profileId, byte[] dp) {
@@ -24,14 +26,17 @@ public class SearchUserDTO
         this.dp = dp;
     }
 
-    public SearchUserDTO(String name, String userType, Long userId, Long profileId, byte[] dp, String message, Date date) {
+
+    public SearchUserDTO(String name, String userType, Long userId, Long profileId, byte[] dp, String message, Boolean seen, Date date, Long sender) {
         this.name = name;
         this.userType = userType;
         this.userId = userId;
         this.profileId = profileId;
         this.dp = dp;
         this.message = message;
+        this.seen = seen;
         this.date = date;
+        this.sender = sender;
     }
 
     public SearchUserDTO() {
@@ -93,5 +98,21 @@ public class SearchUserDTO
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getSeen() {
+        return seen;
+    }
+
+    public void setSeen(Boolean seen) {
+        this.seen = seen;
+    }
+
+    public Long getSender() {
+        return sender;
+    }
+
+    public void setSender(Long sender) {
+        this.sender = sender;
     }
 }
