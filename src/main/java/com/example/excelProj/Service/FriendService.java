@@ -118,13 +118,21 @@ public class FriendService {
                         friend.getUser().getCompanyProfile().getId(),
                         friend.getUser().getCompanyProfile().getLogo()
                 ));
-            } else {
+            } else if(friend.getUser().getCandidateProfile()!=null){
                 searchUserDTOList.add(new SearchUserDTO(friend.getUser().getName(),
                         friend.getUser().getUserType(),
                         friend.getUser().getId(),
                         friend.getUser().getCandidateProfile().getId(),
                         friend.getUser().getCandidateProfile().getDp()
                 ));
+            }
+            else{
+                searchUserDTOList.add(new SearchUserDTO(friend.getUser().getName(),
+                        friend.getUser().getUserType(),
+                        friend.getUser().getId(),
+                        null,
+                        null)
+                );
             }
         });
         return searchUserDTOList;
@@ -139,9 +147,11 @@ public class FriendService {
             if (candidateProfile.isPresent())
                 friendId = candidateProfile.get().getUser().getId();
 
-        }else if (friendsIdDto.getType().equals("employer")){
+        }
+        else if (friendsIdDto.getType().equals("employer"))
+        {
             Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(friendsIdDto.getFriendId());
-            if (companyProfile.isPresent())
+                if (companyProfile.isPresent())
                 friendId = companyProfile.get().getUser().getId();
 
         }
@@ -155,15 +165,16 @@ public class FriendService {
     public ResponseEntity<String> getFriendshipStatus(FriendDto friendsIdDto) {
         Long friendId = 1l;
         if (friendsIdDto.getType().equals("candidate")) {
+            friendId = friendsIdDto.getFriendId();
             Optional<CandidateProfile> candidateProfile = candidateProfileRepository.findById(friendsIdDto.getFriendId());
             if (candidateProfile.isPresent())
                 friendId = candidateProfile.get().getUser().getId();
 
         } else if (friendsIdDto.getType().equals("employer")){
+//                    friendId = friendsIdDto.getFriendId();
             Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(friendsIdDto.getFriendId());
             if (companyProfile.isPresent())
                 friendId = companyProfile.get().getUser().getId();
-
         }
         else {
             friendId=friendsIdDto.getFriendId();
@@ -183,13 +194,28 @@ public class FriendService {
         else  return new ResponseEntity<>("\""+friend.getStatus()+"\"", HttpStatus.OK);
     }
 
-    public ApiResponse getAllFriends(Long id) {
+    public ResponseEntity getAllFriends(Long id) {
         List<Friend> friends = friendRepository.findAllFriends(id);
-        if (!friends.isEmpty()) {
-            return new ApiResponse(200, "Friends found", friends);
-        } else {
-            return new ApiResponse(400, "No friends found", null);
-        }
+        List<SearchUserDTO> searchUserDTOList = new ArrayList<>();
+
+        friends.forEach((friend) -> {
+            if (!friend.getFriend().getUserType().equals("candidate")) {
+                searchUserDTOList.add(new SearchUserDTO(friend.getFriend().getName(),
+                        friend.getFriend().getUserType(),
+                        friend.getFriend().getId(),
+                        friend.getFriend().getCompanyProfile().getId(),
+                        friend.getFriend().getCompanyProfile().getLogo()
+                ));
+            } else {
+                searchUserDTOList.add(new SearchUserDTO(friend.getFriend().getName(),
+                        friend.getFriend().getUserType(),
+                        friend.getFriend().getId(),
+                        friend.getFriend().getCandidateProfile().getId(),
+                        friend.getFriend().getCandidateProfile().getDp()
+                ));
+            }
+        });
+        return  new ResponseEntity(searchUserDTOList,HttpStatus.OK);
     }
 
 

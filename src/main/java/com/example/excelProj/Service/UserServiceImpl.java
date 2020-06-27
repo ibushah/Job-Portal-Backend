@@ -113,6 +113,25 @@ public class UserServiceImpl implements UserDetailsService {
 				companyProfileRepository.save(companyProfile);
 
 			}
+			else if(user.getUserType().equalsIgnoreCase("candidate"))
+			{
+				CandidateProfile candidateProfile=new CandidateProfile();
+				candidateProfile.setUser(newUser);
+				candidateProfile.setField("");
+				candidateProfile.setImageContentType("");
+				candidateProfileRepository.save(candidateProfile);
+
+			}
+			else if(user.getUserType().equalsIgnoreCase("recruiter") || user.getUserType().equalsIgnoreCase("employer") )
+			{
+				CompanyProfile companyProfile = new CompanyProfile();
+				companyProfile.setUser(newUser);
+				newUser.setName("");
+				companyProfile.setName("");
+				companyProfile.setContactName("");
+
+				companyProfileRepository.save(companyProfile);
+			}
 
 			return new ApiResponse<>(HttpStatus.OK.value(), "User saved successfully.",userDaoRepository.save(newUser));//return ;
 		}
