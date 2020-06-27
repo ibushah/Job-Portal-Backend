@@ -9,6 +9,7 @@ import com.example.excelProj.Repository.ChatRepository;
 import com.example.excelProj.Repository.ChatroomRepository;
 import com.example.excelProj.Service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -69,4 +70,12 @@ public class ChatController {
     {
         return chatService.getAllChatrooms(id);
     }
+
+    @GetMapping("/get-chat-count/{id}")
+    public ResponseEntity getChatCount(@PathVariable("id") Long id) {
+        return chatService.getChatCount(id);
+    }
+
+
+
 }

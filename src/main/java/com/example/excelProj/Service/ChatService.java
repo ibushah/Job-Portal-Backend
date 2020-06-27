@@ -98,4 +98,17 @@ public class ChatService {
         });
         return new ResponseEntity(searchUserDTOList,HttpStatus.OK);
     }
+
+
+    public ResponseEntity getChatCount(Long id){
+        List<ChatroomDTO> chatroomDTOList=chatroomRepository.findChatrooms(id);
+
+        Long count= chatroomDTOList
+                .stream()
+                .filter((chatroomDTO)->chatroomDTO.getSender()!=id && chatroomDTO.getSeen().equals(false))
+                .count();
+        return new ResponseEntity(count, HttpStatus.OK);
+
+
+    }
 }

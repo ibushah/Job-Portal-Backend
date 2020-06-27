@@ -118,13 +118,21 @@ public class FriendService {
                         friend.getUser().getCompanyProfile().getId(),
                         friend.getUser().getCompanyProfile().getLogo()
                 ));
-            } else {
+            } else if(friend.getUser().getCandidateProfile()!=null){
                 searchUserDTOList.add(new SearchUserDTO(friend.getUser().getName(),
                         friend.getUser().getUserType(),
                         friend.getUser().getId(),
                         friend.getUser().getCandidateProfile().getId(),
                         friend.getUser().getCandidateProfile().getDp()
                 ));
+            }
+            else{
+                searchUserDTOList.add(new SearchUserDTO(friend.getUser().getName(),
+                        friend.getUser().getUserType(),
+                        friend.getUser().getId(),
+                        null,
+                        null)
+                );
             }
         });
         return searchUserDTOList;
@@ -139,9 +147,11 @@ public class FriendService {
             if (candidateProfile.isPresent())
                 friendId = candidateProfile.get().getUser().getId();
 
-        }else if (friendsIdDto.getType().equals("employer")){
+        }
+        else if (friendsIdDto.getType().equals("employer"))
+        {
             Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(friendsIdDto.getFriendId());
-            if (companyProfile.isPresent())
+                if (companyProfile.isPresent())
                 friendId = companyProfile.get().getUser().getId();
 
         }
@@ -155,15 +165,16 @@ public class FriendService {
     public ResponseEntity<String> getFriendshipStatus(FriendDto friendsIdDto) {
         Long friendId = 1l;
         if (friendsIdDto.getType().equals("candidate")) {
+            friendId = friendsIdDto.getFriendId();
             Optional<CandidateProfile> candidateProfile = candidateProfileRepository.findById(friendsIdDto.getFriendId());
             if (candidateProfile.isPresent())
                 friendId = candidateProfile.get().getUser().getId();
 
         } else if (friendsIdDto.getType().equals("employer")){
+//                    friendId = friendsIdDto.getFriendId();
             Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(friendsIdDto.getFriendId());
             if (companyProfile.isPresent())
                 friendId = companyProfile.get().getUser().getId();
-
         }
         else {
             friendId=friendsIdDto.getFriendId();
