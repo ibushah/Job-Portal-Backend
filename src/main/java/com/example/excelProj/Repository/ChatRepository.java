@@ -21,4 +21,6 @@ public interface ChatRepository extends JpaRepository<Chat,Long> {
     @Modifying
     @Query(value = "update chat set seen=true where chatroom_id=:chatroomId and sender=:id",nativeQuery = true)
     void setSeenMessage(@Param("chatroomId") String chatroomId,@Param("id") Long id);
+
+
 }
