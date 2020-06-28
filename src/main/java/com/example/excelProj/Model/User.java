@@ -43,6 +43,10 @@ public class User {
 	private CompanyProfile companyProfile;
 
 
+	@JsonBackReference
+	@OneToOne(mappedBy = "user")
+	private UserProfiles userProfiles;
+
 	public User(String email, String name, String password, Boolean active, Boolean profileActive, String userType, CandidateProfile candidateProfile, CompanyProfile companyProfile) {
 		this.email = email;
 		this.name = name;

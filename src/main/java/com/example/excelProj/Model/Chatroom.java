@@ -22,7 +22,7 @@ public class Chatroom {
 
 
     @JsonIgnore
-            @ManyToOne
+    @ManyToOne
     User user2;
 
     String chatroomId;

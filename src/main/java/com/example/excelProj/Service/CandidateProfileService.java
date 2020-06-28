@@ -5,6 +5,7 @@ import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.AllCompaniesWithReviewDTO;
 import com.example.excelProj.Dto.CandidateProfileDTO;
 import com.example.excelProj.Dto.CandidateProfileWtihAllDetailsDTO;
+import com.example.excelProj.Dto.UserProfilesDTO;
 import com.example.excelProj.Model.*;
 import com.example.excelProj.Repository.*;
 import net.bytebuddy.asm.Advice;
@@ -33,6 +34,9 @@ public class CandidateProfileService {
 
     @Autowired
     AppliedForRepository appliedForRepository;
+
+    @Autowired
+    UserProfilesRepository userProfilesRepository;
 
 
     public ApiResponse getCandidateProfileComplete(Long userId,Long candidateId) {
@@ -83,7 +87,7 @@ public class CandidateProfileService {
 
 
 
-    public ApiResponse postCandidateProfile(Long userId, CandidateProfileDTO candidateProfileDTO)
+    public ApiResponse postCandidateProfile(Long userId, UserProfilesDTO candidateProfileDTO)
     {
         Optional<User> optionalUser =userDaoRepository.findById(userId);
 
@@ -100,15 +104,15 @@ public class CandidateProfileService {
             User newUser=userDaoRepository.findById(userId).isPresent()?userDaoRepository.findById(userId).get():null;
 
 
-            CandidateProfile candidateProfile=candidateProfileRepository.findByUserId(userId)!=null?candidateProfileRepository.findByUserId(userId):new CandidateProfile();
+            UserProfiles candidateProfile=userProfilesRepository.findByUserId(userId)!=null?userProfilesRepository.findByUserId(userId):new UserProfiles();
             candidateProfile.setPresentationLetter(candidateProfileDTO.getPresentationLetter());
             candidateProfile.setField(candidateProfileDTO.getField());
-            candidateProfile.setCv(candidateProfileDTO.getCv());
+            candidateProfile.setResume(candidateProfileDTO.getResume());
             candidateProfile.setDp(candidateProfileDTO.getDp());
-            candidateProfile.setResumeContentType(candidateProfileDTO.getImageContentType());
-            candidateProfile.setImageContentType(candidateProfileDTO.getResumeContentType());
+            candidateProfile.setResumeContentType(candidateProfileDTO.getResumeContentType());
+            candidateProfile.setDpContentType(candidateProfileDTO.getDpContentType());
             candidateProfile.setUser(newUser);
-            candidateProfileRepository.save(candidateProfile);
+            userProfilesRepository.save(candidateProfile);
             return new ApiResponse(200,"Candidate profile successfuly updated",userDaoRepository.findById(userId).get());
         }
 
@@ -157,8 +161,8 @@ public class CandidateProfileService {
     public ApiResponse  getCandidateProfile(Long userId){
         Optional<User> user = userDaoRepository.findById(userId);
         if(user.isPresent()){
-            CandidateProfile candidateProfile = candidateProfileRepository.findByUserId(userId);
-            return new ApiResponse(200,"Successfully",candidateProfile);
+            UserProfiles candidateProfile = userProfilesRepository.findByUserId(userId);
+                return new ApiResponse(200,"Successfully",candidateProfile);
         }
         return new ApiResponse(500,"Unsuccessfull",null);
     }

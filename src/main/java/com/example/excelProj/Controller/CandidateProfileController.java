@@ -4,6 +4,7 @@ package com.example.excelProj.Controller;
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.CandidateProfileDTO;
 import com.example.excelProj.Dto.NotificationDTO;
+import com.example.excelProj.Dto.UserProfilesDTO;
 import com.example.excelProj.Model.User;
 import com.example.excelProj.Repository.AppliedForRecruiterJobRepository;
 import com.example.excelProj.Repository.CandidateProfileRepository;
@@ -46,7 +47,7 @@ public class CandidateProfileController {
     UserServiceImpl userService;
 
     @PostMapping("/{userid}")
-    public ApiResponse postCandidateProfile(@PathVariable("userid") Long userId, @RequestBody CandidateProfileDTO candidateProfileDTO) {
+    public ApiResponse postCandidateProfile(@PathVariable("userid") Long userId, @RequestBody UserProfilesDTO candidateProfileDTO) {
         return candidateProfileService.postCandidateProfile(userId, candidateProfileDTO);
     }
 

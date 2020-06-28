@@ -2,12 +2,14 @@ package com.example.excelProj.Service;
 
 import com.example.excelProj.Model.CandidateProfile;
 import com.example.excelProj.Model.CompanyProfile;
+import com.example.excelProj.Model.UserProfiles;
 import com.example.excelProj.Repository.CandidateProfileRepository;
 import com.example.excelProj.Repository.CompanyProfileRepository;
 import com.example.excelProj.Repository.UserDaoRepository;
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.UserDto;
 import com.example.excelProj.Model.User;
+import com.example.excelProj.Repository.UserProfilesRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,9 @@ public class UserServiceImpl implements UserDetailsService {
 
 	@Autowired
 	CompanyProfileRepository companyProfileRepository;
+
+	@Autowired
+	UserProfilesRepository userProfilesRepository;
 
 	@Autowired
 	private CandidateProfileRepository candidateProfileRepository;
@@ -102,36 +107,35 @@ public class UserServiceImpl implements UserDetailsService {
 			newUser.setProfileActive(false);
 			newUser.setUserType(user.getUserType());
 			userDaoRepository.save(newUser);
-//			setting legal company name
-			if(user.getLegalCompanyName()!=null){
-				CompanyProfile companyProfile = new CompanyProfile();
+
+			if(user.getUserType().equalsIgnoreCase("candidate"))
+			{
+				UserProfiles candidateProfile=new UserProfiles();
+				candidateProfile.setUser(newUser);
+				candidateProfile.setField("");
+				candidateProfile.setDpContentType("");
+				userProfilesRepository.save(candidateProfile);
+
+			}
+			else if(user.getUserType().equalsIgnoreCase("employer") )
+			{
+				UserProfiles companyProfile = new UserProfiles();
 				companyProfile.setUser(newUser);
 				newUser.setName(user.getLegalCompanyName());
 				companyProfile.setName(user.getLegalCompanyName());
 				companyProfile.setContactName(user.getName());
-
-				companyProfileRepository.save(companyProfile);
-
-			}
-			else if(user.getUserType().equalsIgnoreCase("candidate"))
-			{
-				CandidateProfile candidateProfile=new CandidateProfile();
-				candidateProfile.setUser(newUser);
-				candidateProfile.setField("");
-				candidateProfile.setImageContentType("");
-				candidateProfileRepository.save(candidateProfile);
+				userProfilesRepository.save(companyProfile);
 
 			}
-			else if(user.getUserType().equalsIgnoreCase("recruiter") || user.getUserType().equalsIgnoreCase("employer") )
+
+			else if(user.getUserType().equalsIgnoreCase("recruiter") )
 			{
-				CompanyProfile companyProfile = new CompanyProfile();
+				UserProfiles companyProfile = new UserProfiles();
 				companyProfile.setUser(newUser);
-				newUser.setName("");
-				companyProfile.setName("");
-				companyProfile.setContactName("");
-
-				companyProfileRepository.save(companyProfile);
+				userProfilesRepository.save(companyProfile);
 			}
+
+
 
 			return new ApiResponse<>(HttpStatus.OK.value(), "User saved successfully.",userDaoRepository.save(newUser));//return ;
 		}
