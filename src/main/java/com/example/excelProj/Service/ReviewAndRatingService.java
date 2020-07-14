@@ -60,6 +60,10 @@ public class ReviewAndRatingService {
             return new ApiResponse(HttpStatus.ALREADY_REPORTED.value(), "Already rated", reviewAndRatingObject.get().getRating());
 
         }
+        else if(reviewAndRatingDTO.getType().equalsIgnoreCase("video"))
+        {
+            reviewAndRatingDTO.setType(reviewAndRatingDTO.getType());
+        }
         else if(reviewAndRatingDTO.getRating()!=null  && reviewAndRatingDTO.getReview()!=null){
 
             ReviewAndRating reviewAndRating = new ReviewAndRating();
@@ -67,6 +71,7 @@ public class ReviewAndRatingService {
             reviewAndRating.setReview(reviewAndRatingDTO.getReview());
             reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
             reviewAndRating.setRateBy(userType);
+            reviewAndRating.setType("text");
             reviewAndRating.setDate(new Date());
 
             Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,7 +36,8 @@ public class RatingAndReviewController {
 
 
     @GetMapping("/averageRating")
-    public ApiResponse getRatingAgainstCompanyId(@RequestParam(defaultValue = "0") Long companyId){
+    public ApiResponse getRatingAgainstCompanyId(@RequestParam(defaultValue = "0") Long companyId,
+                                                 @RequestParam("video") MultipartFile videoFile){
         return reviewAndRatingService.getAverageRating(companyId);
     }
 
