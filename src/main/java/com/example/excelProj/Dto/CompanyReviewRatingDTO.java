@@ -17,12 +17,30 @@ public class CompanyReviewRatingDTO implements Serializable {
     String imageContentType;
     String resumeContentType;
     Date date;
+    String type;
+    String videoUrl;
+
 
 
     public CompanyReviewRatingDTO() {
     }
 
-    public CompanyReviewRatingDTO(Long userId, Long candidateId, String name, String email, Integer rating, String review, byte[] cv, byte[] dp, String field, String imageContentType, String resumeContentType, Date date) {
+//    public CompanyReviewRatingDTO(Long userId, Long candidateId, String name, String email, Integer rating, String review, byte[] cv, byte[] dp, String field, String imageContentType, String resumeContentType, Date date) {
+//        this.userId = userId;
+//        this.candidateId = candidateId;
+//        this.name = name;
+//        this.email = email;
+//        this.rating = rating;
+//        this.review = review;
+//        this.cv = cv;
+//        this.dp = dp;
+//        this.field = field;
+//        this.imageContentType = imageContentType;
+//        this.resumeContentType = resumeContentType;
+//        this.date = date;
+//    }
+
+    public CompanyReviewRatingDTO(Long userId, Long candidateId, String name, String email, Integer rating, String review, byte[] cv, byte[] dp, String field, String imageContentType, String resumeContentType, Date date, String type, String videoUrl) {
         this.userId = userId;
         this.candidateId = candidateId;
         this.name = name;
@@ -35,6 +53,8 @@ public class CompanyReviewRatingDTO implements Serializable {
         this.imageContentType = imageContentType;
         this.resumeContentType = resumeContentType;
         this.date = date;
+        this.type = type;
+        this.videoUrl = videoUrl;
     }
 
     public Long getUserId() {
@@ -132,5 +152,23 @@ public class CompanyReviewRatingDTO implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+
 }
 

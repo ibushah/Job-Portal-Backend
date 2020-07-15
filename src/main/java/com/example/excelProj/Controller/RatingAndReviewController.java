@@ -8,12 +8,15 @@ import com.example.excelProj.Repository.ReviewAndRatingRepository;
 import com.example.excelProj.Service.JobService;
 import com.example.excelProj.Service.ReviewAndRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,13 +39,15 @@ public class RatingAndReviewController {
 
 
     @GetMapping("/averageRating")
-    public ApiResponse getRatingAgainstCompanyId(@RequestParam(defaultValue = "0") Long companyId,
-                                                 @RequestParam("video") MultipartFile videoFile){
+    public ApiResponse getRatingAgainstCompanyId(@RequestParam(defaultValue = "0") Long companyId){
         return reviewAndRatingService.getAverageRating(companyId);
     }
 
     @PostMapping("/comment")
-    public ApiResponse applyJobDTOApiResponse(@RequestBody ReviewAndRatingDTO reviewAndRatingDTO){
+    public ApiResponse applyJobDTOApiResponse(@RequestParam(required = false,name = "video") MultipartFile videoFile,
+                                               ReviewAndRatingDTO reviewAndRatingDTO){
+        if(reviewAndRatingDTO.getType().equalsIgnoreCase("video"))
+            reviewAndRatingDTO.setVideo(videoFile);
         return  reviewAndRatingService.saveRatingAndReview(reviewAndRatingDTO);
     }
 
@@ -52,8 +57,17 @@ public class RatingAndReviewController {
 //    }
 
         @PostMapping("/reivewAgainstCandidate")
-    public ApiResponse saveComment(@RequestBody ReviewAndRatingDTO reviewAndRatingDTO){
+    public ApiResponse saveComment(@RequestParam(required = false,name = "video") MultipartFile videoFile, ReviewAndRatingDTO reviewAndRatingDTO){
+            if(reviewAndRatingDTO.getType().equalsIgnoreCase("video"))
+                reviewAndRatingDTO.setVideo(videoFile);
         return reviewAndRatingService.saveReviewAgainstCandidate(reviewAndRatingDTO)   ;
 }
+
+
+    @GetMapping("/{user}/{filename:.+}")
+    public ResponseEntity<InputStreamResource> getGalleryImage(@PathVariable("user") String userIdAndName, @PathVariable("filename") String filename)
+            throws IOException {
+        return reviewAndRatingService.getImage(filename,userIdAndName);
+    }
 
 }

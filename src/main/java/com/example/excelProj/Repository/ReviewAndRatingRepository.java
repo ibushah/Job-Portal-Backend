@@ -32,7 +32,7 @@ public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRatin
                 @Query(value = "SELECT new com.example.excelProj.Dto.AllCompaniesWithReviewDTO" +
                         "(comp.id,u.name,u.email,comp.corporateAddress," +
                         "comp.billingAddress,comp.contactName,comp.contactTitle,comp.logo" +
-                        ",comp.logoContentType,r.review,r.Rating,r.date)\n"+
+                        ",comp.logoContentType,r.review,r.Rating,r.date,r.type,r.videoUrl)\n"+
                         "FROM ReviewAndRating r \n" +
                         "JOIN CompanyProfile comp \n" +
                         "ON r.companyProfile.id=comp.id \n" +

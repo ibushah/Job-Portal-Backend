@@ -22,6 +22,8 @@ public class AllCompaniesWithReviewDTO implements Serializable{
     String review;
     Integer Rating;
     Date date;
+    String type;
+    String videoUrl;
 
     public AllCompaniesWithReviewDTO() {
     }
@@ -39,6 +41,23 @@ public class AllCompaniesWithReviewDTO implements Serializable{
         this.review = review;
         Rating = rating;
         this.date = date;
+    }
+
+    public AllCompaniesWithReviewDTO(Long id, String name, String email, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, String review, Integer rating, Date date, String type, String videoUrl) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.corporateAddress = corporateAddress;
+        this.billingAddress = billingAddress;
+        this.contactName = contactName;
+        this.contactTitle = contactTitle;
+        this.logo = logo;
+        this.logoContentType = logoContentType;
+        this.review = review;
+        Rating = rating;
+        this.date = date;
+        this.type = type;
+        this.videoUrl = videoUrl;
     }
 
     public Long getId() {
@@ -135,5 +154,21 @@ public class AllCompaniesWithReviewDTO implements Serializable{
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 }
