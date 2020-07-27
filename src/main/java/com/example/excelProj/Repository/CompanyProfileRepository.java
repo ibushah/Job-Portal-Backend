@@ -18,7 +18,7 @@ public interface CompanyProfileRepository extends JpaRepository<CompanyProfile, 
             "r.Rating,r.review,candp.cv," +
             "candp.dp,candp.field," +
             "candp.imageContentType,\n" +
-            "candp.resumeContentType,r.date)\n"+
+            "candp.resumeContentType,r.date,r.type,r.videoUrl)\n"+
             "FROM ReviewAndRating r \n" +
             "JOIN CandidateProfile candp \n" +
             "ON r.candidateId=candp.id \n" +

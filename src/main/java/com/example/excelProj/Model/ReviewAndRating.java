@@ -23,6 +23,13 @@ public class ReviewAndRating {
     @Column
     Date date;
 
+    @Column
+    String type;
+
+    @Column
+    String videoUrl;
+
+
 
 
 
@@ -38,6 +45,17 @@ public class ReviewAndRating {
         this.candidateId = candidateId;
         this.rateBy = rateBy;
         this.date = date;
+        this.companyProfile = companyProfile;
+    }
+
+    public ReviewAndRating(String review, Integer rating, Long candidateId, String rateBy, Date date, String type, String videoUrl, CompanyProfile companyProfile) {
+        this.review = review;
+        Rating = rating;
+        this.candidateId = candidateId;
+        this.rateBy = rateBy;
+        this.date = date;
+        this.type = type;
+        this.videoUrl = videoUrl;
         this.companyProfile = companyProfile;
     }
 
@@ -99,5 +117,22 @@ public class ReviewAndRating {
 
     public void setCompanyProfile(CompanyProfile companyProfile) {
         this.companyProfile = companyProfile;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 }

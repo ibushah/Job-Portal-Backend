@@ -1,6 +1,8 @@
 package com.example.excelProj.Dto;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 
 public class ReviewAndRatingDTO {
@@ -13,6 +15,8 @@ public class ReviewAndRatingDTO {
     Long companyId;
     Date date;
     String ratedBy;
+    String type;
+    MultipartFile video;
 
     public ReviewAndRatingDTO(String review, Integer rating, Long candidateId, Long jobId, Long companyId, Date date, String ratedBy) {
         this.review = review;
@@ -23,6 +27,18 @@ public class ReviewAndRatingDTO {
         this.date = date;
         this.ratedBy = ratedBy;
 
+    }
+
+    public ReviewAndRatingDTO(String review, Integer rating, Long candidateId, Long jobId, Long companyId, Date date, String ratedBy, String type, MultipartFile video) {
+        this.review = review;
+        this.rating = rating;
+        this.candidateId = candidateId;
+        this.jobId = jobId;
+        this.companyId = companyId;
+        this.date = date;
+        this.ratedBy = ratedBy;
+        this.type = type;
+        this.video = video;
     }
 
     public ReviewAndRatingDTO() {
@@ -82,5 +98,21 @@ public class ReviewAndRatingDTO {
 
     public void setRatedBy(String ratedBy) {
         this.ratedBy = ratedBy;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public MultipartFile getVideo() {
+        return video;
+    }
+
+    public void setVideo(MultipartFile video) {
+        this.video = video;
     }
 }
