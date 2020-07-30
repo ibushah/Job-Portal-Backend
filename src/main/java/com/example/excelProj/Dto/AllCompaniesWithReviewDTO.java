@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class AllCompaniesWithReviewDTO implements Serializable{
     Long id;
+    Long userId;
     String name;
     String email;
     String corporateAddress;
@@ -41,6 +42,32 @@ public class AllCompaniesWithReviewDTO implements Serializable{
         this.review = review;
         Rating = rating;
         this.date = date;
+    }
+
+    public AllCompaniesWithReviewDTO(Long id, Long userId, String name, String email, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, String review, Integer rating, Date date, String type, String videoUrl) {
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.corporateAddress = corporateAddress;
+        this.billingAddress = billingAddress;
+        this.contactName = contactName;
+        this.contactTitle = contactTitle;
+        this.logo = logo;
+        this.logoContentType = logoContentType;
+        this.review = review;
+        Rating = rating;
+        this.date = date;
+        this.type = type;
+        this.videoUrl = videoUrl;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public AllCompaniesWithReviewDTO(Long id, String name, String email, String corporateAddress, String billingAddress, String contactName, String contactTitle, byte[] logo, String logoContentType, String review, Integer rating, Date date, String type, String videoUrl) {

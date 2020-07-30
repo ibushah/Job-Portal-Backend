@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class CompanyReviewRatingDTO implements Serializable {
 
+    Long id;
     Long userId;
     Long candidateId;
     String name;
@@ -39,6 +40,25 @@ public class CompanyReviewRatingDTO implements Serializable {
 //        this.resumeContentType = resumeContentType;
 //        this.date = date;
 //    }
+
+
+    public CompanyReviewRatingDTO(Long id, Long userId, Long candidateId, String name, String email, Integer rating, String review, byte[] cv, byte[] dp, String field, String imageContentType, String resumeContentType, Date date, String type, String videoUrl) {
+        this.id = id;
+        this.userId = userId;
+        this.candidateId = candidateId;
+        this.name = name;
+        this.email = email;
+        this.rating = rating;
+        this.review = review;
+        this.cv = cv;
+        this.dp = dp;
+        this.field = field;
+        this.imageContentType = imageContentType;
+        this.resumeContentType = resumeContentType;
+        this.date = date;
+        this.type = type;
+        this.videoUrl = videoUrl;
+    }
 
     public CompanyReviewRatingDTO(Long userId, Long candidateId, String name, String email, Integer rating, String review, byte[] cv, byte[] dp, String field, String imageContentType, String resumeContentType, Date date, String type, String videoUrl) {
         this.userId = userId;
@@ -169,6 +189,12 @@ public class CompanyReviewRatingDTO implements Serializable {
         this.videoUrl = videoUrl;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
 

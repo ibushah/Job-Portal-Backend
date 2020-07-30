@@ -30,7 +30,7 @@ public interface ReviewAndRatingRepository  extends JpaRepository<ReviewAndRatin
 //    ALL THE COMANIES WITH REVIEWS AGFAINST THIS CANDIDATE ID
 //    rate by employee means candidate ko yeh rating di gai hain
                 @Query(value = "SELECT new com.example.excelProj.Dto.AllCompaniesWithReviewDTO" +
-                        "(comp.id,u.name,u.email,comp.corporateAddress," +
+                        "(r.id,comp.user.id,u.name,u.email,comp.corporateAddress," +
                         "comp.billingAddress,comp.contactName,comp.contactTitle,comp.logo" +
                         ",comp.logoContentType,r.review,r.Rating,r.date,r.type,r.videoUrl)\n"+
                         "FROM ReviewAndRating r \n" +

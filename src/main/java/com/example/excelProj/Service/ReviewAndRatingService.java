@@ -85,6 +85,7 @@ public class ReviewAndRatingService {
 
                 ReviewAndRating reviewAndRating = new ReviewAndRating();
                 reviewAndRating.setType(reviewAndRatingDTO.getType());
+                reviewAndRating.setRating(reviewAndRatingDTO.getRating());
                 reviewAndRating.setCandidateId(reviewAndRatingDTO.getCandidateId());
                 Optional<CompanyProfile> companyProfile = companyProfileRepository.findById(reviewAndRatingDTO.getCompanyId());
                 reviewAndRating.setCompanyProfile(companyProfile.get());
@@ -140,7 +141,7 @@ public class ReviewAndRatingService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = userDaoRepository.findByEmail(currentPrincipalName);
-       Optional<CandidateProfile> reviewGetter=candidateProfileRepository.findById(reviewAndRatingDTO.getCandidateId());
+        Optional<CandidateProfile> reviewGetter = candidateProfileRepository.findById(reviewAndRatingDTO.getCandidateId());
         ReviewAndRating reviewAndRatingModel = new ReviewAndRating();
         reviewAndRatingDTO.setCompanyId(user.getCompanyProfile().getId());
 
@@ -228,5 +229,64 @@ public class ReviewAndRatingService {
         return true;
     }
 
+
+    public ResponseEntity deleteReview(Long id) {
+        reviewAndRatingRepository.deleteById(id);
+
+        return new ResponseEntity<>("\" review successfully deleted\"", HttpStatus.OK);
+    }
+
+    public ResponseEntity updateReview(Long id, ReviewAndRatingDTO reviewAndRatingDTO) {
+
+        Optional<ReviewAndRating> reviewAndRating = reviewAndRatingRepository.findById(id);
+
+
+        if (reviewAndRating.isPresent()) {
+            if (reviewAndRatingDTO.getType().equalsIgnoreCase("text")) {
+                reviewAndRating.get().setReview(reviewAndRatingDTO.getReview());
+                reviewAndRating.get().setRating(reviewAndRatingDTO.getRating());
+                reviewAndRatingRepository.save(reviewAndRating.get());
+                return new ResponseEntity<>("\" review successfully updated\"", HttpStatus.OK);
+            } else {
+                String unique = String.valueOf(new Timestamp(System.currentTimeMillis()).getTime());
+                //video rating
+                if (reviewAndRating.get().getRateBy().equalsIgnoreCase("candidate")) {
+                    Optional<CompanyProfile> reviewGetter = companyProfileRepository.findById(reviewAndRating.get().getCompanyProfile().getId());
+
+                    if (reviewGetter.isPresent()) {
+                        if (saveVideoReview(reviewAndRatingDTO.getVideo(), reviewGetter.get().getUser().getName(),
+                                reviewGetter.get().getUser().getId(), unique)) {
+
+                            reviewAndRating.get().setVideoUrl(reviewVideoUrl + reviewGetter.get().getUser().getId() + "-" +
+                                    reviewGetter.get().getUser().getName() + "/" + unique + reviewAndRatingDTO.getVideo().getOriginalFilename());
+                            reviewAndRating.get().setRating(reviewAndRatingDTO.getRating());
+                            reviewAndRatingRepository.save(reviewAndRating.get());
+                            return new ResponseEntity<>("\" review successfully updated\"", HttpStatus.OK);
+                        }
+                    }
+                } else {
+
+                    Optional<CandidateProfile> reviewGetter1 = candidateProfileRepository.findById(reviewAndRating.get().getCandidateId());
+
+                    if (reviewGetter1.isPresent()) {
+                        if (saveVideoReview(reviewAndRatingDTO.getVideo(), reviewGetter1.get().getUser().getName(),
+                                reviewGetter1.get().getUser().getId(), unique)) {
+
+                            reviewAndRating.get().setVideoUrl(reviewVideoUrl + reviewGetter1.get().getUser().getId() + "-" +
+                                    reviewGetter1.get().getUser().getName() + "/" + unique + reviewAndRatingDTO.getVideo().getOriginalFilename());
+                            reviewAndRating.get().setRating(reviewAndRatingDTO.getRating());
+                            reviewAndRatingRepository.save(reviewAndRating.get());
+                            return new ResponseEntity<>("\" review successfully updated\"", HttpStatus.OK);
+                        }
+                    }
+                }
+
+
+            }
+
+            return new ResponseEntity<>("\" review not updated\"", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("\" review not updated\"", HttpStatus.NOT_FOUND);
+    }
 }
 

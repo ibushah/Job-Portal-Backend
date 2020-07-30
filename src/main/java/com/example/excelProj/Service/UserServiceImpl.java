@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserDetailsService {
 			newUser.setActive(true);
 			newUser.setProfileActive(false);
 			newUser.setUserType(user.getUserType());
-			userDaoRepository.save(newUser);
+//			userDaoRepository.save(newUser);
 //			setting legal company name
 			if(user.getLegalCompanyName()!=null){
 				CompanyProfile companyProfile = new CompanyProfile();
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserDetailsService {
 			{
 				CompanyProfile companyProfile = new CompanyProfile();
 				companyProfile.setUser(newUser);
-				newUser.setName("");
+//				newUser.setName("");
 				companyProfile.setName("");
 				companyProfile.setContactName("");
 

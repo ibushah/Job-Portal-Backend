@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Path;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -68,6 +69,20 @@ public class RatingAndReviewController {
     public ResponseEntity<InputStreamResource> getGalleryImage(@PathVariable("user") String userIdAndName, @PathVariable("filename") String filename)
             throws IOException {
         return reviewAndRatingService.getImage(filename,userIdAndName);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteReview(@PathVariable("id") Long id){
+
+        return reviewAndRatingService.deleteReview(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateReview(@PathVariable("id") Long id, @RequestParam(required = false,name = "video") MultipartFile videoFile, ReviewAndRatingDTO reviewAndRatingDTO)
+    {
+        if(reviewAndRatingDTO.getType().equalsIgnoreCase("video"))
+            reviewAndRatingDTO.setVideo(videoFile);
+        return reviewAndRatingService.updateReview(id,reviewAndRatingDTO);
     }
 
 }

@@ -50,9 +50,14 @@ public class CompanyProfileService {
             companyProfile.setContactName(companyProfileDTO.getContactName());
             companyProfile.setContactTitle(companyProfileDTO.getContactTitle());
             companyProfile.setCorporateAddress(companyProfileDTO.getCorporateAddress());
-            companyProfile.setLogo(companyProfileDTO.getLogo());
+            if(companyProfileDTO.getLogo()!=null && companyProfileDTO.getLogoContentType()!=null)
+            {
+                companyProfile.setLogo(companyProfileDTO.getLogo());
+                companyProfile.setLogoContentType(companyProfileDTO.getLogoContentType());
+            }
+
             companyProfile.setName(companyProfileDTO.getName());
-            companyProfile.setLogoContentType(companyProfileDTO.getLogoContentType());
+
             companyProfile.setUser(user);
             if(user.getUserType().equalsIgnoreCase("recruiter")){
                 companyProfile.setResume(companyProfileDTO.getResume());
