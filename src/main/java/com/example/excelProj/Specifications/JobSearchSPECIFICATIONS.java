@@ -2,7 +2,7 @@ package com.example.excelProj.Specifications;
 
 import com.example.excelProj.Model.CompanyProfile;
 import com.example.excelProj.Model.Job;
-import jdk.nashorn.internal.scripts.JO;
+//import jdk.nashorn.internal.scripts.JO;
 import org.hibernate.mapping.Join;
 import org.springframework.data.jpa.domain.Specification;
 

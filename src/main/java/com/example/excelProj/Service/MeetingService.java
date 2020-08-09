@@ -40,13 +40,13 @@ public class MeetingService {
 
             //meetingRoom for friend
             MeetingRoom meetingRoom1 = new MeetingRoom();
-            meetingRoom.setDate(new Date());
-            meetingRoom.setMeetingId(uuid);
-            meetingRoom.setStatus("pending");
-            meetingRoom.setSelf(false);
-            meetingRoom.setSeen(false);
-            meetingRoom.setUser1(user2.get());
-            meetingRoom.setUser2(user1.get());
+            meetingRoom1.setDate(new Date());
+            meetingRoom1.setMeetingId(uuid);
+            meetingRoom1.setStatus("pending");
+            meetingRoom1.setSelf(false);
+            meetingRoom1.setSeen(false);
+            meetingRoom1.setUser1(user2.get());
+            meetingRoom1.setUser2(user1.get());
 
             List<MeetingRoom> list = new ArrayList<>();
             list.add(meetingRoom);

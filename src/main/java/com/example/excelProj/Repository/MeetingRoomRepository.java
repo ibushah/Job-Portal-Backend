@@ -3,8 +3,10 @@ package com.example.excelProj.Repository;
 import com.example.excelProj.Dto.MeetingDto;
 import com.example.excelProj.Model.MeetingRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,12 +20,19 @@ public interface MeetingRoomRepository extends JpaRepository<MeetingRoom, Long> 
             " from User u join MeetingRoom m on m.user1.id=:id where m.status=:filter")
     List<MeetingDto> filteredMeetings(@Param("id") Long id, @Param("filter") String filter);
 
+    @Transactional
+    @Modifying
     @Query(value = "update meeting_room set status='accepted' where meeting_id=:meetingId", nativeQuery = true)
     void acceptMeetingInvite(@Param("meetingId") String meetingId);
 
+    @Transactional
+    @Modifying
     @Query(value = "update meeting_room set status='cancelled' where meeting_id=:meetingId", nativeQuery = true)
     void cancelMeetingInvite(@Param("meetingId") String meetingId);
 
+
+    @Transactional
+    @Modifying
     @Query(value = "update meeting_room set seen=true where user1_id=:id", nativeQuery = true)
     void seenAllMeetings(@Param("id") Long id);
 }
