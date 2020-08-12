@@ -43,6 +43,11 @@ public class User {
 	private CompanyProfile companyProfile;
 
 
+
+	@OneToOne(mappedBy = "user")
+	private Location location;
+
+
 	public User(String email, String name, String password, Boolean active, Boolean profileActive, String userType, CandidateProfile candidateProfile, CompanyProfile companyProfile) {
 		this.email = email;
 		this.name = name;
@@ -127,5 +132,13 @@ public class User {
 
 	public void setCompanyProfile(CompanyProfile companyProfile) {
 		this.companyProfile = companyProfile;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }

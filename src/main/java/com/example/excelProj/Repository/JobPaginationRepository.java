@@ -1,7 +1,7 @@
 package com.example.excelProj.Repository;
 
 import com.example.excelProj.Model.Job;
-import jdk.nashorn.internal.scripts.JO;
+//import jdk.nashorn.internal.scripts.JO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
