@@ -10,6 +10,7 @@ public class CompanyProfileDetailsDTO {
     CompanyProfile companyProfile;
     List<CompanyReviewRatingDTO> companyReviewRatingDTOList;
     Boolean alreadyCommented;
+    Long userId;
 
     public CompanyProfileDetailsDTO(Double avgRating, CompanyProfile companyProfile, List<CompanyReviewRatingDTO> companyReviewRatingDTOList, Boolean alreadyCommented) {
         this.avgRating = avgRating;
@@ -19,6 +20,14 @@ public class CompanyProfileDetailsDTO {
     }
 
     public CompanyProfileDetailsDTO() {
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Double getAvgRating() {

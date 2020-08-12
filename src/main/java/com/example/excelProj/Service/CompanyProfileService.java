@@ -107,6 +107,7 @@ public class CompanyProfileService {
         companyProfileDetailsDTO.setCompanyReviewRatingDTOList(companyReviewRatingDTOList);
         companyProfileDetailsDTO.setCompanyProfile(companyProfile);
         companyProfileDetailsDTO.setAvgRating(avgRating);
+        companyProfileDetailsDTO.setUserId(companyProfile.getUser().getId());
 
         return companyProfileDetailsDTO;
     }

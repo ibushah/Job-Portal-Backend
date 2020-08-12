@@ -13,15 +13,15 @@ public class Location {
 
     Double longitude;
 
-    Double latitiude;
+    Double latitude;
 
     @JsonIgnore
     @OneToOne
     User user;
 
-    public Location(Double longitude, Double latitiude, User user) {
+    public Location(Double longitude, Double latitude, User user) {
         this.longitude = longitude;
-        this.latitiude = latitiude;
+        this.latitude = latitude;
         this.user = user;
     }
 
@@ -44,12 +44,12 @@ public class Location {
         this.longitude = longitude;
     }
 
-    public Double getLatitiude() {
-        return latitiude;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setLatitiude(Double latitiude) {
-        this.latitiude = latitiude;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public User getUser() {

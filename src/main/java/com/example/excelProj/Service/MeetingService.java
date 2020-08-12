@@ -32,9 +32,9 @@ public class MeetingService {
             MeetingRoom meetingRoom = new MeetingRoom();
             meetingRoom.setDate(new Date());
             meetingRoom.setMeetingId(uuid);
-            meetingRoom.setStatus("pending");
+            meetingRoom.setStatus("approval");
             meetingRoom.setSelf(true);
-            meetingRoom.setSeen(false);
+            meetingRoom.setSeen(true);
             meetingRoom.setUser1(user1.get());
             meetingRoom.setUser2(user2.get());
 
@@ -61,15 +61,69 @@ public class MeetingService {
     }
 
 
-    public ResponseEntity cancelMeetingInvite(String meetingId) {
-        meetingRoomRepository.cancelMeetingInvite(meetingId);
-        return new ResponseEntity("\"Meeting invite cancelled\"", HttpStatus.NOT_FOUND);
+    public ResponseEntity cancelMeetingInvite(Long user1Id,Long user2Id,String meetingId) {
+//        meetingRoomRepository.cancelMeetingInvite(meetingId);
+        MeetingRoom meetingRoom=meetingRoomRepository.findMeetingRoomByUserId(meetingId,user1Id);
+        MeetingRoom meetingRoom1=meetingRoomRepository.findMeetingRoomByUserId(meetingId,user2Id);
+
+        if(meetingRoom!=null && meetingRoom1!=null){
+            meetingRoom.setStatus("cancelled");
+            meetingRoom.setSeen(true);
+            meetingRoom.setSelf(true);
+
+            meetingRoom1.setStatus("cancelled");
+            meetingRoom1.setSeen(false);
+            meetingRoom1.setSelf(false);
+            meetingRoomRepository.save(meetingRoom);
+            meetingRoomRepository.save(meetingRoom1);
+            return new ResponseEntity("\"Meeting invite cancelled\"", HttpStatus.OK);
+        }
+        return new ResponseEntity("\"Meeting invite not cancelled\"", HttpStatus.NOT_FOUND);
+
     }
 
 
-    public ResponseEntity acceptMeetingInvite(String meetingId) {
-        meetingRoomRepository.acceptMeetingInvite(meetingId);
-        return new ResponseEntity("\"Meeting invite accepted\"", HttpStatus.NOT_FOUND);
+    public ResponseEntity acceptMeetingInvite(Long user1Id,Long user2Id,String meetingId) {
+//        meetingRoomRepository.acceptMeetingInvite(meetingId);
+
+        //user1 is the person who accepted the meeting invite
+        MeetingRoom meetingRoom=meetingRoomRepository.findMeetingRoomByUserId(meetingId,user1Id);
+        MeetingRoom meetingRoom1=meetingRoomRepository.findMeetingRoomByUserId(meetingId,user2Id);
+
+        if(meetingRoom!=null && meetingRoom1!=null){
+            meetingRoom.setStatus("accepted");
+            meetingRoom.setSeen(true);
+            meetingRoom.setSelf(true);
+
+            meetingRoom1.setStatus("accepted");
+            meetingRoom1.setSeen(false);
+            meetingRoom1.setSelf(false);
+            meetingRoomRepository.save(meetingRoom);
+            meetingRoomRepository.save(meetingRoom1);
+            return new ResponseEntity("\"Meeting invite accepted\"", HttpStatus.OK);
+        }
+        return new ResponseEntity("\"Meeting invite not accepted\"", HttpStatus.NOT_FOUND);
+    }
+    public ResponseEntity completeMeetingInvite(Long user1Id,Long user2Id,String meetingId) {
+//        meetingRoomRepository.completeMeetingInvite(meetingId);
+
+        MeetingRoom meetingRoom=meetingRoomRepository.findMeetingRoomByUserId(meetingId,user1Id);
+        MeetingRoom meetingRoom1=meetingRoomRepository.findMeetingRoomByUserId(meetingId,user2Id);
+
+        if(meetingRoom!=null && meetingRoom1!=null){
+            meetingRoom.setStatus("completed");
+            meetingRoom.setSeen(true);
+            meetingRoom.setSelf(true);
+
+            meetingRoom1.setStatus("completed");
+            meetingRoom1.setSeen(false);
+            meetingRoom1.setSelf(false);
+            meetingRoomRepository.save(meetingRoom);
+            meetingRoomRepository.save(meetingRoom1);
+            return new ResponseEntity("\"Meeting invite completed\"", HttpStatus.OK);
+        }
+        return new ResponseEntity("\"Meeting invite not completed\"", HttpStatus.NOT_FOUND);
+//        return new ResponseEntity("\"Meeting invite completed\"", HttpStatus.OK);
     }
 
 
@@ -81,7 +135,21 @@ public class MeetingService {
             return new ResponseEntity(meetingRoomRepository.findAllMeetings(userId), HttpStatus.OK);
         }
 
+
         return new ResponseEntity(meetingRoomRepository.filteredMeetings(userId, filter), HttpStatus.OK);
+    }
+
+
+    public ResponseEntity getMeetingRoom(String meetingId,Long userId)
+    {
+        MeetingRoom meetingRoom=meetingRoomRepository.findByMeetingId(meetingId,userId);
+        if(meetingRoom!=null && meetingRoom.getStatus().equalsIgnoreCase("accepted"))
+            return new ResponseEntity(meetingRoom,HttpStatus.OK);
+        return new ResponseEntity(null,HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity getMeetingNotificationCount(Long userId){
+        return new ResponseEntity(meetingRoomRepository.findMeetingCount(userId),HttpStatus.OK);
     }
 
 
