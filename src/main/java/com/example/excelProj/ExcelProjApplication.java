@@ -1,6 +1,7 @@
 package com.example.excelProj;
 
 import com.example.excelProj.Commons.Constants;
+import com.example.excelProj.Model.Tender;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,9 @@ public class ExcelProjApplication extends SpringBootServletInitializer {
 		System.out.println("current dir = " + dir);
 
 		Constants.SERVER_PATH = dir;
+
+		//Tender tender = new Tender();
+		//System.out.printf(tender.getInterviewTimings().toString());
 	}
 
 //
