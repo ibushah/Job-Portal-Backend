@@ -1,5 +1,7 @@
 package com.example.excelProj.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.Date;
@@ -53,6 +55,9 @@ public class Tender{
     String address;
 
 
+    @OneToOne(mappedBy = "tender")
+    @JsonIgnoreProperties("tender")
+    TenderAssortments tenderAssortments;
 
     @Column
     LocalTime interviewTimings;
@@ -60,6 +65,20 @@ public class Tender{
     @Column
     Boolean isActive;
 
+
+    @ManyToOne
+    @JoinColumn(name = "tender_poster_id")
+    @JsonIgnoreProperties("tender")
+    private User tenderPoster;
+
+
+    public User getTenderPoster() {
+        return tenderPoster;
+    }
+
+    public void setTenderPoster(User tenderPoster) {
+        this.tenderPoster = tenderPoster;
+    }
 
     public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, LocalTime interviewTimings, Boolean isActive) {
         this.id = id;
@@ -113,6 +132,14 @@ public class Tender{
 
     public void setSalary(String salary) {
         this.salary = salary;
+    }
+
+    public TenderAssortments getTenderAssortments() {
+        return tenderAssortments;
+    }
+
+    public void setTenderAssortments(TenderAssortments tenderAssortments) {
+        this.tenderAssortments = tenderAssortments;
     }
 
     public String getInterviewStartDate() {

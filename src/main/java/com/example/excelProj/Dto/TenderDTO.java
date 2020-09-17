@@ -14,11 +14,19 @@ public class TenderDTO implements Serializable {
     String salary;
 
     @NotNull
+    Long recruiterUserId;
+
+    @NotNull
+    Long employerUserId;
+
+    @NotNull
     String interviewStartDate;
 
     @NotNull
     String interviewEndDate;
+
     String country;
+
     String city;
     String province;
     String category;
@@ -28,6 +36,23 @@ public class TenderDTO implements Serializable {
     String address;
     LocalTime interviewTimings;
     Boolean isActive;
+
+
+    public Long getRecruiterUserId() {
+        return recruiterUserId;
+    }
+
+    public void setRecruiterUserId(Long recruiterUserId) {
+        this.recruiterUserId = recruiterUserId;
+    }
+
+    public Long getEmployerUserId() {
+        return employerUserId;
+    }
+
+    public void setEmployerUserId(Long employerUserId) {
+        this.employerUserId = employerUserId;
+    }
 
     public TenderDTO(Long id, String role, String description, @NotNull String salary, @NotNull String interviewStartDate, @NotNull String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, LocalTime interviewTimings, Boolean isActive) {
         this.id = id;
