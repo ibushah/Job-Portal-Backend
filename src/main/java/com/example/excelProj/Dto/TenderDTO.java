@@ -10,6 +10,7 @@ public class TenderDTO implements Serializable {
     String role;
     String description;
 
+    Long userId;
     @NotNull
     String salary;
 
@@ -26,13 +27,15 @@ public class TenderDTO implements Serializable {
     Double longitude;
     Double latitude;
     String address;
-    LocalTime interviewTimings;
+    String interviewStartTiming;
+    String interviewEndTiming;
     Boolean isActive;
 
-    public TenderDTO(Long id, String role, String description, @NotNull String salary, @NotNull String interviewStartDate, @NotNull String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, LocalTime interviewTimings, Boolean isActive) {
+    public TenderDTO(Long id, String role, String description, Long userId, @NotNull String salary, @NotNull String interviewStartDate, @NotNull String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, String interviewStartTiming, String interviewEndTiming, Boolean isActive) {
         this.id = id;
         this.role = role;
         this.description = description;
+        this.userId = userId;
         this.salary = salary;
         this.interviewStartDate = interviewStartDate;
         this.interviewEndDate = interviewEndDate;
@@ -44,8 +47,17 @@ public class TenderDTO implements Serializable {
         this.longitude = longitude;
         this.latitude = latitude;
         this.address = address;
-        this.interviewTimings = interviewTimings;
+        this.interviewStartTiming = interviewStartTiming;
+        this.interviewEndTiming = interviewEndTiming;
         this.isActive = isActive;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -160,12 +172,20 @@ public class TenderDTO implements Serializable {
         this.address = address;
     }
 
-    public LocalTime getInterviewTimings() {
-        return interviewTimings;
+    public String getInterviewStartTiming() {
+        return interviewStartTiming;
     }
 
-    public void setInterviewTimings(LocalTime interviewTimings) {
-        this.interviewTimings = interviewTimings;
+    public void setInterviewStartTiming(String interviewStartTiming) {
+        this.interviewStartTiming = interviewStartTiming;
+    }
+
+    public String getInterviewEndTiming() {
+        return interviewEndTiming;
+    }
+
+    public void setInterviewEndTiming(String interviewEndTiming) {
+        this.interviewEndTiming = interviewEndTiming;
     }
 
     public Boolean getActive() {

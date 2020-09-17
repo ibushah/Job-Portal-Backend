@@ -2,6 +2,7 @@ package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -42,6 +43,10 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private CompanyProfile companyProfile;
 
+
+	@OneToMany(mappedBy = "tenderPoster")
+	@JsonIgnoreProperties("user")
+	List<Tender> tenders;
 
 
 	@OneToOne(mappedBy = "user")
