@@ -38,6 +38,7 @@ public class TenderService {
                 tender.setCity(tenderDTO.getCity());
                 tender.setCountry(tenderDTO.getCountry());
                 tender.setActive(true);
+
                 tender.setDescription(tenderDTO.getDescription());
                 tender.setInterviewStartDate(tenderDTO.getInterviewStartDate());
                 tender.setInterviewEndDate(tenderDTO.getInterviewEndDate());
@@ -46,6 +47,8 @@ public class TenderService {
                 tender.setLongitude(tenderDTO.getLongitude());
                 tender.setSalary(tenderDTO.getSalary());
                 tender.setType(tenderDTO.getType());
+                tender.setTenderPoster(userDaoRepository.findById(tenderDTO.getEmployerUserId()).get());
+                tenderRepository.save(tender);
                 postTenderNotification(tender,tenderDTO,"employer","recruiter");
                 return new ResponseEntity<Tender>(tender != null ? tender : null, HttpStatus.OK);
             }
@@ -56,10 +59,10 @@ public class TenderService {
         return  new ResponseEntity<Tender>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Tender> findByUserId(Long userId) {
+    public ResponseEntity<Tender> findTenderById(Long tenderId) {
         try {
-            Optional<Tender> tenderOption = tenderRepository.findById(userId);
-            return new ResponseEntity<Tender>(tenderOption.get(), HttpStatus.NOT_FOUND);
+            Optional<Tender> tenderOption = tenderRepository.findById(tenderId);
+            return new ResponseEntity<Tender>(tenderOption.get(), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<Tender>(HttpStatus.NOT_FOUND);
         }
@@ -80,10 +83,8 @@ public class TenderService {
             tenderAssortments.setNotificationDate(new Date());
             tenderAssortments.setNotifcationFrom(notificationFrom);
             tenderAssortments.setNotificationFor(notificationFor);
-            tenderAssortments.setSeen(true);
+            tenderAssortments.setSeen(false);
             tenderAssortments.setApplied(false);
-            tender.setTenderPoster(employerUser);
-            tenderRepository.save(tender);
             tenderAssortmentRepository.save(tenderAssortments);
         }
     }

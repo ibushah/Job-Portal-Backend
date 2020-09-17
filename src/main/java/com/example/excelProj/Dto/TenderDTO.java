@@ -10,7 +10,7 @@ public class TenderDTO implements Serializable {
     String role;
     String description;
 
-    @NotNull
+
     String salary;
 
     @NotNull
@@ -19,10 +19,10 @@ public class TenderDTO implements Serializable {
     @NotNull
     Long employerUserId;
 
-    @NotNull
+
     String interviewStartDate;
 
-    @NotNull
+
     String interviewEndDate;
 
     String country;

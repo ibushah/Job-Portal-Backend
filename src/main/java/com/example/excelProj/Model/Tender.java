@@ -69,7 +69,7 @@ public class Tender{
     @ManyToOne
     @JoinColumn(name = "tender_poster_id")
     @JsonIgnoreProperties("tender")
-    private User tenderPoster;
+    public User tenderPoster;
 
 
     public User getTenderPoster() {

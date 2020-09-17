@@ -40,9 +40,9 @@ public class TenderController {
         return tenderService.save(tenderDTO);
    }
 
-    @PostMapping("/tender/{userId}")
-    public ResponseEntity<Tender> addTender(@PathVariable("userId") Long userId){
-        return tenderService.findByUserId(userId);
+    @GetMapping("/tender/{tenderId}")
+    public ResponseEntity<Tender> findTender(@PathVariable("tenderId") Long tenderId){
+        return tenderService.findTenderById(tenderId);
     }
 
 
