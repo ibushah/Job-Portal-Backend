@@ -1,5 +1,7 @@
 package com.example.excelProj.Dto;
 
+import com.example.excelProj.Model.Tender;
+
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -202,5 +204,24 @@ public class TenderDTO implements Serializable {
     }
 
     public TenderDTO() {
+    }
+
+    public TenderDTO(Tender tender) {
+        this.id  = tender.getId();
+        this.address = tender.getAddress();
+        this.category = tender.getCategory();
+        this.city = tender.getCity();
+        this.country = tender.getCountry();
+        this.description = tender.getDescription();
+        this.interviewEndDate = tender.getInterviewEndDate();
+        this.interviewStartDate = tender.getInterviewStartDate();
+        this.isActive = tender.getActive();
+        this.latitude = tender.getLatitude();
+        this.longitude = tender.getLongitude();
+        this.province = tender.getProvince();
+        this.role = tender.getRole();
+        this.salary = tender.getSalary();
+        this.interviewTimings = tender.getInterviewTimings();
+
     }
 }

@@ -4,6 +4,7 @@ package com.example.excelProj.Controller;
 import com.example.excelProj.Commons.ApiResponse;
 import com.example.excelProj.Dto.JobPostDTO;
 import com.example.excelProj.Dto.TenderDTO;
+import com.example.excelProj.Dto.ViewTenderDTO;
 import com.example.excelProj.Model.Job;
 import com.example.excelProj.Model.Tender;
 import com.example.excelProj.Model.TenderAssortments;
@@ -42,12 +43,17 @@ public class TenderController {
    }
 
     @GetMapping("/tender/{tenderId}")
-    public ResponseEntity<Tender> findTender(@PathVariable("tenderId") Long tenderId){
+    public ResponseEntity<ViewTenderDTO> findTender(@PathVariable("tenderId") Long tenderId){
         return tenderService.findTenderById(tenderId);
     }
     @GetMapping("/tendernotification/{recruiterId}")
     public ResponseEntity<List<TenderAssortments>> getTenderNotifications(@PathVariable("recruiterId") Long recruiterId){
        return tenderService.getTenderNotifications(recruiterId);
+    }
+
+    @GetMapping("/tendernotification/{recruiterId}")
+    public ResponseEntity<ViewTenderDTO> getTenderNotifications(@PathVariable("recruiterId") Long recruiterId){
+        return tenderService.getTenderNotifications(recruiterId);
     }
 
 
