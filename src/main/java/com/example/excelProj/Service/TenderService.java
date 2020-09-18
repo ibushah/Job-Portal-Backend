@@ -45,7 +45,8 @@ public class TenderService {
                 tender.setDescription(tenderDTO.getDescription());
                 tender.setInterviewStartDate(tenderDTO.getInterviewStartDate());
                 tender.setInterviewEndDate(tenderDTO.getInterviewEndDate());
-                tender.setInterviewTimings(tenderDTO.getInterviewTimings());
+                tender.setInterviewStartDate(tenderDTO.getInterviewStartDate());
+                tender.setInterviewEndDate(tenderDTO.getInterviewEndDate());
                 tender.setLatitude(tenderDTO.getLatitude());
                 tender.setLongitude(tenderDTO.getLongitude());
                 tender.setSalary(tenderDTO.getSalary());

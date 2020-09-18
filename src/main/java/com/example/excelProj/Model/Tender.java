@@ -61,8 +61,13 @@ public class Tender{
     @JsonBackReference
     TenderAssortments tenderAssortments;
 
+
+
     @Column
-    LocalTime interviewTimings;
+    String interviewStartTiming;
+
+    @Column
+    String getInterviewEndTiming;
 
     @Column
     Boolean isActive;
@@ -73,16 +78,7 @@ public class Tender{
     @JsonIgnoreProperties("tender")
     public User tenderPoster;
 
-
-    public User getTenderPoster() {
-        return tenderPoster;
-    }
-
-    public void setTenderPoster(User tenderPoster) {
-        this.tenderPoster = tenderPoster;
-    }
-
-    public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, LocalTime interviewTimings, Boolean isActive) {
+    public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, TenderAssortments tenderAssortments, String interviewStartTiming, String getInterviewEndTiming, Boolean isActive, User tenderPoster) {
         this.id = id;
         this.role = role;
         this.description = description;
@@ -97,8 +93,35 @@ public class Tender{
         this.longitude = longitude;
         this.latitude = latitude;
         this.address = address;
-        this.interviewTimings = interviewTimings;
+        this.tenderAssortments = tenderAssortments;
+        this.interviewStartTiming = interviewStartTiming;
+        this.getInterviewEndTiming = getInterviewEndTiming;
         this.isActive = isActive;
+        this.tenderPoster = tenderPoster;
+    }
+
+    public User getTenderPoster() {
+        return tenderPoster;
+    }
+
+    public void setTenderPoster(User tenderPoster) {
+        this.tenderPoster = tenderPoster;
+    }
+
+    public String getInterviewStartTiming() {
+        return interviewStartTiming;
+    }
+
+    public void setInterviewStartTiming(String interviewStartTiming) {
+        this.interviewStartTiming = interviewStartTiming;
+    }
+
+    public String getGetInterviewEndTiming() {
+        return getInterviewEndTiming;
+    }
+
+    public void setGetInterviewEndTiming(String getInterviewEndTiming) {
+        this.getInterviewEndTiming = getInterviewEndTiming;
     }
 
     public Tender() {
@@ -224,15 +247,6 @@ public class Tender{
         this.address = address;
     }
 
-
-
-    public LocalTime getInterviewTimings() {
-        return interviewTimings;
-    }
-
-    public void setInterviewTimings(LocalTime interviewTimings) {
-        this.interviewTimings = interviewTimings;
-    }
 
     public Boolean getActive() {
         return isActive;

@@ -36,43 +36,12 @@ public class TenderDTO implements Serializable {
     Double longitude;
     Double latitude;
     String address;
-    LocalTime interviewTimings;
+    String interviewStartTiming;
+    String interviewEndTiming;
+
     Boolean isActive;
 
-
-    public Long getRecruiterUserId() {
-        return recruiterUserId;
-    }
-
-    public void setRecruiterUserId(Long recruiterUserId) {
-        this.recruiterUserId = recruiterUserId;
-    }
-
-    public Long getEmployerUserId() {
-        return employerUserId;
-    }
-
-    public void setEmployerUserId(Long employerUserId) {
-        this.employerUserId = employerUserId;
-    }
-
-    public TenderDTO(Long id, String role, String description, @NotNull String salary, @NotNull String interviewStartDate, @NotNull String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, LocalTime interviewTimings, Boolean isActive) {
-        this.id = id;
-        this.role = role;
-        this.description = description;
-        this.salary = salary;
-        this.interviewStartDate = interviewStartDate;
-        this.interviewEndDate = interviewEndDate;
-        this.country = country;
-        this.city = city;
-        this.province = province;
-        this.category = category;
-        this.type = type;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.address = address;
-        this.interviewTimings = interviewTimings;
-        this.isActive = isActive;
+    public TenderDTO() {
     }
 
     public Long getId() {
@@ -105,6 +74,22 @@ public class TenderDTO implements Serializable {
 
     public void setSalary(String salary) {
         this.salary = salary;
+    }
+
+    public Long getRecruiterUserId() {
+        return recruiterUserId;
+    }
+
+    public void setRecruiterUserId(Long recruiterUserId) {
+        this.recruiterUserId = recruiterUserId;
+    }
+
+    public Long getEmployerUserId() {
+        return employerUserId;
+    }
+
+    public void setEmployerUserId(Long employerUserId) {
+        this.employerUserId = employerUserId;
     }
 
     public String getInterviewStartDate() {
@@ -187,12 +172,20 @@ public class TenderDTO implements Serializable {
         this.address = address;
     }
 
-    public LocalTime getInterviewTimings() {
-        return interviewTimings;
+    public String getInterviewStartTiming() {
+        return interviewStartTiming;
     }
 
-    public void setInterviewTimings(LocalTime interviewTimings) {
-        this.interviewTimings = interviewTimings;
+    public void setInterviewStartTiming(String interviewStartTiming) {
+        this.interviewStartTiming = interviewStartTiming;
+    }
+
+    public String getInterviewEndTiming() {
+        return interviewEndTiming;
+    }
+
+    public void setInterviewEndTiming(String interviewEndTiming) {
+        this.interviewEndTiming = interviewEndTiming;
     }
 
     public Boolean getActive() {
@@ -201,9 +194,6 @@ public class TenderDTO implements Serializable {
 
     public void setActive(Boolean active) {
         isActive = active;
-    }
-
-    public TenderDTO() {
     }
 
     public TenderDTO(Tender tender) {
@@ -221,7 +211,8 @@ public class TenderDTO implements Serializable {
         this.province = tender.getProvince();
         this.role = tender.getRole();
         this.salary = tender.getSalary();
-        this.interviewTimings = tender.getInterviewTimings();
+        this.interviewStartTiming = tender.getInterviewStartTiming();
+        this.interviewEndTiming  = tender.getGetInterviewEndTiming();
 
     }
 }
