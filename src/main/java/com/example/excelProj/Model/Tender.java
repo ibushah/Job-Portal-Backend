@@ -1,5 +1,6 @@
 package com.example.excelProj.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -56,7 +57,7 @@ public class Tender{
 
 
     @OneToOne(mappedBy = "tender")
-    @JsonIgnoreProperties("tender")
+    @JsonBackReference
     TenderAssortments tenderAssortments;
 
     @Column

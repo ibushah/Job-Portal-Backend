@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -89,4 +90,8 @@ public class TenderService {
         }
     }
 
+    public ResponseEntity<List<TenderAssortments>> getTenderNotifications(Long recruiterId ){
+        List<TenderAssortments> listOfNotifications =tenderAssortmentRepository.getTenderNotifications(recruiterId);
+        return new ResponseEntity<List<TenderAssortments>>(listOfNotifications, HttpStatus.OK);
+    }
 }

@@ -6,6 +6,7 @@ import com.example.excelProj.Dto.JobPostDTO;
 import com.example.excelProj.Dto.TenderDTO;
 import com.example.excelProj.Model.Job;
 import com.example.excelProj.Model.Tender;
+import com.example.excelProj.Model.TenderAssortments;
 import com.example.excelProj.Repository.TenderRepository;
 import com.example.excelProj.Service.TenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,11 @@ public class TenderController {
     public ResponseEntity<Tender> findTender(@PathVariable("tenderId") Long tenderId){
         return tenderService.findTenderById(tenderId);
     }
+    @GetMapping("/tendernotification/{recruiterId}")
+    public ResponseEntity<List<TenderAssortments>> getTenderNotifications(@PathVariable("recruiterId") Long recruiterId){
+       return tenderService.getTenderNotifications(recruiterId);
+    }
+
 
 
 
