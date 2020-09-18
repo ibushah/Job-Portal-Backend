@@ -3,6 +3,7 @@ package com.example.excelProj.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.exception.DataException;
 
 import javax.persistence.*;
@@ -26,7 +27,7 @@ public class TenderAssortments {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tender_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("tender_assortments")
+    @JsonManagedReference
     Tender tender;
 
     @Column
