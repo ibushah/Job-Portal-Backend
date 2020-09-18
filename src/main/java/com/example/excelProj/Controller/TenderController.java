@@ -51,10 +51,6 @@ public class TenderController {
        return tenderService.getTenderNotifications(recruiterId);
     }
 
-    @GetMapping("/tendernotification/employer/{emloyerUserId}")
-    public ResponseEntity<List<TenderAssortments>> getTenderNotificationsToEmployer(@PathVariable("emloyerUserId") Long emloyerUserId){
-        return tenderService.sendNotificationToEmployerAboutAcceptOrDecline(emloyerUserId);
-    }
 
     @PostMapping("/tendernotification/employer/{emloyerUserId}")
     public ResponseEntity getTenderNotificationsToEmployer(@RequestBody TenderDTO tenderDTO,@PathVariable("isApplied") Boolean isApplied){
