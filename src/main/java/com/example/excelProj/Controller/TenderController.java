@@ -46,14 +46,19 @@ public class TenderController {
     public ResponseEntity<ViewTenderDTO> findTender(@PathVariable("tenderId") Long tenderId){
         return tenderService.findTenderById(tenderId);
     }
-    @GetMapping("/tendernotification/{recruiterId}")
-    public ResponseEntity<List<TenderAssortments>> getTenderNotifications(@PathVariable("recruiterId") Long recruiterId){
+    @GetMapping("/tendernotification/recruiter/{recruiterId}")
+    public ResponseEntity<List<TenderAssortments>> getTenderNotificationsToRecruiter(@PathVariable("recruiterId") Long recruiterId){
        return tenderService.getTenderNotifications(recruiterId);
     }
 
-    @GetMapping("/tendernotification/{recruiterId}")
-    public ResponseEntity<ViewTenderDTO> getTenderNotifications(@PathVariable("recruiterId") Long recruiterId){
-        return tenderService.getTenderNotifications(recruiterId);
+    @GetMapping("/tendernotification/employer/{emloyerUserId}")
+    public ResponseEntity<List<TenderAssortments>> getTenderNotificationsToEmployer(@PathVariable("emloyerUserId") Long emloyerUserId){
+        return tenderService.sendNotificationToEmployerAboutAcceptOrDecline(emloyerUserId);
+    }
+
+    @PostMapping("/tendernotification/employer/{emloyerUserId}")
+    public ResponseEntity getTenderNotificationsToEmployer(@RequestBody TenderDTO tenderDTO,@PathVariable("isApplied") Boolean isApplied){
+        return tenderService.acceptOrDeclineTender(tenderDTO,isApplied);
     }
 
 

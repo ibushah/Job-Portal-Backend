@@ -84,6 +84,38 @@ public class TenderService {
         return new ResponseEntity<List<TenderAssortments>>(listOfNotifications, HttpStatus.OK);
     }
 
+
+
+    public ResponseEntity acceptOrDeclineTender(TenderDTO tenderDTO,Boolean isAccept){
+            //accept tender work  and decline tender work
+            try{
+                //i need tender id and recruiter userId and a boolean if he accepts or decline so that i can send a notifaction
+                //update tenderAssortment
+                if(isAccept==true){
+                    //tenderAccepted
+                    tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
+                }
+                else{
+                    tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
+                }
+
+                //send backNotificaiton to employer whatever he does;
+
+
+                return new ResponseEntity<>(HttpStatus.OK);
+            }catch (Exception e){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+    }
+
+
+    public ResponseEntity<List<TenderAssortments>> sendNotificationToEmployerAboutAcceptOrDecline(Long employerUserId){
+            //find all the tender which recruiter accepts or decline;
+        List<TenderAssortments> listOfNotifications =tenderAssortmentRepository.getAcceptOrDeclineNotification(employerUserId);
+        return new ResponseEntity<List<TenderAssortments>>(listOfNotifications, HttpStatus.OK);
+
+    }
+
     protected void saveInTenderAssortMents(Tender tender,TenderDTO tenderDTO,String notificationFrom,String notificationFor){
         //
         TenderAssortments tenderAssortments = new TenderAssortments();
@@ -104,37 +136,4 @@ public class TenderService {
             tenderAssortmentRepository.save(tenderAssortments);
         }
     }
-
-
-
-
-    protected ResponseEntity<ViewTenderDTO> acceptOrDeclineTender(TenderDTO tenderDTO,Boolean isAccept){
-            //accept tender work  and decline tender work
-            try{
-                //i need tender id and recruiter userId and a boolean if he accepts or decline so that i can send a notifaction
-                //update tenderAssortment
-                if(isAccept==true){
-                    //tenderAccepted
-                    tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
-                }
-                else{
-                    tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
-                }
-
-                //send backNotificaiton to employer whatever he does;
-
-
-                return new ResponseEntity<ViewTenderDTO>(HttpStatus.OK);
-            }catch (Exception e){
-                return new ResponseEntity<ViewTenderDTO>(HttpStatus.NOT_FOUND);
-            }
-    }
-
-
-//    public ResponseEntity<ViewTenderDTO> sendNotificationToEmployerAboutAcceptOrDecline(Long employerUserId){
-//            //find all the tender which recruiter accepts or decline;
-//        List<TenderAssortments> listOfNotifications =tenderAssortmentRepository.getTenderNotifications(recruiterId);
-//        return new ResponseEntity<List<TenderAssortments>>(listOfNotifications, HttpStatus.OK);
-//
-//    }
 }

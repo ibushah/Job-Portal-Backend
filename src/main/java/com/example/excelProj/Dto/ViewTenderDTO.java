@@ -7,18 +7,13 @@ import java.io.Serializable;
 public class ViewTenderDTO implements Serializable {
     TenderDTO tenderDTO;
     User userDto;
-    Boolean isAccept;
+
 
     public ViewTenderDTO() {
     }
 
-    public Boolean getAccept() {
-        return isAccept;
-    }
 
-    public void setAccept(Boolean accept) {
-        isAccept = accept;
-    }
+
 
     public TenderDTO getTenderDTO() {
         return tenderDTO;
