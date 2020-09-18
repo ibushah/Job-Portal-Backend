@@ -135,4 +135,11 @@ public class CompanyProfileDTO {
     public void setCertificateContentType(String certificateContentType) {
         this.certificateContentType = certificateContentType;
     }
+
+    public CompanyProfileDTO(CompanyProfileDTO companyProfileDTO) {
+
+    }
+
+
+
 }
