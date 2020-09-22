@@ -50,6 +50,7 @@ public class TenderService {
                 tender.setInterviewEndTiming(tenderDTO.getInterviewEndTiming());
                 tender.setLatitude(tenderDTO.getLatitude());
                 tender.setLongitude(tenderDTO.getLongitude());
+                tender.setTenderType(tenderDTO.getTenderType());
                 tender.setSalary(tenderDTO.getSalary());
                 tender.setType(tenderDTO.getType());
                 tender.setTenderPoster(userDaoRepository.findById(tenderDTO.getEmployerUserId()).get());
@@ -125,7 +126,7 @@ public class TenderService {
         User recruiterUser = userDaoRepository.findById(tenderDTO.getRecruiterUserId()).get();
         Tender tender1 = tenderRepository.findById(tender.getId()).get();
 
-        if(employerUser!=null && recruiterUser!=null && tender1!=null){
+        if(employerUser!=null  && tender1!=null){
 
             tenderAssortments.setEmployer(employerUser);
             tenderAssortments.setRecruiter(recruiterUser);

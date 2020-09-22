@@ -13,5 +13,11 @@ public interface TenderRepository extends JpaRepository<Tender,Long> {
     @Query(value = "select * from tender where id=:id",nativeQuery = true)
     Tender findTender(@Param("id") Long id);
 
+    @Query(value ="select * from tender where tenderType=:tenderType " ,nativeQuery = true)
+    List<Tender> getAllPublicTenders(String tenderType);
+
+
+
+
 
 }
