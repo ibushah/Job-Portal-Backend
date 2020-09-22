@@ -67,7 +67,7 @@ public class Tender{
     String interviewStartTiming;
 
     @Column
-    String getInterviewEndTiming;
+    String InterviewEndTiming;
 
     @Column
     Boolean isActive;
@@ -78,7 +78,7 @@ public class Tender{
     @JsonIgnoreProperties("tender")
     public User tenderPoster;
 
-    public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, TenderAssortments tenderAssortments, String interviewStartTiming, String getInterviewEndTiming, Boolean isActive, User tenderPoster) {
+    public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, TenderAssortments tenderAssortments, String interviewStartTiming, String interviewEndTiming, Boolean isActive, User tenderPoster) {
         this.id = id;
         this.role = role;
         this.description = description;
@@ -95,7 +95,7 @@ public class Tender{
         this.address = address;
         this.tenderAssortments = tenderAssortments;
         this.interviewStartTiming = interviewStartTiming;
-        this.getInterviewEndTiming = getInterviewEndTiming;
+        InterviewEndTiming = interviewEndTiming;
         this.isActive = isActive;
         this.tenderPoster = tenderPoster;
     }
@@ -116,12 +116,12 @@ public class Tender{
         this.interviewStartTiming = interviewStartTiming;
     }
 
-    public String getGetInterviewEndTiming() {
-        return getInterviewEndTiming;
+    public String getInterviewEndTiming() {
+        return InterviewEndTiming;
     }
 
-    public void setGetInterviewEndTiming(String getInterviewEndTiming) {
-        this.getInterviewEndTiming = getInterviewEndTiming;
+    public void setInterviewEndTiming(String interviewEndTiming) {
+        InterviewEndTiming = interviewEndTiming;
     }
 
     public Tender() {
