@@ -67,7 +67,7 @@ public class Tender{
     String interviewStartTiming;
 
     @Column
-    String getInterviewEndTiming;
+    String interviewEndTiming;
 
     @Column
     Boolean isActive;
@@ -78,10 +78,11 @@ public class Tender{
     @JsonIgnoreProperties("tender")
     public User tenderPoster;
 
-    @Column
-    String tenderType;
 
-    public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, TenderAssortments tenderAssortments, String interviewStartTiming, String getInterviewEndTiming, Boolean isActive, User tenderPoster, String tenderType) {
+    public Tender() {
+    }
+
+    public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, TenderAssortments tenderAssortments, String interviewStartTiming, String interviewEndTiming, Boolean isActive, User tenderPoster) {
         this.id = id;
         this.role = role;
         this.description = description;
@@ -98,45 +99,9 @@ public class Tender{
         this.address = address;
         this.tenderAssortments = tenderAssortments;
         this.interviewStartTiming = interviewStartTiming;
-        this.getInterviewEndTiming = getInterviewEndTiming;
+        this.interviewEndTiming = interviewEndTiming;
         this.isActive = isActive;
         this.tenderPoster = tenderPoster;
-        this.tenderType = tenderType;
-    }
-
-    public String getTenderType() {
-        return tenderType;
-    }
-
-    public void setTenderType(String tenderType) {
-        this.tenderType = tenderType;
-    }
-
-    public User getTenderPoster() {
-        return tenderPoster;
-    }
-
-    public void setTenderPoster(User tenderPoster) {
-        this.tenderPoster = tenderPoster;
-    }
-
-    public String getInterviewStartTiming() {
-        return interviewStartTiming;
-    }
-
-    public void setInterviewStartTiming(String interviewStartTiming) {
-        this.interviewStartTiming = interviewStartTiming;
-    }
-
-    public String getGetInterviewEndTiming() {
-        return getInterviewEndTiming;
-    }
-
-    public void setGetInterviewEndTiming(String getInterviewEndTiming) {
-        this.getInterviewEndTiming = getInterviewEndTiming;
-    }
-
-    public Tender() {
     }
 
     public Long getId() {
@@ -169,14 +134,6 @@ public class Tender{
 
     public void setSalary(String salary) {
         this.salary = salary;
-    }
-
-    public TenderAssortments getTenderAssortments() {
-        return tenderAssortments;
-    }
-
-    public void setTenderAssortments(TenderAssortments tenderAssortments) {
-        this.tenderAssortments = tenderAssortments;
     }
 
     public String getInterviewStartDate() {
@@ -259,6 +216,29 @@ public class Tender{
         this.address = address;
     }
 
+    public TenderAssortments getTenderAssortments() {
+        return tenderAssortments;
+    }
+
+    public void setTenderAssortments(TenderAssortments tenderAssortments) {
+        this.tenderAssortments = tenderAssortments;
+    }
+
+    public String getInterviewStartTiming() {
+        return interviewStartTiming;
+    }
+
+    public void setInterviewStartTiming(String interviewStartTiming) {
+        this.interviewStartTiming = interviewStartTiming;
+    }
+
+    public String getInterviewEndTiming() {
+        return interviewEndTiming;
+    }
+
+    public void setInterviewEndTiming(String interviewEndTiming) {
+        this.interviewEndTiming = interviewEndTiming;
+    }
 
     public Boolean getActive() {
         return isActive;
@@ -266,6 +246,14 @@ public class Tender{
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public User getTenderPoster() {
+        return tenderPoster;
+    }
+
+    public void setTenderPoster(User tenderPoster) {
+        this.tenderPoster = tenderPoster;
     }
 
     @Override
