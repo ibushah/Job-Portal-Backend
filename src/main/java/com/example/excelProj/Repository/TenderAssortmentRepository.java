@@ -15,14 +15,14 @@ import java.util.List;
 @Repository
 public interface TenderAssortmentRepository extends JpaRepository<TenderAssortments,Long> {
 
-    @Query(value = "select * from jobportal.tender_assortments where recruiter_id=:id && notification_for='recruiter' ORDER BY notification_date DESC",nativeQuery = true)
+    @Query(value = "select * from tender_assortments where recruiter_id=:id && notification_for='recruiter' ORDER BY notification_date DESC",nativeQuery = true)
     List<TenderAssortments> getTenderNotifications(@Param("id") Long id);
 
-    @Query(value = "select * from jobportal.tender_assortments where employer_id=:id && notification_for='employer' ORDER BY notification_date DESC",nativeQuery = true)
+    @Query(value = "select * from tender_assortments where employer_id=:id && notification_for='employer' ORDER BY notification_date DESC",nativeQuery = true)
     List<TenderAssortments> getAcceptOrDeclineNotification(@Param("id") Long id);
 
     @Transactional
     @Modifying
-    @Query(value = "update tender_assortments set is_applied=:isApplied,notification_from='recruiter',notificaton_for='employer' where (tender_id=:tenderId AND recruiter_id=:recruiterUserId AND employer_id=:employerUserId)",nativeQuery = true)
+    @Query(value = "update tender_assortments set is_applied=:isApplied,notifcation_from='recruiter',notification_for='employer',is_seen=true where (tender_id=:tenderId AND recruiter_id=:recruiterUserId AND employer_id=:employerUserId)",nativeQuery = true)
     void updateTender(@Param("isApplied") Boolean isApplied,@Param("tenderId") Long tenderId,@Param("recruiterUserId") Long recruiterUserId,@Param("employerUserId") Long employerUserId);
 }

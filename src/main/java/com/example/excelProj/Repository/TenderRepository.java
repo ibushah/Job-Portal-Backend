@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TenderRepository extends JpaRepository<Tender,Long> {
 
-    @Query(value = "select * from jobportal.tender where id=:id",nativeQuery = true)
+    @Query(value = "select * from tender where id=:id",nativeQuery = true)
     Tender findTender(@Param("id") Long id);
 
 

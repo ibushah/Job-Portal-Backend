@@ -11,7 +11,6 @@ import com.example.excelProj.Repository.UserDaoRepository;
 import com.example.excelProj.Service.CandidateProfileService;
 import com.example.excelProj.Service.UserServiceImpl;
 import org.hibernate.hql.internal.classic.AbstractParameterInformation;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
