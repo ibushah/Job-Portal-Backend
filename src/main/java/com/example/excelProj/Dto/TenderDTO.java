@@ -39,9 +39,18 @@ public class TenderDTO implements Serializable {
     String interviewStartTiming;
     String interviewEndTiming;
 
+    String tenderType;
     Boolean isActive;
 
     public TenderDTO() {
+    }
+
+    public String getTenderType() {
+        return tenderType;
+    }
+
+    public void setTenderType(String tenderType) {
+        this.tenderType = tenderType;
     }
 
     public Long getId() {
@@ -210,6 +219,7 @@ public class TenderDTO implements Serializable {
         this.longitude = tender.getLongitude();
         this.province = tender.getProvince();
         this.role = tender.getRole();
+        this.tenderType = tender.getTenderType();
         this.salary = tender.getSalary();
         this.interviewStartTiming = tender.getInterviewStartTiming();
         this.interviewEndTiming  = tender.getGetInterviewEndTiming();

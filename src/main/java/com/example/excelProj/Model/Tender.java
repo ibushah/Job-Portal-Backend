@@ -78,7 +78,10 @@ public class Tender{
     @JsonIgnoreProperties("tender")
     public User tenderPoster;
 
-    public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, TenderAssortments tenderAssortments, String interviewStartTiming, String getInterviewEndTiming, Boolean isActive, User tenderPoster) {
+    @Column
+    String tenderType;
+
+    public Tender(Long id, String role, String description, String salary, String interviewStartDate, String interviewEndDate, String country, String city, String province, String category, String type, Double longitude, Double latitude, String address, TenderAssortments tenderAssortments, String interviewStartTiming, String getInterviewEndTiming, Boolean isActive, User tenderPoster, String tenderType) {
         this.id = id;
         this.role = role;
         this.description = description;
@@ -98,6 +101,15 @@ public class Tender{
         this.getInterviewEndTiming = getInterviewEndTiming;
         this.isActive = isActive;
         this.tenderPoster = tenderPoster;
+        this.tenderType = tenderType;
+    }
+
+    public String getTenderType() {
+        return tenderType;
+    }
+
+    public void setTenderType(String tenderType) {
+        this.tenderType = tenderType;
     }
 
     public User getTenderPoster() {

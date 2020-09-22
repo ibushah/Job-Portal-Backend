@@ -31,7 +31,7 @@ public class TenderAssortments {
     Tender tender;
 
     @Column
-    String notifcationFrom;
+    String notificationFrom;
 
     @Column
     String notificationFor;
@@ -45,12 +45,12 @@ public class TenderAssortments {
     @Column
     Boolean isApplied;
 
-    public TenderAssortments(Long id, User employer, User recruiter, Tender tender, String notifcationFrom, String notificationFor, Boolean isSeen) {
+    public TenderAssortments(Long id, User employer, User recruiter, Tender tender, String notificationFrom, String notificationFor, Boolean isSeen) {
         this.id = id;
         this.employer = employer;
         this.recruiter = recruiter;
         this.tender = tender;
-        this.notifcationFrom = notifcationFrom;
+        this.notificationFrom = notificationFrom;
         this.notificationFor = notificationFor;
         this.isSeen = isSeen;
     }
@@ -99,11 +99,11 @@ public class TenderAssortments {
     }
 
     public String getNotifcationFrom() {
-        return notifcationFrom;
+        return notificationFrom;
     }
 
-    public void setNotifcationFrom(String notifcationFrom) {
-        this.notifcationFrom = notifcationFrom;
+    public void setNotifcationFrom(String notificationFrom) {
+        this.notificationFrom = notificationFrom;
     }
 
     public String getNotificationFor() {
