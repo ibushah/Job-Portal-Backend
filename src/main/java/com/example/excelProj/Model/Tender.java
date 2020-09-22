@@ -79,6 +79,17 @@ public class Tender{
     public User tenderPoster;
 
 
+    @Column
+    String tenderType;
+
+    public String getTenderType() {
+        return tenderType;
+    }
+
+    public void setTenderType(String tenderType) {
+        this.tenderType = tenderType;
+    }
+
     public Tender() {
     }
 
