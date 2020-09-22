@@ -31,10 +31,10 @@ public class TenderController {
     @Autowired
     TenderService tenderService;
 
-    @GetMapping("/tender/all")
-    public ResponseEntity<List<Tender>> getAllTenders()
+    @GetMapping("/tender/all/{tenderType}")
+    public ResponseEntity<List<Tender>> getAllTenders(@PathVariable("tenderType") String tenderType  )
     {
-       List<Tender> tenderList = tenderRepository.findAll();
+       List<Tender> tenderList = tenderRepository.getAllPublicTenders(tenderType);
         return new ResponseEntity<List<Tender>>(tenderList, HttpStatus.OK);
     }
 
