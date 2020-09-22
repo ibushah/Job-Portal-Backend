@@ -8,10 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Repository
 public interface TenderAssortmentRepository extends JpaRepository<TenderAssortments,Long> {
 
     @Query(value = "select * from jobportal.tender_assortments where recruiter_id=:id && notification_for='recruiter' ORDER BY notification_date DESC",nativeQuery = true)

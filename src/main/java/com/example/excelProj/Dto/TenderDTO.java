@@ -212,7 +212,7 @@ public class TenderDTO implements Serializable {
         this.role = tender.getRole();
         this.salary = tender.getSalary();
         this.interviewStartTiming = tender.getInterviewStartTiming();
-        this.interviewEndTiming  = tender.getGetInterviewEndTiming();
+        this.interviewEndTiming  = tender.getInterviewEndTiming();
 
     }
 }
