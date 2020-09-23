@@ -27,7 +27,7 @@ public class TenderAssortments {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tender_id", referencedColumnName = "id")
-    @JsonManagedReference
+    @JsonIgnoreProperties("tender_assortments")
     Tender tender;
 
     @Column
