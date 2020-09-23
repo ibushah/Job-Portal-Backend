@@ -32,11 +32,16 @@ public class TenderController {
     TenderService tenderService;
 
     @GetMapping("/tender/all/{tenderType}")
-    public ResponseEntity<List<Tender>> getAllTenders(@PathVariable("tenderType") String tenderType  )
+    public ResponseEntity<List<Tender>> getAllTenders(@PathVariable("tenderType") String tenderType)
     {
        List<Tender> tenderList = tenderRepository.getAllPublicTenders(tenderType);
         return new ResponseEntity<List<Tender>>(tenderList, HttpStatus.OK);
     }
+
+//    @GetMapping("/tender/public/apply")
+//    public ResponseEntity<List<Tender>> applyOnPublicJob(){
+//        return
+//    }
 
    @PostMapping("/tender")
     public ResponseEntity<Tender> addTender(@Valid @NotNull @RequestBody TenderDTO tenderDTO){

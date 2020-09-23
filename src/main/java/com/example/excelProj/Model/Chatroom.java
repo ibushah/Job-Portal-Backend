@@ -3,8 +3,6 @@ package com.example.excelProj.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class Chatroom {
@@ -20,9 +18,8 @@ public class Chatroom {
     User user1;
 
 
-
     @JsonIgnore
-            @ManyToOne
+    @ManyToOne
     User user2;
 
     String chatroomId;

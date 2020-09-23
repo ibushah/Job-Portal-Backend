@@ -58,7 +58,7 @@ public class Tender{
 
 
     @OneToOne(mappedBy = "tender")
-    @JsonBackReference
+    @JsonManagedReference
     TenderAssortments tenderAssortments;
 
 
