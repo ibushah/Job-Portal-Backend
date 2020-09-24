@@ -94,6 +94,7 @@ public class TenderService {
             try{
                 //i need tender id and recruiter userId and a boolean if he accepts or decline so that i can send a notifaction
                 //update tenderAssortment
+                //public tenders ke lye create a tender assortment first
                 if(isAccept==true){
                     //tenderAccepted
                     tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
