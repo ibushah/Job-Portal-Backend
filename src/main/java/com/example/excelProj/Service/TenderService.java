@@ -95,13 +95,33 @@ public class TenderService {
                 //i need tender id and recruiter userId and a boolean if he accepts or decline so that i can send a notifaction
                 //update tenderAssortment
                 //public tenders ke lye create a tender assortment first
-                if(isAccept==true){
-                    //tenderAccepted
-                    tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
+                if(tenderDTO.getTenderType().equalsIgnoreCase("public")){
+                    TenderAssortments tenderAssortments = new TenderAssortments();
+                    tenderAssortments.setApplied(isAccept==true?true:false);
+                    tenderAssortments.setSeen(true);
+                    tenderAssortments.setNotificationFrom("recruiter");
+                    tenderAssortments.setNotificationFor("employer");
+                    tenderAssortments.setNotificationDate(new Date());
+                    User employerUser = userDaoRepository.findById(tenderDTO.getEmployerUserId()).get();
+                    User recruiterUser = userDaoRepository.findById(tenderDTO.getRecruiterUserId()).get();
+                    Optional<Tender> tender1 = tenderRepository.findById(tenderDTO.getId());
+                    tenderAssortments.setEmployer(employerUser);
+                    tenderAssortments.setRecruiter(recruiterUser);
+                    tenderAssortments.setTender(tender1.get());
+                    tenderAssortmentRepository.save(tenderAssortments);
+
+
                 }
                 else{
-                    tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
+                    if(isAccept==true){
+                        //tenderAccepted
+                        tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
+                    }
+                    else{
+                        tenderAssortmentRepository.updateTender(isAccept,tenderDTO.getId(),tenderDTO.getRecruiterUserId(),tenderDTO.getEmployerUserId());
+                    }
                 }
+
 
                 //send backNotificaiton to employer whatever he does;
 
@@ -125,7 +145,7 @@ public class TenderService {
         TenderAssortments tenderAssortments = new TenderAssortments();
         User employerUser = userDaoRepository.findById(tenderDTO.getEmployerUserId()).get();
         User recruiterUser = userDaoRepository.findById(tenderDTO.getRecruiterUserId()).get();
-        Tender tender1 = tenderRepository.findById(tender.getId()).get();
+            Tender tender1 = tenderRepository.findById(tender.getId()).get();
 
         if(employerUser!=null  && tender1!=null){
 
@@ -133,7 +153,7 @@ public class TenderService {
             tenderAssortments.setRecruiter(recruiterUser);
             tenderAssortments.setTender(tender);
             tenderAssortments.setNotificationDate(new Date());
-            tenderAssortments.setNotifcationFrom(notificationFrom);
+            tenderAssortments.setNotificationFrom(notificationFrom);
             tenderAssortments.setNotificationFor(notificationFor);
             tenderAssortments.setSeen(false);
             tenderAssortments.setApplied(false);

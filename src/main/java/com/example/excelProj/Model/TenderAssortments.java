@@ -98,11 +98,11 @@ public class TenderAssortments {
         this.tender = tender;
     }
 
-    public String getNotifcationFrom() {
+    public String getNotificationFrom() {
         return notificationFrom;
     }
 
-    public void setNotifcationFrom(String notificationFrom) {
+    public void setNotificationFrom(String notificationFrom) {
         this.notificationFrom = notificationFrom;
     }
 
