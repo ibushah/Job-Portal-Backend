@@ -38,10 +38,7 @@ public class TenderController {
         return new ResponseEntity<List<Tender>>(tenderList, HttpStatus.OK);
     }
 
-//    @GetMapping("/tender/public/apply")
-//    public ResponseEntity<List<Tender>> applyOnPublicJob(){
-//        return
-//    }
+
 
    @PostMapping("/tender")
     public ResponseEntity<Tender> addTender(@Valid @NotNull @RequestBody TenderDTO tenderDTO){
