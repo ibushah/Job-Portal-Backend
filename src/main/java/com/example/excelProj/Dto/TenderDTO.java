@@ -15,7 +15,6 @@ public class TenderDTO implements Serializable {
 
     String salary;
 
-    @NotNull
     Long recruiterUserId;
 
     @NotNull

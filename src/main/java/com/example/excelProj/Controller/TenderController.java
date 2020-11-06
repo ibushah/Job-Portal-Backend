@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin
@@ -31,13 +32,21 @@ public class TenderController {
     @Autowired
     TenderService tenderService;
 
-    @GetMapping("/tender/all/{tenderType}")
-    public ResponseEntity<List<Tender>> getAllTenders(@PathVariable("tenderType") String tenderType)
+    @GetMapping("/tender/all/{tenderType}/{id}")
+    public ResponseEntity<List<Tender>> getAllTenders(@PathVariable("tenderType") String tenderType,@PathVariable("id") Long id)
     {
-       List<Tender> tenderList = tenderRepository.getAllPublicTenders(tenderType);
+
+       List<Tender> tenderList = tenderRepository.getAllPublicTenders(tenderType,id);
         return new ResponseEntity<List<Tender>>(tenderList, HttpStatus.OK);
     }
 
+    @GetMapping("/tender/all/{tenderType}")
+    public ResponseEntity<List<Tender>> getAllTenders(@PathVariable("tenderType") String tenderType)
+    {
+
+        List<Tender> tenderList = tenderRepository.getAllPublicTendersForRecruiter(tenderType);
+        return new ResponseEntity<List<Tender>>(tenderList, HttpStatus.OK);
+    }
 
 
    @PostMapping("/tender")
