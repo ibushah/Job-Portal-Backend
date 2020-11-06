@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.View;
 import javax.swing.text.html.Option;
@@ -89,6 +90,7 @@ public class TenderService {
 
 
 
+//    @Transactional
     public ResponseEntity acceptOrDeclineTender(TenderDTO tenderDTO,Boolean isAccept){
             //accept tender work  and decline tender work
             try{
@@ -144,13 +146,19 @@ public class TenderService {
         //
         TenderAssortments tenderAssortments = new TenderAssortments();
         User employerUser = userDaoRepository.findById(tenderDTO.getEmployerUserId()).get();
-        User recruiterUser = userDaoRepository.findById(tenderDTO.getRecruiterUserId()).get();
+        if(tenderDTO.getRecruiterUserId()!=null) {
+            User recruiterUser = userDaoRepository.findById(tenderDTO.getRecruiterUserId()).get();
+            tenderAssortments.setRecruiter(recruiterUser);
+        }else{
+            User recruiterUser=null;
+            tenderAssortments.setRecruiter(recruiterUser);
+        }
             Tender tender1 = tenderRepository.findById(tender.getId()).get();
 
         if(employerUser!=null  && tender1!=null){
 
             tenderAssortments.setEmployer(employerUser);
-            tenderAssortments.setRecruiter(recruiterUser);
+
             tenderAssortments.setTender(tender);
             tenderAssortments.setNotificationDate(new Date());
             tenderAssortments.setNotificationFrom(notificationFrom);

@@ -25,4 +25,5 @@ public interface TenderAssortmentRepository extends JpaRepository<TenderAssortme
     @Modifying
     @Query(value = "update tender_assortments set is_applied=:isApplied,notification_from='recruiter',notification_for='employer',is_seen=true where (tender_id=:tenderId AND recruiter_id=:recruiterUserId AND employer_id=:employerUserId)",nativeQuery = true)
     void updateTender(@Param("isApplied") Boolean isApplied,@Param("tenderId") Long tenderId,@Param("recruiterUserId") Long recruiterUserId,@Param("employerUserId") Long employerUserId);
+
 }
