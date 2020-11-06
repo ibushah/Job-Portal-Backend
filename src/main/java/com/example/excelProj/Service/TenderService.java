@@ -56,7 +56,7 @@ public class TenderService {
                 tender.setType(tenderDTO.getType());
                 tender.setTenderPoster(userDaoRepository.findById(tenderDTO.getEmployerUserId()).get());
                 tenderRepository.save(tender);
-                saveInTenderAssortMents(tender,tenderDTO,"employer","recruiter");
+                if(tenderDTO.getTenderType().equalsIgnoreCase("private")) saveInTenderAssortMents(tender,tenderDTO,"employer","recruiter");
                 return new ResponseEntity<Tender>(tender != null ? tender : null, HttpStatus.OK);
             }
         }
