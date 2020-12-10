@@ -60,6 +60,10 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private Location location;
 
+	@OneToOne
+	@JoinColumn(name = "cv_id")
+	private Circumviate circumviate;
+
 
 	public User(String email, String name, String password, Boolean active, Boolean profileActive, String userType, CandidateProfile candidateProfile, CompanyProfile companyProfile) {
 		this.email = email;
@@ -73,6 +77,14 @@ public class User {
 	}
 
 	public User() {
+	}
+
+	public Circumviate getCircumviate() {
+		return circumviate;
+	}
+
+	public void setCircumviate(Circumviate circumviate) {
+		this.circumviate = circumviate;
 	}
 
 	public Long getId() {
